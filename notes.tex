@@ -1,0 +1,161 @@
+\documentclass[12pt]{article}
+
+\usepackage[margin=1in,footskip=0.25in]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+
+\begin{document}
+
+\title{Fluid Mechanics for Ocean Scientists}
+\author{Milan Curcic}
+\date{}
+
+\maketitle
+
+\tableofcontents
+
+\newpage
+\section{Introduction}
+
+\subsection{What will you learn in this course}
+
+\subsection{Grading}
+
+\subsection{Reference textbooks}
+
+\section{Review of vector calculus}
+
+In this section we will review the necessary concepts from vector calculus that
+we will use in this course.
+These include:
+scalars, vectors and tensors;
+gradient, divergence, and curl;
+line, surface, and volume integrals;
+and the Gauss and Stokes theorems.
+
+\subsection{Scalars, vectors, and tensors}
+
+In this course we will mainly use three types of quantities to describe fluid
+properties: \textbf{scalars}, \textbf{vectors}, and \textbf{tensors}.
+
+\textbf{Scalars} are completely described by their magnitude.
+Examples of scalars are temperature, pressure, or density.
+A value of 290 K, for example, completely describes the temperature of a fluid
+at some point in space and time.
+We will write them in equations using italics, e.g. $T$, $p$, $\rho$.
+
+\textbf{Vectors} have both magnitude and direction.
+Examples of vector are velocity, acceleration, or force.
+In 3-dimensional Cartesian space with coordinates $(x, y, z)$, for example,
+vector $\mathbf{u}(x,y,z)$ can be described by its components
+
+\begin{equation}
+  \mathbf{u} = (u_x, u_y, u_z)
+\end{equation}
+where $u_x$, $u_y$, and $u_z$ (each a scalar) are the components of $\mathbf{u}$
+in the $x$, $y$, and $z$ directions, respectively.
+We will write vectors in equations using boldface, e.g. $\mathbf{u}$,
+$\mathbf{a}$, or $\mathbf{F}$.
+
+\textbf{Tensors} have magnitude, direction, and orientation, such as stress or
+strain.
+They are vectors that act on each respective surface orthogonal to the direction
+of the tensor.
+In 3-dimensional space, for example, a stress tensor can be described as:
+
+\begin{equation}
+    \mathbf{\tau} =
+  \begin{bmatrix}
+    \tau_{xx} & \tau_{xy} & \tau_{xz} \\
+    \tau_{yx} & \tau_{yy} & \tau_{yz} \\
+    \tau_{zx} & \tau_{zy} & \tau_{zz}
+  \end{bmatrix}
+\end{equation}
+
+It may be useful to think of scalars as 0th-order tensors, vectors as 1st-order
+tensors, and tensors as 2nd-order tensors.
+
+\subsection{Unit vectors}
+
+Unit vectors are vectors with magnitude of 1.
+A popular notation for unit vectors in Cartesian coordinates is $\mathbf{i}$,
+$\mathbf{j}$, and $\mathbf{k}$, which point in the $x$, $y$, and $z$ directions,
+respectively.
+So, a vector $\mathbf{u}$ can be written as
+
+\begin{equation}
+  \mathbf{u} = u_x \mathbf{i} + u_y \mathbf{j} + u_z \mathbf{k}
+\end{equation}
+
+\subsection{Vector operations}
+
+\subsubsection{Dot product}
+
+The dot product of two vectors $\mathbf{a}$ and $\mathbf{b}$ is an element-wise
+sum of their components:
+
+\begin{equation}
+  \mathbf{a} \cdot \mathbf{b} = a_1 b_1 + a_2 b_2 + a_3 b_3
+\end{equation}
+
+\subsubsection{Cross product}
+
+The cross product of two vectors $\mathbf{a}$ and $\mathbf{b}$ is defined as
+
+\begin{equation}
+  \mathbf{a} \times \mathbf{b} = (a_y b_z - a_z b_y) \mathbf{i} +
+    (a_z b_x - a_x b_z) \mathbf{j} + (a_x b_y - a_y b_x) \mathbf{k}
+\end{equation}
+
+\subsection{Gradient, divergence, and curl}
+
+Now, we will introduce another new operator that builds on top of previous
+concepts to describe how scalar and vector fields change in space.
+This operator is called \textbf{nabla} and is denoted by $\nabla$:
+
+\begin{equation}
+  \nabla = \frac{\partial}{\partial x} \mathbf{i} +
+    \frac{\partial}{\partial y} \mathbf{j} +
+    \frac{\partial}{\partial z} \mathbf{k}
+\end{equation}
+
+\subsubsection{Gradient}
+
+The gradient of a scalar field $T$ is a vector field that points in the
+direction of the greatest rate of increase of $T$.
+It is denoted by $\nabla T$ and is defined as
+
+\begin{equation}
+  \nabla T = \frac{\partial T}{\partial x} \mathbf{i} +
+    \frac{\partial T}{\partial y} \mathbf{j} +
+    \frac{\partial T}{\partial z} \mathbf{k}
+\end{equation}
+
+\subsubsection{Divergence}
+
+The divergence of a vector field $\mathbf{u}$ is a scalar field that describes
+the rate at which the vector field flows out of a point.
+It is denoted by $\nabla \cdot \mathbf{u}$ and is defined as
+
+\begin{equation}
+  \nabla \cdot \mathbf{u} = \frac{\partial u_x}{\partial x} +
+    \frac{\partial u_y}{\partial y} + \frac{\partial u_z}{\partial z}
+\end{equation}
+
+\subsubsection{Curl}
+
+The curl of a vector field $\mathbf{u}$ is a vector field that describes the
+rotation of the vector field.
+It is denoted by $\nabla \times \mathbf{u}$ and is defined as
+
+\begin{equation}
+  \nabla \times \mathbf{u} = \left( \frac{\partial u_z}{\partial y} -
+    \frac{\partial u_y}{\partial z} \right) \mathbf{i} +
+    \left( \frac{\partial u_x}{\partial z} -
+    \frac{\partial u_z}{\partial x} \right) \mathbf{j} +
+    \left( \frac{\partial u_y}{\partial x} -
+    \frac{\partial u_x}{\partial y} \right) \mathbf{k}
+\end{equation}
+
+\end{document}
