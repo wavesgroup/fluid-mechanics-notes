@@ -110,7 +110,7 @@ The cross product of two vectors $\mathbf{a}$ and $\mathbf{b}$ is defined as
 
 \subsection{Gradient, divergence, and curl}
 
-Now, we will introduce another new operator that builds on top of previous
+Now, we introduce another new operator that builds on top of previous
 concepts to describe how scalar and vector fields change in space.
 This operator is called \textbf{nabla} and is denoted by $\nabla$:
 
@@ -119,6 +119,18 @@ This operator is called \textbf{nabla} and is denoted by $\nabla$:
     \frac{\partial}{\partial y} \mathbf{j} +
     \frac{\partial}{\partial z} \mathbf{k}
 \end{equation}
+
+A good way to think about $\nabla$ is as of a \textit{differential operator},
+which itself is a 3-dimensional vector that can operate on scalars or vectors.
+Specifically:
+
+\begin{itemize}
+  \item $\nabla p$ is as vector
+  \item $\nabla \cdot \mathbf{u}$ is a scalar
+  \item $\nabla \times \mathbf{u}$ is a vector
+\end{itemize}
+
+$\nabla$ is also often called \textit{del}.
 
 \subsubsection{Gradient}
 
