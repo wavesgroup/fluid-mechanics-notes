@@ -4,6 +4,9 @@
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{graphicx}
+\usepackage{makeidx}
+
+\makeindex
 
 \begin{document}
 
@@ -39,33 +42,47 @@ and the Gauss and Stokes theorems.
 In this course we will mainly use three types of quantities to describe fluid
 properties: \textbf{scalars}, \textbf{vectors}, and \textbf{tensors}.
 
-\textbf{Scalars} are completely described by their magnitude.
+\textbf{Scalars}\index{Scalar} are completely described by their magnitude.
 Examples of scalars are temperature, pressure, or density.
 A value of 290 K, for example, completely describes the temperature of a fluid
 at some point in space and time.
 We will write them in equations using italics, e.g. $T$, $p$, $\rho$.
 
-\textbf{Vectors} have both magnitude and direction.
+\textbf{Vectors}\index{Vector} have both magnitude and direction.
 Examples of vector are velocity, acceleration, or force.
 In 3-dimensional Cartesian space with coordinates $(x, y, z)$, for example,
 vector $\mathbf{u}(x,y,z)$ can be described by its components
 
 \begin{equation}
-  \mathbf{u} = (u_x, u_y, u_z)
+  \mathbf{u} =
+  \begin{bmatrix}
+    u_x \\
+    u_y \\
+    u_z
+  \end{bmatrix}
 \end{equation}
 where $u_x$, $u_y$, and $u_z$ (each a scalar) are the components of $\mathbf{u}$
 in the $x$, $y$, and $z$ directions, respectively.
+This is the conventional notation, however, we will often write vectors
+inline as $\mathbf{u} = (u_x, u_y, u_z)$.
 We will write vectors in equations using boldface, e.g. $\mathbf{u}$,
 $\mathbf{a}$, or $\mathbf{F}$.
 
-\textbf{Tensors} have magnitude, direction, and orientation, such as stress or
+The magnitude\index{Vector!magnitude}, or norm\index{Vector!norm}, of a 
+$\mathbf{u}$ is denoted by $||\mathbf{u}||$, and is calculated as
+
+\begin{equation}
+  ||\mathbf{u}|| = \sqrt{u_x^2 + u_y^2 + u_z^2}
+\end{equation}
+
+\textbf{Tensors}\index{Tensor} have magnitude, direction, and orientation, such as stress or
 strain.
 They are vectors that act on each respective surface orthogonal to the direction
 of the tensor.
 In 3-dimensional space, for example, a stress tensor can be described as:
 
 \begin{equation}
-    \mathbf{\tau} =
+  \mathbf{\tau} =
   \begin{bmatrix}
     \tau_{xx} & \tau_{xy} & \tau_{xz} \\
     \tau_{yx} & \tau_{yy} & \tau_{yz} \\
@@ -78,7 +95,7 @@ tensors, and tensors as 2nd-order tensors.
 
 \subsection{Unit vectors}
 
-Unit vectors are vectors with magnitude of 1.
+Unit vectors\index{Vector!unit} are vectors with magnitude of 1.
 A popular notation for unit vectors in Cartesian coordinates is $\mathbf{i}$,
 $\mathbf{j}$, and $\mathbf{k}$, which point in the $x$, $y$, and $z$ directions,
 respectively.
@@ -88,31 +105,73 @@ So, a vector $\mathbf{u}$ can be written as
   \mathbf{u} = u_x \mathbf{i} + u_y \mathbf{j} + u_z \mathbf{k}
 \end{equation}
 
+Notice that you can get get the unit vector by dividing any vector by its
+magnitude, i.e. $\mathbf{u}/||u||$.
+
 \subsection{Vector operations}
+
+Two vectors can be added, subtracted, or multiplied.
+Although vector addition and subtraction are straightforward, vector
+multiplication is more interesting.
+There are two types of vector multiplication: the \textbf{dot product} and the
+\textbf{cross product}.
 
 \subsubsection{Dot product}
 
-The dot product of two vectors $\mathbf{a}$ and $\mathbf{b}$ is an element-wise
-sum of their components:
+The dot product\index{Dot product} of two 3-dimensional Cartesian vectors
+$\mathbf{a}$ and $\mathbf{b}$ is an element-wise sum of their components
+(and thus, a scalar!):
 
 \begin{equation}
-  \mathbf{a} \cdot \mathbf{b} = a_1 b_1 + a_2 b_2 + a_3 b_3
+  \mathbf{a} \cdot \mathbf{b} =
+  \begin{bmatrix}
+    a_1 \\
+    a_2 \\
+    a_3
+  \end{bmatrix}
+  \cdot
+  \begin{bmatrix}
+    b_1 \\
+    b_2 \\
+    b_3
+  \end{bmatrix}
+  = a_1 b_1 + a_2 b_2 + a_3 b_3
 \end{equation}
+
+More generally, the dot product of two n-dimensional vectors $\mathbf{a}$ and
+$\mathbf{b}$ is
+
+\begin{equation}
+  \mathbf{a} \cdot \mathbf{b} = \sum_{i=1}^{n} a_i b_i = a_1 b_1 + a_2 b_2 + \ldots + a_n b_n
+\end{equation}
+
+The dot product is commutative, meaning that
+$\mathbf{a} \cdot \mathbf{b} = \mathbf{b} \cdot \mathbf{a}$.
+
+It can be useful to think of a dot product as collapsing the two vectors into a
+single number contains contributions from each of their components.
 
 \subsubsection{Cross product}
 
-The cross product of two vectors $\mathbf{a}$ and $\mathbf{b}$ is defined as
+The cross product\index{Cross product} of two vectors $\mathbf{a}$ and
+$\mathbf{b}$ is defined as
 
 \begin{equation}
   \mathbf{a} \times \mathbf{b} = (a_y b_z - a_z b_y) \mathbf{i} +
     (a_z b_x - a_x b_z) \mathbf{j} + (a_x b_y - a_y b_x) \mathbf{k}
 \end{equation}
 
+Unlike the dot product, the cross product is anticommutative, meaning that
+$\mathbf{a} \times \mathbf{b} = -\mathbf{b} \times \mathbf{a}$.
+
+In fluid mechanics a cross product will often come up when we are interested in
+the rotation of a vector field, such as vorticity.
+
 \subsection{Gradient, divergence, and curl}
 
 Now, we introduce another new operator that builds on top of previous
 concepts to describe how scalar and vector fields change in space.
-This operator is called \textbf{nabla} and is denoted by $\nabla$:
+This operator is called \textbf{nabla}\index{Nabla} and is denoted by $\nabla$:
 
 \begin{equation}
   \nabla = \frac{\partial}{\partial x} \mathbf{i} +
@@ -134,7 +193,7 @@ $\nabla$ is also often called \textit{del}.
 
 \subsubsection{Gradient}
 
-The gradient of a scalar field $T$ is a vector field that points in the
+The gradient\index{Gradient} of a scalar field $T$ is a vector field that points in the
 direction of the greatest rate of increase of $T$.
 It is denoted by $\nabla T$ and is defined as
 
@@ -146,7 +205,7 @@ It is denoted by $\nabla T$ and is defined as
 
 \subsubsection{Divergence}
 
-The divergence of a vector field $\mathbf{u}$ is a scalar field that describes
+The divergence\index{Divergence} of a vector field $\mathbf{u}$ is a scalar field that describes
 the rate at which the vector field flows out of a point.
 It is denoted by $\nabla \cdot \mathbf{u}$ and is defined as
 
@@ -157,7 +216,7 @@ It is denoted by $\nabla \cdot \mathbf{u}$ and is defined as
 
 \subsubsection{Curl}
 
-The curl of a vector field $\mathbf{u}$ is a vector field that describes the
+The curl\index{Curl} of a vector field $\mathbf{u}$ is a vector field that describes the
 rotation of the vector field.
 It is denoted by $\nabla \times \mathbf{u}$ and is defined as
 
@@ -169,5 +228,7 @@ It is denoted by $\nabla \times \mathbf{u}$ and is defined as
     \left( \frac{\partial u_y}{\partial x} -
     \frac{\partial u_x}{\partial y} \right) \mathbf{k}
 \end{equation}
+
+\printindex
 
 \end{document}
