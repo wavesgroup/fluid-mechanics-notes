@@ -56,7 +56,7 @@ related mathematical tools to ocean physics research problems.
 * Homework (40%); assignments will be given every Wednesday and due the following Monday.
 * Final exam (60%); exam is open-book take-home exam, due in 48 hours.
 
-## Syllabus by week
+## Approximate course schedule
 
 * Week 1: Review of vector calculus
 * Week 2: Fluid kinematics

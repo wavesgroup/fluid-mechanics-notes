@@ -23,9 +23,31 @@
 
 \subsection{What will you learn in this course}
 
-\subsection{Grading}
+The course aims to provide students with a solid understanding of fluid
+mechanics fundamentals relevant to ocean physics researchers.
+By the end of the course, you will be proficient in applying fluid mechanical
+concepts and mathematical tools to solve ocean physics research problems.
+The course schedule covers a wide range of topics, starting with a review of
+vector calculus and progressing through fluid kinematics, velocity gradients,
+strain rates, rotation, and stress. It also includes the conservation of
+volume, mass, and momentum, as well as stream functions, velocity potentials,
+and Bernoulli's principle. Advanced topics such as vorticity, boundary layers,
+turbulence, steady Navier-Stokes equations, flow instabilities, rotating and
+stratified flows, and both surface and internal gravity waves are also covered.
+The course concludes with a review and discussion session.
 
 \subsection{Reference textbooks}
+
+These lecture notes are based on the following textbooks:
+
+\begin{enumerate}
+  \item \textit{Fluid Mechanics}, 6th Ed., by Kundu, Cohen, and Dowling
+  \item \textit{Essentials of Atmospheric and Oceanic Dynamics} by Geoffrey Vallis
+\end{enumerate}
+
+While the notes contain the distilled and required information for you to
+succeed in this course, please refer to these textbooks for more detailed
+explanations and examples.
 
 \section{Review of vector calculus}
 
@@ -118,7 +140,7 @@ There are two types of vector multiplication: the \textbf{dot product} and the
 
 \subsubsection{Dot product}
 
-The dot product\index{Dot product} of two 3-dimensional Cartesian vectors
+The dot product\index{Product!dot} of two 3-dimensional Cartesian vectors
 $\mathbf{a}$ and $\mathbf{b}$ is an element-wise sum of their components
 (and thus, a scalar!):
 
@@ -153,7 +175,7 @@ single number contains contributions from each of their components.
 
 \subsubsection{Cross product}
 
-The cross product\index{Cross product} of two vectors $\mathbf{a}$ and
+The cross product\index{Product!cross} of two vectors $\mathbf{a}$ and
 $\mathbf{b}$ is defined as
 
 \begin{equation}
@@ -166,6 +188,28 @@ $\mathbf{a} \times \mathbf{b} = -\mathbf{b} \times \mathbf{a}$.
 
 In fluid mechanics a cross product will often come up when we are interested in
 the rotation of a vector field, such as vorticity.
+
+\subsection{Total and partial derivatives}
+
+We will denote total\index{Derivative!total} and partial\index{Derivative!partial}
+derivative operators (for example, in time $t$)
+as $\frac{d}{dt}$ and $\frac{\partial}{\partial t}$.
+Scalars, vectors, and tensors alike can be differentiated with respect to any
+variable.
+A derivative of a vector is simply a vector of derivatives of its components:
+
+\begin{equation}
+  \frac{d\mathbf{u}}{dt}
+    = (\frac{d u_x}{d t}, \frac{d u_y}{d t}, \frac{d u_z}{d t})
+    = \frac{du_x}{dt} \mathbf{i} + \frac{du_y}{dt} \mathbf{j} + \frac{du_z}{dt} \mathbf{k}
+\end{equation}
+
+\begin{equation}
+  \frac{\partial \mathbf{u}}{\partial t}
+    = (\frac{\partial u_x}{\partial t}, \frac{\partial u_y}{\partial t}, \frac{\partial u_z}{\partial t})
+    = \frac{\partial u_x}{\partial t} \mathbf{i} + \frac{\partial u_y}{\partial t} \mathbf{j} + \frac{\partial u_z}{\partial t} \mathbf{k}
+\end{equation}
+and likewise for tensors.
 
 \subsection{Gradient, divergence, and curl}
 
@@ -184,9 +228,12 @@ which itself is a 3-dimensional vector that can operate on scalars or vectors.
 Specifically:
 
 \begin{itemize}
-  \item $\nabla p$ is as vector
-  \item $\nabla \cdot \mathbf{u}$ is a scalar
-  \item $\nabla \times \mathbf{u}$ is a vector
+  \item $\nabla p$ is as vector that is a gradient of a scalar field $p$;
+  it quantifies how $p$ changes in space.
+  \item $\nabla \cdot \mathbf{u}$ is a scalar that is the divergence of a vector
+  field $\mathbf{u}$; it quantifies how $\mathbf{u}$ flows out of a point.
+  \item $\nabla \times \mathbf{u}$ is a vector that is the curl of a vector field
+  $\mathbf{u}$; it quantifies how $\mathbf{u}$ rotates around a point.
 \end{itemize}
 
 $\nabla$ is also often called \textit{del}.
