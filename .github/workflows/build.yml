@@ -20,7 +20,7 @@ jobs:
     - name: Set up TeX Live
       run: |
         sudo apt update
-        sudo apt install -y texlive-full
+        sudo apt install -y texlive-latex-base
 
     - name: Compile LaTeX document
       run: |
