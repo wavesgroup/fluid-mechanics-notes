@@ -63,15 +63,15 @@ and the Gauss and Stokes theorems.
 \subsection{Scalars, vectors, and tensors}
 
 In this course we will mainly use three types of quantities to describe fluid
-properties: \textbf{scalars}, \textbf{vectors}, and \textbf{tensors}.
+properties: \textit{scalars}, \textit{vectors}, and \textit{tensors}.
 
-\textbf{Scalars}\index{Scalar} are completely described by their magnitude.
+\textit{Scalars}\index{Scalar} are completely described by their magnitude.
 Examples of scalars are temperature, pressure, or density.
 A value of 290 K, for example, completely describes the temperature of a fluid
 at some point in space and time.
 We will write them in equations using italics, e.g. $T$, $p$, $\rho$.
 
-\textbf{Vectors}\index{Vector} have both magnitude and direction.
+\textit{Vectors}\index{Vector} have both magnitude and direction.
 Examples of vector are velocity, acceleration, or force.
 In 3-dimensional Cartesian space with coordinates $(x, y, z)$, for example,
 vector $\mathbf{u}(x,y,z)$ can be described by its components
@@ -98,7 +98,7 @@ $\mathbf{u}$ is denoted by $||\mathbf{u}||$, and is calculated as
   ||\mathbf{u}|| = \sqrt{u_x^2 + u_y^2 + u_z^2}
 \end{equation}
 
-\textbf{Tensors}\index{Tensor} have magnitude, direction, and orientation, such as stress or
+\textit{Tensors}\index{Tensor} have magnitude, direction, and orientation, such as stress or
 strain.
 They are vectors that act on each respective surface orthogonal to the direction
 of the tensor.
@@ -113,8 +113,15 @@ In 3-dimensional space, for example, a stress tensor can be described as:
   \end{bmatrix}
 \end{equation}
 
-It may be useful to think of scalars as 0th-order tensors, vectors as 1st-order
-tensors, and tensors as 2nd-order tensors.
+It may be useful to think of scalars as 0$^{th}$-order tensors, vectors as
+1$^{st}$-order tensors, and tensors as 2$^{nd}$-order tensors.\\
+
+\noindent\textbf{Exercise:} Pick your favorite programming language
+(or ask for a recommendation for one).
+Write a program that defines a scalar, a vector, and a tensor, and assign
+numerical values to them.
+Print the values to the screen.
+Is there a difference in how you define them in your program?\\
 
 \subsection{Unit vectors}
 
@@ -136,8 +143,8 @@ magnitude, i.e. $\mathbf{u}/||u||$.
 Two vectors can be added, subtracted, or multiplied.
 Although vector addition and subtraction are straightforward, vector
 multiplication is more interesting.
-There are two types of vector multiplication: the \textbf{dot product} and the
-\textbf{cross product}.
+There are two types of vector multiplication: the \textit{dot product} and the
+\textit{cross product}.
 
 \subsubsection{Dot product}
 
@@ -171,24 +178,84 @@ $\mathbf{b}$ is
 The dot product is commutative, meaning that
 $\mathbf{a} \cdot \mathbf{b} = \mathbf{b} \cdot \mathbf{a}$.
 
+The magnitude of a dot product of two vectors is equal to the product of their
+magnitudes and the cosine of the angle $\theta$ between them:
+
+\begin{equation}
+  \mathbf{a} \cdot \mathbf{b} = ||\mathbf{a}|| ||\mathbf{b}|| \cos(\theta)
+\end{equation}
+To visualize this relationship, take one vector and project it onto the other.
+This projection is the magnitude of the vector times the cosine of the angle
+between them.
+Now one vector and the projection of the other onto the first vector are
+pointing in the same direction, so their dot product is the product of their
+magnitudes.
 It can be useful to think of a dot product as collapsing the two vectors into a
-single number contains contributions from each of their components.
+single number contains contributions from each of their components.\\
+
+\noindent\textbf{Exercise:} Write a program that calculates the dot product of
+two vectors.\\
+
+\noindent\textbf{Exercise:} What is the dot product of two orthogonal vectors?
+How about the dot product of a vector with itself?\\
 
 \subsubsection{Cross product}
 
 The cross product\index{Product!cross} of two vectors $\mathbf{a}$ and
-$\mathbf{b}$ is defined as
+$\mathbf{b}$ is defined as:
+
+\begin{equation}
+  \mathbf{a} \times \mathbf{b} =
+  det \begin{bmatrix}
+    a_x & a_y & a_z \\
+    b_x & b_y & b_z \\
+    \mathbf{i} & \mathbf{j} & \mathbf{k}
+  \end{bmatrix}
+\end{equation}
+where $det(\mathbf{M})$ means the \textit{determinant of matrix $\mathbf{M}$}.
+
+Using the so-called \textit{rule of Saurus}, the cross product can be calculated
+as:
 
 \begin{equation}
   \mathbf{a} \times \mathbf{b} = (a_y b_z - a_z b_y) \mathbf{i} +
     (a_z b_x - a_x b_z) \mathbf{j} + (a_x b_y - a_y b_x) \mathbf{k}
 \end{equation}
+or:
+
+\begin{equation}
+  \mathbf{a} \times \mathbf{b} =
+    \begin{bmatrix}
+      a_y b_z - a_z b_y \\
+      a_z b_x - a_x b_z \\
+      a_x b_y - a_y b_x
+    \end{bmatrix}
+\end{equation}
+
+The result of a cross product is a vector that is orthogonal to both $\mathbf{a}$
+and $\mathbf{b}$.
+Its orientation in space is determined by the right-hand rule:
+if you point your right thumb in the direction of $\mathbf{a}$ and your index
+finger in the direction of $\mathbf{b}$, then your middle finger will point in
+the direction of $\mathbf{a} \times \mathbf{b}$.
+
+The magnitude of the cross product is equal to the product of the magnitudes of
+the two vectors times the sine of the angle between them:
+
+\begin{equation}
+  ||\mathbf{a} \times \mathbf{b}|| = ||\mathbf{a}|| ||\mathbf{b}|| \sin(\theta)
+\end{equation}
+So, the magnitude of the cross product is largest when the two vectors are
+orthogonal.
 
 Unlike the dot product, the cross product is anticommutative, meaning that
 $\mathbf{a} \times \mathbf{b} = -\mathbf{b} \times \mathbf{a}$.
 
 In fluid mechanics a cross product will often come up when we are interested in
-the rotation of a vector field, such as vorticity.
+the rotation of a vector field, such as vorticity.\\
+
+\noindent\textbf{Exercise:} Write a program that calculates the cross product
+of two vectors.\\
 
 \subsection{Total and partial derivatives}
 
@@ -203,20 +270,38 @@ A derivative of a vector is simply a vector of derivatives of its components:
   \frac{d\mathbf{u}}{dt}
     = (\frac{d u_x}{d t}, \frac{d u_y}{d t}, \frac{d u_z}{d t})
     = \frac{du_x}{dt} \mathbf{i} + \frac{du_y}{dt} \mathbf{j} + \frac{du_z}{dt} \mathbf{k}
+    = \begin{bmatrix}
+        \frac{du_x}{dt} \\
+        \frac{du_y}{dt} \\
+        \frac{du_z}{dt}
+      \end{bmatrix}
 \end{equation}
 
 \begin{equation}
   \frac{\partial \mathbf{u}}{\partial t}
     = (\frac{\partial u_x}{\partial t}, \frac{\partial u_y}{\partial t}, \frac{\partial u_z}{\partial t})
     = \frac{\partial u_x}{\partial t} \mathbf{i} + \frac{\partial u_y}{\partial t} \mathbf{j} + \frac{\partial u_z}{\partial t} \mathbf{k}
+    = \begin{bmatrix}
+        \frac{\partial u_x}{\partial t} \\
+        \frac{\partial u_y}{\partial t} \\
+        \frac{\partial u_z}{\partial t}
+      \end{bmatrix}
 \end{equation}
-and likewise for tensors.
+and likewise for tensors.\\
+
+\textbf{Exercise:} How would you calculate a derivative of a quantity
+(scalar, for example) in a computer program, e.g. $\frac{\partial a}{\partial x}$?
+Consider that you can approximate a derivative as a difference between two
+values of the quantity at two points in space.
+In other words, assume $\partial a \approx \Delta a = a(x_2) - a(x_1)$,
+and similar for $x$.\\
 
 \subsection{Gradient, divergence, and curl}
 
 Now, we introduce another new operator that builds on top of previous
 concepts to describe how scalar and vector fields change in space.
-This operator is called \textbf{nabla}\index{Nabla} and is denoted by $\nabla$:
+This operator is called \textit{del}\index{Del} and is denoted by the symbol
+$\nabla$\index{Nabla} (pronounced "nabla"):
 
 \begin{equation}
   \nabla = \frac{\partial}{\partial x} \mathbf{i} +
@@ -237,7 +322,8 @@ Specifically:
   $\mathbf{u}$; it quantifies how $\mathbf{u}$ rotates around a point.
 \end{itemize}
 
-$\nabla$ is also often called \textit{del}.
+Although, strictly speaking, one is a symbol and the other is an operator,
+$\nabla$ ("nabla") and "del" are often used interchangeably.
 
 \subsubsection{Gradient}
 
@@ -277,13 +363,66 @@ It is denoted by $\nabla \times \mathbf{u}$ and is defined as
     \frac{\partial u_x}{\partial y} \right) \mathbf{k}
 \end{equation}
 
-\subsection{Line, surface, and volume integrals}
+\subsection{Gauss and Stokes theorems}
+
+The most useful in our work will be variants of the
+\textit{Gauss and Stokes theorems}.
+The Gauss theorem relates a volume integral of a divergence of a vector field
+to a surface integral of that vector field.
+The Stokes theorem relates a surface integral of the curl of a vector field to
+a line integral of that vector field.
+Here, there are merely stated for reference.
+We will explore their meaning and application in more detail as we use them
+to derive the fundamental equations for fluid flows.
+
+\subsubsection{Gauss theorem}
+
+The Gauss theorem\index{Theorem!Gauss} states that the volume integral of the
+divergence of a vector field $\mathbf{u}$ over a volume $V$ is equal to the
+surface integral of $\mathbf{u}$ over the surface $A$ that encloses $V$:
+
+\begin{equation}
+  \int_V \nabla \cdot \mathbf{u} dV = \oint_A \mathbf{u} \cdot d\mathbf{A}
+\end{equation}
+
+This form of Gauss's theorem is also known as the
+\textit{divergence theorem}\index{Theorem!divergence}.
+It will come in handy when we derive the conservation of mass (continuity)
+equation.
+
+\subsubsection{Stokes theorem}
+
+The Stokes theorem\index{Theorem!Stokes} states that the surface integral of the curl of a
+vector field $\mathbf{u}$ over a surface $A$ is equal to the line integral of
+$\mathbf{u}$ over the boundary of $A$:
+
+\begin{equation}
+  \int_A (\nabla \times \mathbf{u}) \cdot d\mathbf{A} = \oint_{\partial A} \mathbf{u} \cdot d\mathbf{l}
+\end{equation}
+
+\subsection*{Further reading}
+
+\begin{itemize}
+  \item Chapter 2 of \textit{Fluid Mechanics} by Kundu, Cohen, and Dowling
+\end{itemize}
 
 \newpage
 \section{Fluid kinematics}
 
+\subsection{Lagrangian and Eulerian views of the flow}
+
+\subsubsection{Lagrangian derivative}
+
+\subsection{Eulerian derivative}
+
 \newpage
 \section{Conservation of mass, momentum, and energy}
+
+\subsection{Conservation of mass}
+
+\subsection{Conservation of momentum}
+
+\subsection{Conservation of energy}
 
 \printindex
 
