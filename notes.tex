@@ -182,7 +182,7 @@ The magnitude of a dot product of two vectors is equal to the product of their
 magnitudes and the cosine of the angle $\theta$ between them:
 
 \begin{equation}
-  \mathbf{a} \cdot \mathbf{b} = ||\mathbf{a}|| ||\mathbf{b}|| \cos(\theta)
+  \mathbf{a} \cdot \mathbf{b} = ||\mathbf{a}|| ||\mathbf{b}|| \cos{\theta}
 \end{equation}
 To visualize this relationship, take one vector and project it onto the other.
 This projection is the magnitude of the vector times the cosine of the angle
@@ -243,7 +243,7 @@ The magnitude of the cross product is equal to the product of the magnitudes of
 the two vectors times the sine of the angle between them:
 
 \begin{equation}
-  ||\mathbf{a} \times \mathbf{b}|| = ||\mathbf{a}|| ||\mathbf{b}|| \sin(\theta)
+  ||\mathbf{a} \times \mathbf{b}|| = ||\mathbf{a}|| ||\mathbf{b}|| \sin{\theta}
 \end{equation}
 So, the magnitude of the cross product is largest when the two vectors are
 orthogonal.
@@ -304,6 +304,7 @@ This operator is called \textit{del}\index{Del} and is denoted by the symbol
 $\nabla$\index{Nabla} (pronounced "nabla"):
 
 \begin{equation}
+  \label{eq:nabla}
   \nabla = \frac{\partial}{\partial x} \mathbf{i} +
     \frac{\partial}{\partial y} \mathbf{j} +
     \frac{\partial}{\partial z} \mathbf{k}
@@ -337,6 +338,12 @@ It is denoted by $\nabla T$ and is defined as
     \frac{\partial T}{\partial z} \mathbf{k}
 \end{equation}
 
+Gradient of a scalar field is a vector that points in the direction of the
+steepest increase of that field, and its magnitude is the rate of that increase.
+For example, imagine hiking up a hill; the gradient of the terrain is a vector
+that is pointing toward the steepest incline, and its magnitude is the slope
+of that incline.
+
 \subsubsection{Divergence}
 
 The divergence\index{Divergence} of a vector field $\mathbf{u}$ is a scalar field that describes
@@ -344,9 +351,14 @@ the rate at which the vector field flows out of a point.
 It is denoted by $\nabla \cdot \mathbf{u}$ and is defined as
 
 \begin{equation}
+  \label{eq:divergence}
   \nabla \cdot \mathbf{u} = \frac{\partial u_x}{\partial x} +
     \frac{\partial u_y}{\partial y} + \frac{\partial u_z}{\partial z}
 \end{equation}
+
+Divergence of a vector field is a scalar that describes how much the vector
+field is expanding or contracting at a point.
+When divergence is negative, it is commonly referred to as convergence.
 
 \subsubsection{Curl}
 
@@ -362,6 +374,11 @@ It is denoted by $\nabla \times \mathbf{u}$ and is defined as
     \left( \frac{\partial u_y}{\partial x} -
     \frac{\partial u_x}{\partial y} \right) \mathbf{k}
 \end{equation}
+
+Curl of a vector field is another vector that is orthogonal to the original
+vector field and quantifies how much the vector field is rotating around a
+point.
+When curl is zero, the vector field is said to be \textit{irrotational}.
 
 \subsection{Gauss and Stokes theorems}
 
@@ -409,16 +426,108 @@ $\mathbf{u}$ over the boundary of $A$:
 \newpage
 \section{Fluid kinematics}
 
-\subsection{Lagrangian and Eulerian views of the flow}
+Fluid kinematics describe the fluid motion without considering the forces that
+cause it.
+We will explore two main views of the flow: the \textit{Lagrangian}\index{Lagrangian}
+view, which follows individual fluid particles, and the \textit{Eulerian}\index{Eulerian}
+view, which observes the flow at fixed points in space.
+Although the Eulerian view is more commonly used in the theory and simulation
+of fluid flows, the Lagrangian view will be essential in deriving some of the
+fundamental equations, as well as for understanding where certain features of
+the flow come from.
+We will also introduce some useful concepts to describe the flow, namely
+the \textit{velocity potential} and the \textit{stream function}.
+These two scalar quantities are complementary to the vector field of velocity
+and together provide a complete description of the flow.
 
-\subsubsection{Lagrangian derivative}
+\subsection{Lagrangian and Eulerian derivatives}
 
-\subsection{Eulerian derivative}
+Consider a 3-dimensional quantity $\varphi$ that varies in space and time such that
+$\varphi = \varphi(x, y, z, t)$.
+Let's find the rate of change of $\varphi$.
+Since it depends on $x$, $y$, $z$, and $t$, the rate of change of $\varphi$ along
+each of these dimensions must be considered.
+So, the total change of $\varphi$ (let's call it $\delta\varphi$) over spatial and
+temporal increments $\delta x$, $\delta y$, $\delta z$, and $\delta t$ is the
+sum of changes along each of these dimensions:
+
+\begin{equation}
+  \delta\varphi = \frac{\partial \varphi}{\partial x} \delta x +
+    \frac{\partial \varphi}{\partial y} \delta y +
+    \frac{\partial \varphi}{\partial z} \delta z +
+    \frac{\partial \varphi}{\partial t} \delta t
+\end{equation}
+Divide by $\delta t$ to obtain:
+
+\begin{equation}
+  \frac{\delta\varphi}{\delta t} = \frac{\partial \varphi}{\partial x} \frac{\delta x}{\delta t} +
+    \frac{\partial \varphi}{\partial y} \frac{\delta y}{\delta t} +
+    \frac{\partial \varphi}{\partial z} \frac{\delta z}{\delta t} +
+    \frac{\partial \varphi}{\partial t}
+\end{equation}
+Recall the definition of $\nabla$ (Eq. \ref{eq:nabla}), and let the finite
+increment $\delta t$ approach $dt$ (and likewise for $\delta x$, $\delta y$, and
+$\delta z$), to obtain:
+
+\begin{equation}
+  \frac{d\varphi}{dt} = \frac{\partial \varphi}{\partial x} \frac{dx}{dt} +
+    \frac{\partial \varphi}{\partial y} \frac{dy}{dt} +
+    \frac{\partial \varphi}{\partial z} \frac{dz}{dt} +
+    \frac{\partial \varphi}{\partial t}
+\end{equation}
+Then, recognize that the velocity in each direction is the rate of change of
+the position in that direction:
+
+\begin{equation}
+  \frac{d\varphi}{dt} =
+    \frac{\partial \varphi}{\partial t} +
+    \frac{\partial \varphi}{\partial x} u +
+    \frac{\partial \varphi}{\partial y} v +
+    \frac{\partial \varphi}{\partial z} w +
+\end{equation}
+Finally, recall the definition of $\nabla$ (Eq. \ref{eq:nabla}) to obtain:
+
+\begin{equation}
+  \frac{d\varphi}{dt} = \frac{\partial \varphi}{\partial t} + \nabla \varphi \cdot \mathbf{u}
+\end{equation}
+
+\subsection{Velocity potential}
+
+\subsection{Stream function}
+
+\begin{itemize}
+  \item Section 1.1 of \textit{EAOD} by Vallis.
+  \item Chapter 3 of \textit{Fluid Mechanics} by Kundu, Cohen, and Dowling
+\end{itemize}
 
 \newpage
 \section{Conservation of mass, momentum, and energy}
 
 \subsection{Conservation of mass}
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.7\textwidth]{assets/fig_continuity1.pdf}
+  \caption{
+    Mass conservation in an rectangular Eulerian control volume.
+    The mass convergence, $\partial(\rho u)/\partial x$
+    (plus contributions in the $y$ and $z$ directions),
+    must be balanced by a density decrease.
+    This is Fig. 1.1 in AOFD (Vallis, 2017).
+  }
+\end{figure}
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.7\textwidth]{assets/fig_continuity2.pdf}
+  \caption{
+    Mass conservation in an arbitrary Eulerian control volume $V$ bounded by a
+    surface $S$. The mass increase, $\int_V(\partial \rho/\partial t)dV$
+    is equal to the mass flowing into the volume,
+    $-\int_S(\rho\mathbf{v}) \cdot d\mathbf{S} = -\int_V \nabla \cdot (\rho\mathbf{v})dV$.
+    This is Fig. 1.2 in AOFD (Vallis, 2017).
+  }
+\end{figure}
 
 \subsection{Conservation of momentum}
 
