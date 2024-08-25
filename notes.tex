@@ -481,19 +481,59 @@ the position in that direction:
 \begin{equation}
   \frac{d\varphi}{dt} =
     \frac{\partial \varphi}{\partial t} +
-    \frac{\partial \varphi}{\partial x} u +
-    \frac{\partial \varphi}{\partial y} v +
-    \frac{\partial \varphi}{\partial z} w +
+    u \frac{\partial \varphi}{\partial x} +
+    v \frac{\partial \varphi}{\partial y} +
+    w \frac{\partial \varphi}{\partial z} w
 \end{equation}
 Finally, recall the definition of $\nabla$ (Eq. \ref{eq:nabla}) to obtain:
 
 \begin{equation}
-  \frac{d\varphi}{dt} = \frac{\partial \varphi}{\partial t} + \nabla \varphi \cdot \mathbf{u}
+  \label{eq:lagrangian_derivative}
+  \frac{d\varphi}{dt} = \frac{\partial \varphi}{\partial t} + \mathbf{u} \cdot \nabla \varphi
 \end{equation}
+The term $\frac{d\varphi}{dt}$ is called the \textit{total derivative}\index{Derivative!total}
+of $\varphi$. It is also called a \textit{Lagrangian derivative}\index{Derivative!Lagrangian},
+or \textit{material derivative}\index{Derivative!material}, since it follows
+the motion of a fluid particle.
+The term $\frac{\partial \varphi}{\partial t}$ is called the
+\textit{Eulerian derivative}\index{Derivative!Eulerian},
+or \textit{partial derivative}\index{Derivative!partial}
+of $\varphi$ with respect to time.
+The term $\mathbf{u} \cdot \nabla \varphi$ describes how $\varphi$ changes due
+to its spatial variation and the flow of the fluid.
+
+Although the term $\mathbf{u} \cdot \nabla \varphi$ is the dot product of
+$\mathbf{u}$ and $\nabla \varphi$, the Lagrangian derivative in Eq.
+\ref{eq:lagrangian_derivative} can be expressed as an operator:
+
+\begin{equation}
+  \frac{d}{dt} = \frac{\partial}{\partial t} + (\mathbf{u} \cdot \nabla)
+\end{equation}
+The parentheses on the right-hand side indicate that that term acts as an
+operator on a field.
 
 \subsection{Velocity potential}
 
+Velocity potential is defined as a scalar field $\phi$ such that the velocity
+field $\mathbf{u}$ is the gradient of $\phi$:
+
+\begin{equation}
+  \mathbf{u} = \nabla \phi =
+  \begin{bmatrix}
+    \frac{\partial \phi}{\partial x} \\
+    \frac{\partial \phi}{\partial y} \\
+    \frac{\partial \phi}{\partial z}
+  \end{bmatrix}
+\end{equation}
+
 \subsection{Stream function}
+
+Stream function is defined as a scalar field $\psi$ such that the velocity field
+$\mathbf{u}$ is the curl of $\psi$:
+
+\begin{equation}
+  \mathbf{u} = \nabla \times \psi
+\end{equation}
 
 \begin{itemize}
   \item Section 1.1 of \textit{EAOD} by Vallis.
@@ -532,6 +572,22 @@ Finally, recall the definition of $\nabla$ (Eq. \ref{eq:nabla}) to obtain:
 \subsection{Conservation of momentum}
 
 \subsection{Conservation of energy}
+
+%\newpage
+%\section{Rotating and stratified flows}
+
+%\newpage
+%\section{Shallow water equations}
+
+%\newpage
+%\section{Boundary layers}
+
+%\newpage
+%\section{Turbulence}
+
+%\newpage
+%\section{Surface gravity waves}
+
 
 \printindex
 
