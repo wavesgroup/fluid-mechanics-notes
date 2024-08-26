@@ -42,7 +42,7 @@ These lecture notes are based on the following textbooks:
 
 \begin{enumerate}
   \item \textit{Fluid Mechanics}, 6th Ed., by Kundu, Cohen, and Dowling
-  \item \textit{Essentials of Atmospheric and Oceanic Dynamics} by Geoffrey Vallis
+  \item \textit{Essentials of Atmospheric and Oceanic Dynamics} (EAOD) by Geoffrey Vallis
 \end{enumerate}
 
 While the notes contain the distilled and required information for you to
@@ -399,6 +399,7 @@ divergence of a vector field $\mathbf{u}$ over a volume $V$ is equal to the
 surface integral of $\mathbf{u}$ over the surface $A$ that encloses $V$:
 
 \begin{equation}
+  \label{eq:divergence_theorem}
   \int_V \nabla \cdot \mathbf{u} dV = \oint_A \mathbf{u} \cdot d\mathbf{A}
 \end{equation}
 
@@ -440,7 +441,7 @@ the \textit{velocity potential} and the \textit{stream function}.
 These two scalar quantities are complementary to the vector field of velocity
 and together provide a complete description of the flow.
 
-\subsection{Lagrangian and Eulerian derivatives}
+\subsection{Lagrangian and Eulerian derivatives of a fluid property}
 
 Consider a 3-dimensional quantity $\varphi$ that varies in space and time such that
 $\varphi = \varphi(x, y, z, t)$.
@@ -512,28 +513,88 @@ $\mathbf{u}$ and $\nabla \varphi$, the Lagrangian derivative in Eq.
 The parentheses on the right-hand side indicate that that term acts as an
 operator on a field.
 
-\subsection{Velocity potential}
+\subsection{Lagrangian derivative of a volume}
 
-Velocity potential is defined as a scalar field $\phi$ such that the velocity
-field $\mathbf{u}$ is the gradient of $\phi$:
-
-\begin{equation}
-  \mathbf{u} = \nabla \phi =
-  \begin{bmatrix}
-    \frac{\partial \phi}{\partial x} \\
-    \frac{\partial \phi}{\partial y} \\
-    \frac{\partial \phi}{\partial z}
-  \end{bmatrix}
-\end{equation}
-
-\subsection{Stream function}
-
-Stream function is defined as a scalar field $\psi$ such that the velocity field
-$\mathbf{u}$ is the curl of $\psi$:
+Consider a fluid parcel with a constant mass but whose volume may change over
+time and is $\int_V dV = V$.
+The total rate of change of that volume as it moves with the fluid is equal to
+the surface integral of the velocity field $\mathbf{u}$ through the surface
+$S$ that is bounding the volume $V$:
 
 \begin{equation}
-  \mathbf{u} = \nabla \times \psi
+  \frac{d}{dt}\int_V dV = \int_S \mathbf{u} \cdot d\mathbf{S}
 \end{equation}
+Recall now the divergence theorem (Eq. \ref{eq:divergence_theorem}) to obtain:
+
+\begin{equation}
+  \frac{d}{dt}\int_V dV = \int_V \nabla \cdot \mathbf{u} dV
+\end{equation}
+Now, for a volume parcel so small that $\int_V dV = \Delta V \to 0$, the
+velocity divergence can be considered to be constant over the volume, and the
+integral can be replaced by the volume itself:
+
+\begin{equation}
+  \label{eq:lagrangian_volume_derivative}
+  \frac{d\Delta V}{dt} = \Delta V \nabla \cdot \mathbf{u}
+\end{equation}
+
+We can derive a similar expression for the rate of change of a fluid property
+per unit volume $q$, such that $q \Delta V$ is the amount of that quantity in
+a fluid parcel with the volume $\Delta V$.
+
+\begin{equation}
+  \frac{d}{dt} (q \Delta V) = \Delta V \frac{dq}{dt} + q \frac{d\Delta V}{dt}
+\end{equation}
+Recall the material derivative of $\Delta V$ from Eq. \ref{eq:lagrangian_volume_derivative}
+to obtain:
+
+\begin{equation}
+  \frac{d}{dt} (q \Delta V) = \Delta V \frac{dq}{dt} + q \Delta V \nabla \cdot \mathbf{u}
+\end{equation}
+
+\begin{equation}
+  \frac{d}{dt} (q \Delta V) = \Delta V \left( \frac{dq}{dt} + q \nabla \cdot \mathbf{u} \right)
+\end{equation}
+
+This was for a fluid property that is defined per unit volume.
+Let's now do the same for some property $\varphi$ that is defined per unit mass,
+such that $\varphi \rho \Delta V$ is the amount of that quantity in the fluid
+parcel with the volume $\Delta V$ and density $\rho$ (and mass $\rho \Delta V$).
+
+\begin{equation}
+  \frac{d}{dt} (\varphi \rho \Delta V) = \rho \Delta V \frac{d\varphi}{dt} + \varphi \frac{d(\rho \Delta V)}{dt}
+\end{equation}
+However recall that our fluid parcel has constant mass, so $\frac{d(\rho \Delta V)}{dt} = 0$.
+Our total derivative becomes:
+
+\begin{equation}
+  \frac{d}{dt} (\varphi \rho \Delta V) = \rho \Delta V \frac{d\varphi}{dt}
+\end{equation}
+
+%\subsection{Velocity potential}
+
+%Velocity potential is defined as a scalar field $\phi$ such that the velocity
+%field $\mathbf{u}$ is the gradient of $\phi$:
+
+%\begin{equation}
+%  \mathbf{u} = \nabla \phi =
+%  \begin{bmatrix}
+%    \frac{\partial \phi}{\partial x} \\
+%    \frac{\partial \phi}{\partial y} \\
+%    \frac{\partial \phi}{\partial z}
+%  \end{bmatrix}
+%\end{equation}
+
+%\subsection{Stream function}
+
+%Stream function is defined as a scalar field $\psi$ such that the velocity field
+%$\mathbf{u}$ is the curl of $\psi$:
+
+%\begin{equation}
+%  \mathbf{u} = \nabla \times \psi
+%\end{equation}
+
+\subsection*{Further reading}
 
 \begin{itemize}
   \item Section 1.1 of \textit{EAOD} by Vallis.
