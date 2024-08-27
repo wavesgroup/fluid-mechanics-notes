@@ -43,6 +43,9 @@ These lecture notes are based on the following textbooks:
 \begin{enumerate}
   \item \textit{Fluid Mechanics}, 6th Ed., by Kundu, Cohen, and Dowling
   \item \textit{Essentials of Atmospheric and Oceanic Dynamics} (EAOD) by Geoffrey Vallis
+  \item \textit{Atmospheric and Oceanic Fluid Dynamics} (AOFD) by Geoffrey Vallis.
+  This is the longer and more in-depth variant of EAOD.
+  Many figures in the notes are adapted from AOFD.
 \end{enumerate}
 
 While the notes contain the distilled and required information for you to
@@ -214,7 +217,7 @@ $\mathbf{b}$ is defined as:
 \end{equation}
 where $det(\mathbf{M})$ means the \textit{determinant of matrix $\mathbf{M}$}.
 
-Using the so-called \textit{rule of Saurus}, the cross product can be calculated
+Using the so-called \textit{rule of Sarrus}, the cross product can be calculated
 as:
 
 \begin{equation}
@@ -369,8 +372,8 @@ It is denoted by $\nabla \times \mathbf{u}$ and is defined as
 \begin{equation}
   \nabla \times \mathbf{u} = \left( \frac{\partial u_z}{\partial y} -
     \frac{\partial u_y}{\partial z} \right) \mathbf{i} +
-    \left( \frac{\partial u_x}{\partial z} -
-    \frac{\partial u_z}{\partial x} \right) \mathbf{j} +
+    \left( \frac{\partial u_z}{\partial x} -
+    \frac{\partial u_x}{\partial z} \right) \mathbf{j} +
     \left( \frac{\partial u_y}{\partial x} -
     \frac{\partial u_x}{\partial y} \right) \mathbf{k}
 \end{equation}
@@ -378,7 +381,14 @@ It is denoted by $\nabla \times \mathbf{u}$ and is defined as
 Curl of a vector field is another vector that is orthogonal to the original
 vector field and quantifies how much the vector field is rotating around a
 point.
-When curl is zero, the vector field is said to be \textit{irrotational}.
+When curl is zero, the vector field is said to be \textit{irrotational}.\\
+
+\textbf{Exercise:} Write a program that calculates the gradient of a scalar field,
+and the divergence and curl of a vector field.\\
+
+\textbf{Exercise:} Draw example vector fields that are: (a) non-divergent and
+irrotational, (b) divergent and irrotational, (c) non-divergent and rotational,
+and (d) divergent and rotational.\\
 
 \subsection{Gauss and Stokes theorems}
 
@@ -388,7 +398,7 @@ The Gauss theorem relates a volume integral of a divergence of a vector field
 to a surface integral of that vector field.
 The Stokes theorem relates a surface integral of the curl of a vector field to
 a line integral of that vector field.
-Here, there are merely stated for reference.
+Here, these are merely stated for reference.
 We will explore their meaning and application in more detail as we use them
 to derive the fundamental equations for fluid flows.
 
@@ -417,6 +427,21 @@ $\mathbf{u}$ over the boundary of $A$:
 \begin{equation}
   \int_A (\nabla \times \mathbf{u}) \cdot d\mathbf{A} = \oint_{\partial A} \mathbf{u} \cdot d\mathbf{l}
 \end{equation}
+
+\subsection{Summary}
+
+In this chapter, we reviewed:
+
+\begin{itemize}
+  \item Scalars, vectors, and tensors;
+  \item Vector algebra: dot product and cross product;
+  \item Derivatives: total and partial;
+  \item Gradient, divergence, and curl;
+  \item Gauss and Stokes theorems.
+\end{itemize}
+
+These concepts will serve as the basic building blocks for everything that
+follows in the remainder of this course.
 
 \subsection*{Further reading}
 
@@ -594,6 +619,22 @@ Our total derivative becomes:
 %  \mathbf{u} = \nabla \times \psi
 %\end{equation}
 
+\subsection{Summary}
+
+In this chapter, we covered:
+
+\begin{itemize}
+  \item Lagrangian (material) and Eulerian (field) derivatives;
+  the former follows a fluid parcel of constant mass as it moves through
+  the flow field, while the latter is the rate of change at a fixed point
+  (or volume) in space;
+  \item The Lagrangian derivative of volume, as well as of a fluid property per
+  unit volume and per unit mass.
+\end{itemize}
+
+We'll use these concepts in the next chapter where we derive the equations of
+continuity and motion.
+
 \subsection*{Further reading}
 
 \begin{itemize}
@@ -604,7 +645,68 @@ Our total derivative becomes:
 \newpage
 \section{Conservation of mass, momentum, and energy}
 
+In this chapter we will derive the fundamental equations for fluid flows:
+continuity, momentum, and energy.
+We start with the conservation of mass, which is the easiest to derive, but also
+arguably the most fundamental.
+
 \subsection{Conservation of mass}
+
+Recall from the previous chapter that we can take at least two perspectives
+on the fluid flow: the Lagrangian perspective, which follows a fluid parcel as it
+moves through space, and the Eulerian perspective, which observes the flow at
+fixed points in space.
+We can thus derive the conservation of mass, or commonly known as the
+\textit{continuity}, from both perspectives.
+Let's start with the Eulerian perspective, as it may seem more intuitive to
+derive from first principles
+
+\subsubsection{Eulerian derivation}
+
+Consider a fixed rectangular volume $\Delta V = \Delta x \Delta y \Delta z$ in
+three-dimensional space.
+The mass of the fluid in this volume is $\rho \Delta V$, where $\rho$ is the
+density of the fluid.
+The fluid enters the volume through the surfaces of the box, and the rate at
+which the mass enters the volume through a surface is given by the product of
+the density, the velocity component normal to the surface, and the area of the
+surface.
+Let's call this velocity $\mathbf{u}$ with components $u$, $v$, and $w$ in the
+$x$, $y$, and $z$ directions, respectively.
+
+For simplicity, let's first consider only the $x$-component of the velocity.
+This scenario is illustrated in Fig. \ref{fig:continuity1}.
+The fluid mass flow rate into the volume through the left face is $\rho u \Delta y \Delta z$,
+and the mass flow rate out of the volume through the right face is
+$\rho (u + \frac{\partial u}{\partial x} \Delta x) \Delta y \Delta z$.
+The net mass change in the control volume must be balanced by the net mass flow
+rate into the volume through the left and right faces:
+
+\begin{equation}
+  \int_V \frac{\partial \rho}{\partial t} dV =
+  \rho u + \frac{\partial (\rho u)}{\partial x} \Delta x) \Delta y \Delta z - \rho u \Delta y \Delta z =
+\end{equation}
+
+\begin{equation}
+  \int_V \frac{\partial \rho}{\partial t} dV =
+  \frac{\partial (\rho u)}{\partial x} \Delta x \Delta y \Delta z
+\end{equation}
+Now, we we allow a flow field to have components in the $y$ and $z$ directions,
+the equation becomes:
+
+\begin{equation}
+  \int_V \frac{\partial \rho}{\partial t} dV =
+  \left[\frac{\partial (\rho u)}{\partial x} + \frac{\partial (\rho v)}{\partial y} + \frac{\partial (\rho w)}{\partial z} \right] \Delta V
+\end{equation}
+Let $\Delta V \to 0$ to such that any field within $\Delta V$ is uniform to obtain:
+
+\begin{equation}
+  \frac{\partial \rho}{\partial t} + \nabla \cdot (\rho \mathbf{u}) = 0
+\end{equation}
+This is the continuity equation in the Eulerian reference frame.
+
+\subsubsection{Lagrangian derivation}
+
 
 \begin{figure}[h]
   \centering
@@ -616,6 +718,7 @@ Our total derivative becomes:
     must be balanced by a density decrease.
     This is Fig. 1.1 in AOFD (Vallis, 2017).
   }
+  \label{fig:continuity1}
 \end{figure}
 
 \begin{figure}[h]
@@ -628,11 +731,12 @@ Our total derivative becomes:
     $-\int_S(\rho\mathbf{v}) \cdot d\mathbf{S} = -\int_V \nabla \cdot (\rho\mathbf{v})dV$.
     This is Fig. 1.2 in AOFD (Vallis, 2017).
   }
+  \label{fig:continuity2}
 \end{figure}
 
-\subsection{Conservation of momentum}
+%\subsection{Conservation of momentum}
 
-\subsection{Conservation of energy}
+%\subsection{Conservation of energy}
 
 %\newpage
 %\section{Rotating and stratified flows}
