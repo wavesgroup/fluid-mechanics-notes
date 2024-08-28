@@ -292,7 +292,7 @@ A derivative of a vector is simply a vector of derivatives of its components:
 \end{equation}
 and likewise for tensors.\\
 
-\textbf{Exercise:} How would you calculate a derivative of a quantity
+\noindent\textbf{Exercise:} How would you calculate a derivative of a quantity
 (scalar, for example) in a computer program, e.g. $\frac{\partial a}{\partial x}$?
 Consider that you can approximate a derivative as a difference between two
 values of the quantity at two points in space.
@@ -383,10 +383,10 @@ vector field and quantifies how much the vector field is rotating around a
 point.
 When curl is zero, the vector field is said to be \textit{irrotational}.\\
 
-\textbf{Exercise:} Write a program that calculates the gradient of a scalar field,
+\noindent\textbf{Exercise:} Write a program that calculates the gradient of a scalar field,
 and the divergence and curl of a vector field.\\
 
-\textbf{Exercise:} Draw example vector fields that are: (a) non-divergent and
+\noindent\textbf{Exercise:} Draw example vector fields that are: (a) non-divergent and
 irrotational, (b) divergent and irrotational, (c) non-divergent and rotational,
 and (d) divergent and rotational.\\
 
@@ -434,10 +434,14 @@ In this chapter, we reviewed:
 
 \begin{itemize}
   \item Scalars, vectors, and tensors;
-  \item Vector algebra: dot product and cross product;
-  \item Derivatives: total and partial;
-  \item Gradient, divergence, and curl;
-  \item Gauss and Stokes theorems.
+  \item Vector algebra: dot product ($\mathbf{a} \cdot \mathbf{b}$) and cross
+  product ($\mathbf{a} \times \mathbf{b}$);
+  \item Derivatives: total ($\frac{d}{dt}$) and partial ($\frac{\partial}{\partial t}$);
+  \item Gradient, divergence ($\nabla \cdot \mathbf{u}$), and curl ($\nabla \times \mathbf{u}$);
+  \item Gauss theorem that relates volume and surface integrals:
+  $\int_V \nabla \cdot \mathbf{u} dV = \oint_A \mathbf{u} \cdot d\mathbf{A}$;
+  \item Stokes theorem that relates surface and line integrals:
+  $\int_A (\nabla \times \mathbf{u}) \cdot d\mathbf{A} = \oint_{\partial A} \mathbf{u} \cdot d\mathbf{l}$.
 \end{itemize}
 
 These concepts will serve as the basic building blocks for everything that
@@ -559,8 +563,8 @@ velocity divergence can be considered to be constant over the volume, and the
 integral can be replaced by the volume itself:
 
 \begin{equation}
-  \label{eq:lagrangian_volume_derivative}
   \frac{d\Delta V}{dt} = \Delta V \nabla \cdot \mathbf{u}
+  \label{eq:lagrangian_volume_derivative}
 \end{equation}
 
 We can derive a similar expression for the rate of change of a fluid property
@@ -579,6 +583,7 @@ to obtain:
 
 \begin{equation}
   \frac{d}{dt} (q \Delta V) = \Delta V \left( \frac{dq}{dt} + q \nabla \cdot \mathbf{u} \right)
+  \label{eq:lagrangian_property_derivative}
 \end{equation}
 
 This was for a fluid property that is defined per unit volume.
@@ -595,6 +600,9 @@ Our total derivative becomes:
 \begin{equation}
   \frac{d}{dt} (\varphi \rho \Delta V) = \rho \Delta V \frac{d\varphi}{dt}
 \end{equation}
+
+The Lagrangian derivative of a volume will come in handy when we derive the
+continuity equation in the next chapter.
 
 %\subsection{Velocity potential}
 
@@ -638,7 +646,7 @@ continuity and motion.
 \subsection*{Further reading}
 
 \begin{itemize}
-  \item Section 1.1 of \textit{EAOD} by Vallis.
+  \item Section 1.1 of \textit{EAOD} by Vallis
   \item Chapter 3 of \textit{Fluid Mechanics} by Kundu, Cohen, and Dowling
 \end{itemize}
 
@@ -651,6 +659,7 @@ We start with the conservation of mass, which is the easiest to derive, but also
 arguably the most fundamental.
 
 \subsection{Conservation of mass}
+\index{Continuity}
 
 Recall from the previous chapter that we can take at least two perspectives
 on the fluid flow: the Lagrangian perspective, which follows a fluid parcel as it
@@ -662,6 +671,7 @@ Let's start with the Eulerian perspective, as it may seem more intuitive to
 derive from first principles
 
 \subsubsection{Eulerian derivation}
+\index{Continuity!Eulerian derivation}
 
 Consider a fixed rectangular volume $\Delta V = \Delta x \Delta y \Delta z$ in
 three-dimensional space.
@@ -681,6 +691,19 @@ and the mass flow rate out of the volume through the right face is
 $\rho (u + \frac{\partial u}{\partial x} \Delta x) \Delta y \Delta z$.
 The net mass change in the control volume must be balanced by the net mass flow
 rate into the volume through the left and right faces:
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.8\textwidth]{assets/fig_continuity1.pdf}
+  \caption{
+    Mass conservation in an rectangular Eulerian control volume.
+    The mass convergence, $\partial(\rho u)/\partial x$
+    (plus contributions in the $y$ and $z$ directions),
+    must be balanced by a density decrease.
+    This is Fig. 1.1 in AOFD (Vallis, 2017).
+  }
+  \label{fig:continuity1}
+\end{figure}
 
 \begin{equation}
   \int_V \frac{\partial \rho}{\partial t} dV =
@@ -702,24 +725,17 @@ Let $\Delta V \to 0$ to such that any field within $\Delta V$ is uniform to obta
 
 \begin{equation}
   \frac{\partial \rho}{\partial t} + \nabla \cdot (\rho \mathbf{u}) = 0
+  \label{eq:continuity_eulerian}
 \end{equation}
 This is the continuity equation in the Eulerian reference frame.
 
-\subsubsection{Lagrangian derivation}
-
-
-\begin{figure}[h]
-  \centering
-  \includegraphics[width=0.7\textwidth]{assets/fig_continuity1.pdf}
-  \caption{
-    Mass conservation in an rectangular Eulerian control volume.
-    The mass convergence, $\partial(\rho u)/\partial x$
-    (plus contributions in the $y$ and $z$ directions),
-    must be balanced by a density decrease.
-    This is Fig. 1.1 in AOFD (Vallis, 2017).
-  }
-  \label{fig:continuity1}
-\end{figure}
+We're not constrained to a rectangular, fixed volume, however.
+We can derive this equation for an arbitrary control volume using the divergence
+theorem.
+The total rate of change of that volume as it moves with the fluid is equal to
+the surface integral of the velocity field $\mathbf{u}$ through the surface
+$S$ that is bounding the volume $V$ (Fig. \ref{fig:continuity2}).
+Mathematically, we can express this as:
 
 \begin{figure}[h]
   \centering
@@ -733,6 +749,80 @@ This is the continuity equation in the Eulerian reference frame.
   }
   \label{fig:continuity2}
 \end{figure}
+
+\begin{equation}
+  \int_V \frac{\partial \rho}{\partial t} dV = \int_S \rho \mathbf{u} \cdot d\mathbf{S}
+\end{equation}
+Now, recall the divergence theorem (Eq. \ref{eq:divergence_theorem}) to obtain:
+
+\begin{equation}
+  \int_V \frac{\partial \rho}{\partial t} dV = \int_V \nabla \cdot (\rho \mathbf{u}) dV
+\end{equation}
+Let $\Delta V \to 0$ to integrate and drop $\Delta V$ on both sides to obtain
+Eq. \ref{eq:continuity_eulerian}, which is the Eulerian form of the continuity
+equation.
+
+\subsubsection{Lagrangian derivation}
+\index{Continuity!Lagrangian derivation}
+
+In the Lagrangian frame, we follow a fluid parcel as it moves through space.
+Its mass $\rho \Delta V$ is constant by definition, but its density or volume
+may change.
+Since the mass of the parcel is constant, its Lagrangian derivative is zero:
+
+\begin{equation}
+  \frac{d}{dt} (\rho \Delta V) = 0
+\end{equation}
+Since the mass doesn't change, any change in the density of the parcel must be
+balanced by a change in its volume:
+
+\begin{equation}
+  \Delta V \frac{d\rho}{dt} + \rho \frac{d\Delta V}{dt} = 0
+\end{equation}
+Recall that we've already derived the Lagrangian derivative of a volume of the
+fluid parcel (Eq. \ref{eq:lagrangian_volume_derivative}), which is the second
+term here.
+The equation becomes:
+
+\begin{equation}
+  \Delta V \frac{d\rho}{dt} + \Delta V \rho \nabla \cdot \mathbf{u} = 0
+\end{equation}
+Finally, drop $\Delta V$ on both sides to obtain the Lagrangian form of the
+continuity equation:
+
+\begin{equation}
+  \frac{d\rho}{dt} + \rho \nabla \cdot \mathbf{u} = 0
+  \label{eq:continuity_lagrangian}
+\end{equation}
+
+Equations \ref{eq:continuity_eulerian} and \ref{eq:continuity_lagrangian} are
+two fundamental expressions of the conservation of mass for a fluid.
+In one form or another, this equation is a critical component of all weather,
+ocean, and climate prediction models.\\
+
+\noindent\textbf{Exercise:} Derive the Lagrangian form of the continuity equation from
+the Eulerian form and vice versa. What is the key equation that relates the
+two forms?\\
+
+\subsubsection{Continuity of an incompressible fluid}
+
+Liquids are nearly incompressible, and for them $\frac{d\rho}{dt} = 0$ is a good
+approximation.
+For an incompressible fluid, the continuity equation simplifies to:
+
+\begin{equation}
+  \nabla \cdot \mathbf{u} = 0
+  \label{eq:continuity_incompressible}
+\end{equation}
+Although as simple as it gets, Eq. \ref{eq:continuity_incompressible} is
+extremely important in fluid dynamics.
+
+\subsection*{Further reading}
+
+\begin{itemize}
+  \item Section 1.2 of \textit{EAOD} by Vallis
+  \item Sections 4.1 and 4.2 of \textit{Fluid Mechanics} by Kundu, Cohen, and Dowling
+\end{itemize}
 
 %\subsection{Conservation of momentum}
 
