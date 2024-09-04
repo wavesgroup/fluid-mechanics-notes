@@ -4,7 +4,14 @@
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{graphicx}
+\usepackage{hyperref}
 \usepackage{makeidx}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,       % Color for internal links
+    urlcolor=blue         % Color for external URLs
+}
 
 \makeindex
 
@@ -119,13 +126,6 @@ In 3-dimensional space, for example, a stress tensor can be described as:
 It may be useful to think of scalars as 0$^{th}$-order tensors, vectors as
 1$^{st}$-order tensors, and tensors as 2$^{nd}$-order tensors.\\
 
-\noindent\textbf{Exercise:} Pick your favorite programming language
-(or ask for a recommendation for one).
-Write a program that defines a scalar, a vector, and a tensor, and assign
-numerical values to them.
-Print the values to the screen.
-Is there a difference in how you define them in your program?\\
-
 \subsection{Unit vectors}
 
 Unit vectors\index{Vector!unit} are vectors with magnitude of 1.
@@ -194,13 +194,7 @@ Now one vector and the projection of the other onto the first vector are
 pointing in the same direction, so their dot product is the product of their
 magnitudes.
 It can be useful to think of a dot product as collapsing the two vectors into a
-single number contains contributions from each of their components.\\
-
-\noindent\textbf{Exercise:} Write a program that calculates the dot product of
-two vectors.\\
-
-\noindent\textbf{Exercise:} What is the dot product of two orthogonal vectors?
-How about the dot product of a vector with itself?\\
+single number contains contributions from each of their components.
 
 \subsubsection{Cross product}
 
@@ -255,10 +249,7 @@ Unlike the dot product, the cross product is anticommutative, meaning that
 $\mathbf{a} \times \mathbf{b} = -\mathbf{b} \times \mathbf{a}$.
 
 In fluid mechanics a cross product will often come up when we are interested in
-the rotation of a vector field, such as vorticity.\\
-
-\noindent\textbf{Exercise:} Write a program that calculates the cross product
-of two vectors.\\
+the rotation of a vector field, such as vorticity.
 
 \subsection{Total and partial derivatives}
 
@@ -291,13 +282,6 @@ A derivative of a vector is simply a vector of derivatives of its components:
       \end{bmatrix}
 \end{equation}
 and likewise for tensors.\\
-
-\noindent\textbf{Exercise:} How would you calculate a derivative of a quantity
-(scalar, for example) in a computer program, e.g. $\frac{\partial a}{\partial x}$?
-Consider that you can approximate a derivative as a difference between two
-values of the quantity at two points in space.
-In other words, assume $\partial a \approx \Delta a = a(x_2) - a(x_1)$,
-and similar for $x$.\\
 
 \subsection{Gradient, divergence, and curl}
 
@@ -381,14 +365,7 @@ It is denoted by $\nabla \times \mathbf{u}$ and is defined as
 Curl of a vector field is another vector that is orthogonal to the original
 vector field and quantifies how much the vector field is rotating around a
 point.
-When curl is zero, the vector field is said to be \textit{irrotational}.\\
-
-\noindent\textbf{Exercise:} Write a program that calculates the gradient of a scalar field,
-and the divergence and curl of a vector field.\\
-
-\noindent\textbf{Exercise:} Draw example vector fields that are: (a) non-divergent and
-irrotational, (b) divergent and irrotational, (c) non-divergent and rotational,
-and (d) divergent and rotational.\\
+When curl is zero, the vector field is said to be \textit{irrotational}.
 
 \subsection{Gauss and Stokes theorems}
 
@@ -446,6 +423,38 @@ In this chapter, we reviewed:
 
 These concepts will serve as the basic building blocks for everything that
 follows in the remainder of this course.
+
+\subsection{Exercises}
+
+\begin{enumerate}
+  
+  \item Pick your favorite programming language (or ask for a recommendation for one).
+  Write a program that defines a scalar, a vector, and a tensor, and assign
+  numerical values to them.
+  Print the values to the screen.
+  Is there a difference in how you define them in your program?
+
+  \item Write a computer program that calculates the gradient of a scalar field,
+  and the divergence and curl of a vector field.
+  
+  \item Write a program that calculates the dot product of two vectors.
+
+  \item What is the dot product of two orthogonal vectors?
+  How about the dot product of a vector with itself?
+
+  \item How would you calculate a derivative of a quantity
+  (scalar, for example) in a computer program, e.g. $\frac{\partial a}{\partial x}$?
+  Consider that you can approximate a derivative as a difference between two
+  values of the quantity at two points in space.
+  In other words, assume $\partial a \approx \Delta a = a(x_2) - a(x_1)$,
+  and similar for $x$.
+
+  \item Write a program that calculates the cross product of two vectors.
+
+  \item Draw example vector fields that are: (a) non-divergent and irrotational,
+  (b) divergent and irrotational, (c) non-divergent and rotational, and (d)
+  divergent and rotational.
+\end{enumerate}
 
 \subsection*{Further reading}
 
@@ -798,11 +807,7 @@ continuity equation:
 Equations \ref{eq:continuity_eulerian} and \ref{eq:continuity_lagrangian} are
 two fundamental expressions of the conservation of mass for a fluid.
 In one form or another, this equation is a critical component of all weather,
-ocean, and climate prediction models.\\
-
-\noindent\textbf{Exercise:} Derive the Lagrangian form of the continuity equation from
-the Eulerian form and vice versa. What is the key equation that relates the
-two forms?\\
+ocean, and climate prediction models.
 
 \subsubsection{Continuity of an incompressible fluid}
 
@@ -817,14 +822,407 @@ For an incompressible fluid, the continuity equation simplifies to:
 Although as simple as it gets, Eq. \ref{eq:continuity_incompressible} is
 extremely important in fluid dynamics.
 
+\subsection{Conservation of momentum}
+
+Like the conservation of mass, the conservation of momentum is a fundamental
+concept in fluid mechanics.
+It allows us to predict how the fluid should accelerate due to its state
+(i.e. velocity and density) and due to the forces acting on it.
+Together, the continuity and momentum conservation
+equations form the core of most fluid prediction models, such as weather, ocean,
+and climate prediction models.
+We will derive the momentum equation in the remainder of this section.
+We'll start from the most basic form first and then incrementally introduce
+some common forces, such as the pressure gradient force, gravity, and viscosity.
+
+\subsubsection{The first step}
+
+To derive the momentum conservation equation, we will start from the second
+Newton's law, which states that the time rate of change of the momentum of a
+fluid particle is equal to the net force acting on it.
+For a fluid parcel of volume $\Delta V = \int_V dV$ whose momentum per unit mass
+is $\rho \mathbf{u}$, the momentum conservation equation is:
+
+\begin{equation}
+  \frac{d}{dt} \int_V \rho \mathbf{u} dV = \int_V \mathbf{F} dV
+\end{equation}
+where $\mathbf{F}$ is the net force per unit volume acting on the fluid parcel.
+Let again the volume parcel be very small such that its density and net force
+acting on it are uniform. We have:
+
+\begin{equation}
+  \rho \frac{d\mathbf{u}}{dt} \Delta V = \mathbf{F} \Delta V
+\end{equation}
+
+\begin{equation}
+  \rho \frac{d\mathbf{u}}{dt} = \mathbf{F}
+\end{equation}
+Recall the Lagrangian derivative operator from Eq. \ref{eq:lagrangian_derivative}
+to obtain:
+
+\begin{equation}
+  \frac{\partial \mathbf{u}}{\partial t} + (\mathbf{u} \cdot \nabla) \mathbf{u} = \frac{\mathbf{F}}{\rho}
+  \label{eq:momentum_eulerian}
+\end{equation}
+This equation states that the acceleration of a fluid parcel at any fixed point
+in space is equal to the net force per unit mass acting on it, divided by the
+fluid density.
+The second term on the left-hand side is the \textit{advection term}\index{Advection}.
+It represents the local acceleration of the fluid parcel due to the properties
+of the fluid flow itself.
+Consider for example a 1-dimensional flow such that the advection term reduces
+to $u \frac{\partial u}{\partial x}$.
+Notice that the advection term is zero only in two special cases:
+when the velocity is zero or when the velocity is spatially uniform.
+In all other cases the advection term is non-zero and contributes to the local
+acceleration.
+
+Because the advection term is velocity multiplied by its gradient, it is
+\textit{nonlinear}\index{Nonlinear}.
+This single property of this term makes accurate analysis and prediction of
+fluid flows difficult.
+For example, the nonlinear advection term is responsible for the existence of
+\textit{chaos}\index{Chaos} in fluid flows, where small differences in initial
+conditions lead to vastly different outcomes (in popular culture known as the
+\textit{butterfly effect}).
+One consequence of this in our daily lives is that weather predictability
+is limited to a finite lead time horizon, for example one to two weeks depending
+on the weather patterns of interest.
+If, however, we could assume that either the velocity or its gradient are so
+small that they could be neglected, the equation simplifies significantly
+and often allows for analytical solutions.
+
+Back to our equation now.
+For a 3-dimensional Cartesian flow where the velocity field is $\mathbf{u} = (u, v, w)$
+and net forces are $\mathbf{F} = (F_x, F_y, F_z)$, Eq. \ref{eq:momentum_eulerian}
+becomes a system of three equations, one for each component of the velocity field.
+Recall from the Lagrangian derivative operator that $(\mathbf{u} \cdot \nabla) \mathbf{u}$
+is an operator acting on $\mathbf{u}$ (as opposed to divergence of a gradient).
+The $(\mathbf{u} \cdot \nabla)$ operator then expands to
+$u\frac{\partial}{\partial x} + v\frac{\partial}{\partial y} + w\frac{\partial}{\partial z}$.
+Our vector equations becomes a system of three scalar equations:
+
+\begin{equation}
+  \frac{\partial u}{\partial t} + u \frac{\partial u}{\partial x} + v \frac{\partial u}{\partial y} + w \frac{\partial u}{\partial z} = \frac{F_x}{\rho}
+\end{equation}
+
+\begin{equation}
+  \frac{\partial v}{\partial t} + u \frac{\partial v}{\partial x} + v \frac{\partial v}{\partial y} + w \frac{\partial v}{\partial z} = \frac{F_y}{\rho}
+\end{equation}
+
+\begin{equation}
+  \frac{\partial w}{\partial t} + u \frac{\partial w}{\partial x} + v \frac{\partial w}{\partial y} + w \frac{\partial w}{\partial z} = \frac{F_z}{\rho}
+\end{equation}
+Each of the prognostic equations for the velocity components thus has exactly
+three advective components that correspond to the gradients of the velocity
+in each respective direction.
+
+\subsubsection{Incorporating the forces}
+
+Now we should consider what forces may be acting on the fluid.
+We distinguish between two types of forces: surface forces and body forces.
+Surface forces act on the surface of the fluid parcel due to the motion of the
+fluid molecules, in all directions at that surface.
+For example, organized motion of molecules into the surface may cause pressure
+on that surface, and the sheared motion of molecules (e.g. if flow is
+antiparallel to the surface) may cause shear stress on the surface, leading to
+the deformation of the fluid parcel.
+In contrast, body forces act remotely (meaning, from a distance) on the entire
+volume of the fluid parcel because that parcel is immersed in one or more force fields.
+Gravity is one such body force, and it's the only one we'll consider here.
+Although in Eq. \ref{eq:momentum_eulerian} we wrote the net force as $\mathbf{F}$,
+it's useful to write it as the sum of body forces $\mathbf{F}_b$ and surface
+forces $\mathbf{F}_s$:
+
+\begin{equation}
+  \frac{\partial \mathbf{u}}{\partial t} + (\mathbf{u} \cdot \nabla) \mathbf{u} = \frac{1}{\rho} (\mathbf{F}_s + \mathbf{F}_b)
+\end{equation}
+
+Let's derive the surface forces first.
+We want to find out the local change of momentum only due to the surface forces.
+Analogous to how the flow through the volume determined the rate of change of
+density inside that volume, as we saw in the continuity equation
+(Eq. \ref{eq:continuity_eulerian}), the change in momentum inside the volume
+is determined by the surface forces acting on the volume (Fig. \ref{fig:momentum1}).
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.8\textwidth]{assets/fig_momentum1.png}
+  \caption{
+    Normal components of the stress tensor $\mathbf{\sigma}$ acting on a fluid parcel.
+    Reproduced from \url{https://en.wikipedia.org/wiki/Cauchy_momentum_equation}
+    under the CC BY-SA 4.0 license.
+  }
+  \label{fig:momentum1}
+\end{figure}
+
+Mathematically, we can express this change as:
+
+\begin{equation}
+  \int_V \mathbf{F_s} dV = \int_S \boldsymbol{\sigma} \cdot d\mathbf{S}
+\end{equation}
+where $\boldsymbol{\sigma}$ is the second-order stress tensor acting on the
+surface $S$ of the fluid parcel.
+As before, recall the divergence theorem (Eq. \ref{eq:divergence_theorem}) to obtain:
+
+\begin{equation}
+  \int_V \mathbf{F_s} dV = \int_V \nabla \cdot \boldsymbol{\sigma} dV
+\end{equation}
+
+\begin{equation}
+  \mathbf{F_s} = \nabla \cdot \boldsymbol{\sigma}
+\end{equation}
+The surface force thus equals the divergence of the stress tensor.
+Insert this into Eq. \ref{eq:momentum_eulerian} to get our new form of
+the momentum equation:
+
+\begin{equation}
+  \frac{\partial \mathbf{u}}{\partial t} + (\mathbf{u} \cdot \nabla) \mathbf{u} =
+  \frac{1}{\rho} \nabla \cdot \boldsymbol{\sigma} + \frac{\mathbf{F}_b}{\rho}
+\end{equation}
+This form of the momentum equation is often called the
+\textit{Cauchy momentum equation}\index{Momentum equation!Cauchy}.
+
+Let's now look at what this stress tensor divergence term
+$\nabla \cdot \boldsymbol{\sigma}$ is.
+
+\subsubsection{Pressure gradient}
+
+There is a fundamental difference in the meaning of the diagonal and off-diagonal
+components of the stress tensor.
+The diagonal components of the stress tensor, $\sigma_{xx}$, $\sigma_{yy}$, and
+$\sigma_{zz}$, represent the normal stress components, i.e. the force per unit
+area acting on a surface element that is oriented in the $x$, $y$, and $z$
+directions, respectively.
+The off-diagonal components of the stress tensor represent the shear stress
+components, each acting on all three surfaces.
+For example, $\sigma_{xy}$ represents the shear stress component acting on the
+$x$-oriented surface due to the motion of the fluid in the $y$ direction, and
+vice versa.
+Let's write out the stress tensor in Cartesian coordinates:
+
+\begin{equation}
+  \boldsymbol{\sigma} = \begin{bmatrix}
+    \sigma_{xx} & \sigma_{xy} & \sigma_{xz} \\
+    \sigma_{yx} & \sigma_{yy} & \sigma_{yz} \\
+    \sigma_{zx} & \sigma_{zy} & \sigma_{zz}
+  \end{bmatrix}
+\end{equation}
+
+This tensor can be decomposed into its normal and shear components:
+
+\begin{equation}
+  \boldsymbol{\sigma} = -p \mathbf{I} + \boldsymbol{\tau}
+  \label{eq:stress_tensor_decomposition}
+\end{equation}
+where $p$ is the pressure, $\mathbf{I}$ is the identity tensor\index{Tensor!Identity},
+and $\boldsymbol{\tau}$ is the deviatoric stress tensor, or, the viscous shear
+stress tensor\index{Stress!Shear}.
+Written out explicitly in Cartesian coordinates and using Eq.
+\ref{eq:stress_tensor_decomposition}, the stress tensor is:
+
+\begin{equation}
+  \boldsymbol{\sigma} = \begin{bmatrix}
+    -p & \tau_{xy} & \tau_{xz} \\
+    \tau_{yx} & -p & \tau_{yz} \\
+    \tau_{zx} & \tau_{zy} & -p
+  \end{bmatrix}
+\end{equation}
+
+The divergence of the stress tensor is then:
+
+\begin{equation}
+  \nabla \cdot \boldsymbol{\sigma} = - \nabla p + \nabla \cdot \boldsymbol{\tau}
+\end{equation}
+Let's insert this into Eq. \ref{eq:momentum_eulerian} to get our new form of
+the momentum equation:
+
+\begin{equation}
+  \frac{\partial \mathbf{u}}{\partial t} + (\mathbf{u} \cdot \nabla) \mathbf{u} =
+  - \frac{1}{\rho} \nabla p + \frac{1}{\rho} \nabla \cdot \boldsymbol{\tau} + \frac{\mathbf{F}_b}{\rho}
+  \label{eq:momentum_cauchy_with_shear}
+\end{equation}
+
+Pressure is one of the fluid properties that determine its state.
+Collective, organized, motion of molecules at a macroscopic scale induces
+pressure on a surface and an associated force acting normal to that surface.
+Recall that the surface vector is normal to the surface and pointing outward,
+and the force acting on the fluid surface is oriented inward, thus the minus sign.
+
+In an ideal, \textit{inviscid} fluid, that is, a fluid that exhibits no viscous
+forces, the stress tensor $\boldsymbol{\sigma}$ is only composed of the diagonal
+terms (pressure), and the divergence of the stress tensor is zero.
+Dropping $\nabla \cdot \boldsymbol{\tau}$ and the body forces $\mathbf{F}_b$ for
+now, the Cauchy momentum equation simplifies to:
+
+\begin{equation}
+  \frac{\partial \mathbf{u}}{\partial t} + (\mathbf{u} \cdot \nabla) \mathbf{u} =
+  - \frac{1}{\rho} \nabla p
+  \label{eq:momentum_euler}
+\end{equation}
+This form of the momentum equation is often called the \textit{Euler equation}.
+\index{Momentum equation!Euler}
+
+\subsubsection{Viscous forces}
+
+Now, let's look at the shear stress tensor divergence $\nabla \cdot \boldsymbol{\tau}$.
+Written out explicitly as a matrix of all its components, $\boldsymbol{\tau}$ is:
+
+\begin{equation}
+  \boldsymbol{\tau} = \begin{bmatrix}
+    \tau_{xx} & \tau_{xy} & \tau_{xz} \\
+    \tau_{yx} & \tau_{yy} & \tau_{yz} \\
+    \tau_{zx} & \tau_{zy} & \tau_{zz}
+  \end{bmatrix}
+\end{equation}
+The diagonal components of the deviatoric stress tensor are the normal stresses,
+while the off-diagonal components are the shear stresses.
+The normal stresses are non-zero only in compressible fluids ($\nabla \cdot \mathbf{u} \neq 0$),
+while the shear stresses are zero in non-viscous flows.
+The divergence of this tensor, written out explicitly as a matrix of all its
+components, is:
+
+\begin{equation}
+  \nabla \cdot \boldsymbol{\tau} = \begin{bmatrix}
+    \frac{\partial \tau_{xx}}{\partial x} + \frac{\partial \tau_{yx}}{\partial y} + \frac{\partial \tau_{zx}}{\partial z} \\
+    \frac{\partial \tau_{xy}}{\partial x} + \frac{\partial \tau_{yy}}{\partial y} + \frac{\partial \tau_{zy}}{\partial z} \\
+    \frac{\partial \tau_{xz}}{\partial x} + \frac{\partial \tau_{yz}}{\partial y} + \frac{\partial \tau_{zz}}{\partial z}
+  \end{bmatrix}
+\end{equation}
+
+Now, write out \ref{eq:momentum_cauchy_with_shear} as a system of three scalar
+equations, one for each component of the velocity field, and insert the shear
+stress divergence terms to get:
+
+\begin{equation}
+  \frac{\partial u}{\partial t} + 
+  u \frac{\partial u}{\partial x} + 
+  v \frac{\partial u}{\partial y} + 
+  w \frac{\partial u}{\partial z} = 
+  - \frac{1}{\rho} \frac{\partial p}{\partial x} + 
+  \frac{1}{\rho} \left( \frac{\partial \tau_{xx}}{\partial x} + \frac{\partial \tau_{yx}}{\partial y} + \frac{\partial \tau_{zx}}{\partial z} \right) + 
+  \frac{F_x}{\rho}
+\end{equation}
+
+\begin{equation}
+  \frac{\partial v}{\partial t} + 
+  u \frac{\partial v}{\partial x} + 
+  v \frac{\partial v}{\partial y} + 
+  w \frac{\partial v}{\partial z} = 
+  - \frac{1}{\rho} \frac{\partial p}{\partial y} + 
+  \frac{1}{\rho} \left( \frac{\partial \tau_{xx}}{\partial x} + \frac{\partial \tau_{yx}}{\partial y} + \frac{\partial \tau_{zx}}{\partial z} \right) + 
+  \frac{F_y}{\rho}
+\end{equation}
+
+\begin{equation}
+  \frac{\partial w}{\partial t} + 
+  u \frac{\partial w}{\partial x} + 
+  v \frac{\partial w}{\partial y} + 
+  w \frac{\partial w}{\partial z} = 
+  - \frac{1}{\rho} \frac{\partial p}{\partial z} + 
+  \frac{1}{\rho} \left( \frac{\partial \tau_{xx}}{\partial x} + \frac{\partial \tau_{yx}}{\partial y} + \frac{\partial \tau_{zx}}{\partial z} \right) + 
+  \frac{F_z}{\rho}
+\end{equation}
+Each of the prognostic equations for the velocity components thus has exactly
+one pressure gradient and two shear stress gradient terms, all arising from the
+surface forces.
+
+Experimentally, it was found that the viscous shear stress tensor $\boldsymbol{\tau}$
+is proportional to the gradient of the velocity field, i.e. $\boldsymbol{\tau} = \mu \nabla \mathbf{u}$.
+This property of the fluid makes it a so-called \textit{Newtonian fluid}\index{Fluid!Newtonian}.
+The proportionality constant $\mu$ is the dynamic viscosity and depends on the
+fluid properties and temperature.
+Inserting this into Eq. \ref{eq:momentum_cauchy_with_shear} and assuming
+incompressibility, we get:
+
+\begin{equation}
+  \frac{\partial \mathbf{u}}{\partial t} + (\mathbf{u} \cdot \nabla) \mathbf{u} =
+  - \frac{1}{\rho} \nabla p + \frac{1}{\rho} \nabla \cdot (\mu \nabla \mathbf{u}) +
+  \frac{\mathbf{F}_b}{\rho}
+\end{equation}
+We can further simplify this equation by assuming that the viscosity is constant
+and that the flow is incompressible.
+This allows us to neglect the viscous stress gradient term, leading to the
+\textit{Navier-Stokes equation}\index{Momentum equation!Navier-Stokes}.
+
+\begin{equation}
+  \frac{\partial \mathbf{u}}{\partial t} + (\mathbf{u} \cdot \nabla) \mathbf{u} =
+  - \frac{1}{\rho} \nabla p + \nu \nabla^2 \mathbf{u} +
+  \frac{\mathbf{F}_b}{\rho}
+  \label{eq:momentum_navier_stokes}
+\end{equation}
+where $\nu = \frac{\mu}{\rho}$ is the kinematic viscosity.
+The $\nabla^2$ operator is often called the \textit{Laplacian}\index{Laplacian}.
+It is a second-order differential operator that appears in many partial
+differential equations, including the heat equation, the wave equation, and
+the Laplace equation.
+More on these later.
+
+Let's now look at the body forces to conclude our derivation.
+
+\subsection{Gravity}
+
+As we mentioned earlier, gravity is the only body force we'll consider here.
+The force of gravity per unit mass is given by $\mathbf{g} = (0, 0, -g)$,
+where $g$ is the gravitational acceleration.
+Here we're assuming that the gravitational acceleration is constant and always
+points downward.
+Insert this into Eq. \ref{eq:momentum_navier_stokes} and assuming
+incompressibility, we get:
+
+\begin{equation}
+  \frac{\partial \mathbf{u}}{\partial t} + (\mathbf{u} \cdot \nabla) \mathbf{u} =
+  - \frac{1}{\rho} \nabla p + \mathbf{g} + \nu \nabla^2 \mathbf{u}
+\end{equation}
+
+Written out explicitly, we get:
+
+\begin{equation}
+  \frac{\partial u}{\partial t} + 
+  u \frac{\partial u}{\partial x} + 
+  v \frac{\partial u}{\partial y} + 
+  w \frac{\partial u}{\partial z} = 
+  - \frac{1}{\rho} \frac{\partial p}{\partial x} + \nu \left( \frac{\partial^2 u}{\partial x^2} + \frac{\partial^2 u}{\partial y^2} + \frac{\partial^2 u}{\partial z^2} \right)
+\end{equation}
+
+\begin{equation}
+  \frac{\partial v}{\partial t} + 
+  u \frac{\partial v}{\partial x} + 
+  v \frac{\partial v}{\partial y} + 
+  w \frac{\partial v}{\partial z} = 
+  - \frac{1}{\rho} \frac{\partial p}{\partial y} + \nu \left( \frac{\partial^2 v}{\partial x^2} + \frac{\partial^2 v}{\partial y^2} + \frac{\partial^2 v}{\partial z^2} \right)
+\end{equation}
+
+\begin{equation}
+  \frac{\partial w}{\partial t} + 
+  u \frac{\partial w}{\partial x} + 
+  v \frac{\partial w}{\partial y} + 
+  w \frac{\partial w}{\partial z} = 
+  - \frac{1}{\rho} \frac{\partial p}{\partial z} - g + \nu \left( \frac{\partial^2 w}{\partial x^2} + \frac{\partial^2 w}{\partial y^2} + \frac{\partial^2 w}{\partial z^2} \right)
+\end{equation}
+
+\subsection{Exercises}
+
+\begin{enumerate}
+  \item Derive the Lagrangian form of the continuity equation from
+  the Eulerian form and vice versa. What is the key equation that relates the
+  two forms?
+
+  \item Write out the Cauchy, Euler, and Navier-Stokes equations in vector form
+  and discuss their similarities and differences.
+  Give examples of flows that are well described by each of these equations.
+
+  \item Write a computer program that computes the divergence of a second-order
+  tensor in a Cartesian, 3-dimensional coordinate system.
+\end{enumerate}
+
 \subsection*{Further reading}
 
 \begin{itemize}
-  \item Section 1.2 of \textit{EAOD} by Vallis
-  \item Sections 4.1 and 4.2 of \textit{Fluid Mechanics} by Kundu, Cohen, and Dowling
+  \item Sections 1.2-1.3 of \textit{EAOD} by Vallis
+  \item Sections 4.1-4.6 of \textit{Fluid Mechanics} by Kundu, Cohen, and Dowling
 \end{itemize}
 
-%\subsection{Conservation of momentum}
 
 %\subsection{Conservation of energy}
 
