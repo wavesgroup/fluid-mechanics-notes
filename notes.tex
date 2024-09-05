@@ -13,6 +13,11 @@
     urlcolor=blue         % Color for external URLs
 }
 
+% Number equations, figures, and tables within sections
+\numberwithin{equation}{section}
+\numberwithin{figure}{section}
+\numberwithin{table}{section}
+
 \makeindex
 
 \begin{document}
@@ -115,11 +120,32 @@ of the tensor.
 In 3-dimensional space, for example, a stress tensor can be described as:
 
 \begin{equation}
-  \mathbf{\tau} =
+  \boldsymbol{\tau} =
   \begin{bmatrix}
     \tau_{xx} & \tau_{xy} & \tau_{xz} \\
     \tau_{yx} & \tau_{yy} & \tau_{yz} \\
     \tau_{zx} & \tau_{zy} & \tau_{zz}
+  \end{bmatrix}
+\end{equation}
+In this notation and index ordering, i.e. $\tau_{ij}$, the first index ($i$)
+refers to the direction of the stress component, and the second index ($j$)
+refers to the direction of the normal to the surface.
+In other words, each row of the tensor contains the three components of a
+vector, and each column contains the three surface normals that the stress
+component is acting on.
+For example, $\tau_{xy}$ is the stress in the x-direction and is acting on the
+surface whose normal is in the y-direction (and which lies in the x-z plane).
+
+One special type of tensor is the \textit{identity tensor}\index{Tensor!identity}
+$\mathbf{I}$, which is a tensor that maps a vector onto itself.
+In Cartesian coordinates, it is given by:
+
+\begin{equation}
+  \mathbf{I} =
+  \begin{bmatrix}
+    1 & 0 & 0 \\
+    0 & 1 & 0 \\
+    0 & 0 & 1
   \end{bmatrix}
 \end{equation}
 
@@ -250,6 +276,60 @@ $\mathbf{a} \times \mathbf{b} = -\mathbf{b} \times \mathbf{a}$.
 
 In fluid mechanics a cross product will often come up when we are interested in
 the rotation of a vector field, such as vorticity.
+
+\subsection{Matrix multiplication}
+
+Occasionally, we will need to multiply a vector by a matrix, or, a matrix by a
+matrix.
+As a vector is a special case of a matrix in which either the number of rows or
+columns is 1, the same rules of matrix multiplication will apply when we
+multiply a vector by a matrix or a matrix by a matrix.
+These operations are not commutative, meaning that the order of multiplication
+matters.
+
+Take two matrices $\mathbf{A}$ and $\mathbf{B}$ such that
+
+\begin{equation}
+  \mathbf{A} =
+  \begin{bmatrix}
+    a_{11} & a_{12} & a_{13} \\
+    a_{21} & a_{22} & a_{23} \\
+    a_{31} & a_{32} & a_{33}
+  \end{bmatrix}
+\end{equation}
+and:
+
+\begin{equation}
+  \mathbf{B} =
+  \begin{bmatrix}
+    b_{11} & b_{12} & b_{13} \\
+    b_{21} & b_{22} & b_{23} \\
+    b_{31} & b_{32} & b_{33}
+  \end{bmatrix}
+\end{equation}
+
+The result of their multiplication is a matrix $\mathbf{C}$ given by:
+
+\begin{equation}
+  \mathbf{C} = \mathbf{A} \mathbf{B} =
+  \begin{bmatrix}
+    a_{11} b_{11} + a_{12} b_{21} + a_{13} b_{31} &
+    a_{11} b_{12} + a_{12} b_{22} + a_{13} b_{32} &
+    a_{11} b_{13} + a_{12} b_{23} + a_{13} b_{33} \\
+    a_{21} b_{11} + a_{22} b_{21} + a_{23} b_{31} &
+    a_{21} b_{12} + a_{22} b_{22} + a_{23} b_{32} &
+    a_{21} b_{13} + a_{22} b_{23} + a_{23} b_{33} \\
+    a_{31} b_{11} + a_{32} b_{21} + a_{33} b_{31} &
+    a_{31} b_{12} + a_{32} b_{22} + a_{33} b_{32} &
+    a_{31} b_{13} + a_{32} b_{23} + a_{33} b_{33}
+  \end{bmatrix}
+\end{equation}
+
+That is, the entry $c_{ij}$ of the product is obtained by multiplying
+term-by-term the entries of the $i$-th row of $\mathbf{A}$ and the $j$-th column
+of $\mathbf{B}$, and summing these products.
+In other words, $c_{ij}$ is the dot product of the $i$-th row of $\mathbf{A}$
+and the $j$-th column of $\mathbf{B}$.
 
 \subsection{Total and partial derivatives}
 
@@ -434,13 +514,25 @@ follows in the remainder of this course.
   Print the values to the screen.
   Is there a difference in how you define them in your program?
 
-  \item Write a computer program that calculates the gradient of a scalar field,
-  and the divergence and curl of a vector field.
-  
   \item Write a program that calculates the dot product of two vectors.
+  Please implement your solution using the basic arithmetic operations such as
+  addition and multiplication.
+  Then, see if your programming language or one of its software libraries
+  provides a function to do this.
+  Can you verify your implementation by comparing its output to that of the
+  library function?
 
   \item What is the dot product of two orthogonal vectors?
   How about the dot product of a vector with itself?
+  Please write out the solution step by step.
+
+  \item Write a program that calculates the cross product of two vectors.
+  Please implement your solution using the basic arithmetic operations such as
+  addition and multiplication.
+  Then, see if your programming language or one of its software libraries
+  provides a function to do this.
+  Can you verify your implementation by comparing its output to that of the
+  library function?
 
   \item How would you calculate a derivative of a quantity
   (scalar, for example) in a computer program, e.g. $\frac{\partial a}{\partial x}$?
@@ -449,8 +541,9 @@ follows in the remainder of this course.
   In other words, assume $\partial a \approx \Delta a = a(x_2) - a(x_1)$,
   and similar for $x$.
 
-  \item Write a program that calculates the cross product of two vectors.
-
+  \item Write a computer program that calculates the gradient of a scalar field,
+  and the divergence and curl of a vector field.
+  
   \item Draw example vector fields that are: (a) non-divergent and irrotational,
   (b) divergent and irrotational, (c) non-divergent and rotational, and (d)
   divergent and rotational.
@@ -1023,9 +1116,9 @@ Written out explicitly in Cartesian coordinates and using Eq.
 
 \begin{equation}
   \boldsymbol{\sigma} = \begin{bmatrix}
-    -p & \tau_{xy} & \tau_{xz} \\
-    \tau_{yx} & -p & \tau_{yz} \\
-    \tau_{zx} & \tau_{zy} & -p
+    -p + \tau_{xx} & \tau_{xy} & \tau_{xz} \\
+    \tau_{yx} & -p + \tau_{yy} & \tau_{yz} \\
+    \tau_{zx} & \tau_{zy} & -p + \tau_{zz}
   \end{bmatrix}
 \end{equation}
 
@@ -1241,6 +1334,114 @@ Written out explicitly, we get:
 %\newpage
 %\section{Surface gravity waves}
 
+\newpage
+\appendix
+
+\section{Quick reference}
+
+This section serves a quick reference for the key equations used in this book.\\
+
+\textbf{Gradient:}
+
+\begin{equation}
+  \nabla = \frac{\partial}{\partial x} \mathbf{i} + \frac{\partial}{\partial y} \mathbf{j} + \frac{\partial}{\partial z} \mathbf{k}
+\end{equation}
+
+\textbf{Divergence:}
+
+\begin{equation}
+  \nabla \cdot \mathbf{u} = \frac{\partial u}{\partial x} + \frac{\partial v}{\partial y} + \frac{\partial w}{\partial z}
+\end{equation}
+
+\textbf{Curl:}
+
+\begin{equation}
+  \nabla \times \mathbf{u} = \left( \frac{\partial w}{\partial y} - \frac{\partial v}{\partial z} \right) \mathbf{i} + \left( \frac{\partial u}{\partial z} - \frac{\partial w}{\partial x} \right) \mathbf{j} + \left( \frac{\partial v}{\partial x} - \frac{\partial u}{\partial y} \right) \mathbf{k}
+\end{equation}
+
+\textbf{Laplacian:}
+
+\begin{equation}
+  \nabla^2 = \frac{\partial^2}{\partial x^2} + \frac{\partial^2}{\partial y^2} + \frac{\partial^2}{\partial z^2}
+\end{equation}
+
+\textbf{Lagrangian derivative operator:}
+
+\begin{equation}
+  \frac{d}{dt} = \frac{\partial}{\partial t} + (\mathbf{u} \cdot \nabla)
+\end{equation}
+
+\textbf{Continuity, Eulerian form:}
+
+\begin{equation}
+  \frac{\partial \rho}{\partial t} + \nabla (\rho \mathbf{u}) = 0
+\end{equation}
+
+\textbf{Continuity, Lagrangian form:}
+
+\begin{equation}
+  \frac{d\rho}{dt} + \rho \nabla \cdot \mathbf{u} = 0
+\end{equation}
+
+\textbf{Momentum, Cauchy:}
+
+\begin{equation}
+  \frac{\partial \mathbf{u}}{\partial t} + (\mathbf{u} \cdot \nabla) \mathbf{u} =
+  \frac{1}{\rho} \nabla \cdot \boldsymbol{\sigma} + \frac{\mathbf{F}_b}{\rho}
+\end{equation}
+
+\textbf{Stress tensor as a combination of pressure and deviatoric stress:}
+
+\begin{equation}
+  \boldsymbol{\sigma} = -p \mathbf{I} + \boldsymbol{\tau}
+\end{equation}
+
+\textbf{Momentum, Euler:}
+
+\begin{equation}
+  \frac{\partial \mathbf{u}}{\partial t} + (\mathbf{u} \cdot \nabla) \mathbf{u} =
+  - \frac{1}{\rho} \nabla p
+\end{equation}
+
+\textbf{Momentum, Navier-Stokes:}
+
+\begin{equation}
+  \frac{\partial \mathbf{u}}{\partial t} + (\mathbf{u} \cdot \nabla) \mathbf{u} =
+  - \frac{1}{\rho} \nabla p + \nu \nabla^2 \mathbf{u} + \frac{\mathbf{F}_b}{\rho}
+\end{equation}
+
+\textbf{Momentum, with body force (gravity):}
+
+\begin{equation}
+  \frac{\partial \mathbf{u}}{\partial t} + (\mathbf{u} \cdot \nabla) \mathbf{u} =
+  - \frac{1}{\rho} \nabla p + \mathbf{g} + \nu \nabla^2 \mathbf{u}
+\end{equation}
+
+\textbf{Momentum, Navier-Stokes, in scalar form:}
+
+\begin{equation}
+  \frac{\partial u}{\partial t} + 
+  u \frac{\partial u}{\partial x} + 
+  v \frac{\partial u}{\partial y} + 
+  w \frac{\partial u}{\partial z} = 
+  - \frac{1}{\rho} \frac{\partial p}{\partial x} + \nu \left( \frac{\partial^2 u}{\partial x^2} + \frac{\partial^2 u}{\partial y^2} + \frac{\partial^2 u}{\partial z^2} \right)
+\end{equation}
+
+\begin{equation}
+  \frac{\partial v}{\partial t} + 
+  u \frac{\partial v}{\partial x} + 
+  v \frac{\partial v}{\partial y} + 
+  w \frac{\partial v}{\partial z} = 
+  - \frac{1}{\rho} \frac{\partial p}{\partial y} + \nu \left( \frac{\partial^2 v}{\partial x^2} + \frac{\partial^2 v}{\partial y^2} + \frac{\partial^2 v}{\partial z^2} \right)
+\end{equation}
+
+\begin{equation}
+  \frac{\partial w}{\partial t} + 
+  u \frac{\partial w}{\partial x} + 
+  v \frac{\partial w}{\partial y} + 
+  w \frac{\partial w}{\partial z} = 
+  - \frac{1}{\rho} \frac{\partial p}{\partial z} - g + \nu \left( \frac{\partial^2 w}{\partial x^2} + \frac{\partial^2 w}{\partial y^2} + \frac{\partial^2 w}{\partial z^2} \right)
+\end{equation}
 
 \printindex
 
