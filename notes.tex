@@ -753,7 +753,7 @@ continuity and motion.
 \end{itemize}
 
 \newpage
-\section{Conservation of mass, momentum, and energy}
+\section{Conservation of mass and momentum}
 
 In this chapter we will derive the fundamental equations for fluid flows:
 continuity, momentum, and energy.
@@ -1089,9 +1089,8 @@ area acting on a surface element that is oriented in the $x$, $y$, and $z$
 directions, respectively.
 The off-diagonal components of the stress tensor represent the shear stress
 components, each acting on all three surfaces.
-For example, $\sigma_{xy}$ represents the shear stress component acting on the
-$x$-oriented surface due to the motion of the fluid in the $y$ direction, and
-vice versa.
+For example, $\sigma_{xy}$ represents the $x$-component of the stress tensor
+acting on the surface that is perpendicular to the $y$-axis.
 Let's write out the stress tensor in Cartesian coordinates:
 
 \begin{equation}
@@ -1253,7 +1252,7 @@ More on these later.
 
 Let's now look at the body forces to conclude our derivation.
 
-\subsection{Gravity}
+\subsubsection{Gravity}
 
 As we mentioned earlier, gravity is the only body force we'll consider here.
 The force of gravity per unit mass is given by $\mathbf{g} = (0, 0, -g)$,
@@ -1292,7 +1291,76 @@ Written out explicitly, we get:
   v \frac{\partial w}{\partial y} + 
   w \frac{\partial w}{\partial z} = 
   - \frac{1}{\rho} \frac{\partial p}{\partial z} - g + \nu \left( \frac{\partial^2 w}{\partial x^2} + \frac{\partial^2 w}{\partial y^2} + \frac{\partial^2 w}{\partial z^2} \right)
+  \label{eq:momentum_navier_stokes_scalar_w}
 \end{equation}
+This completes the full system of momentum conservation equations in the
+Cartesian coordinate system.
+
+\subsection{Hydrostatic approximation}
+
+Take Eq. \ref{eq:momentum_navier_stokes_scalar_w} and assume that the vertical
+acceleration $\frac{dw}{dt}$ is small compared to $g$, and that the spatial
+variations of $w$ are small.
+We can then drop the $\frac{dw}{dt}$ and $\nu \nabla^2 w$ terms to get the
+\textit{hydrostatic approximation}\index{Hydrostatic approximation}:
+
+\begin{equation}
+  \frac{\partial p}{\partial z} = - \rho g
+  \label{eq:hydrostatic_approximation}
+\end{equation}
+which states that the vertical pressure gradient is governed by the density
+of the fluid and the gravitational acceleration.
+It's often a good approximation for large-scale atmospheric and oceanic flows,
+where the vertical variations of the horizontal velocity components are much
+smaller than the horizontal variations of the vertical velocity component.
+Notice however that the hydrostatic approximation does not imply that there
+is no vertical motion or that it does not vary over time.
+Instead, according to the continuity equation (Eq. \ref{eq:continuity_lagrangian}),
+it means that the vertical motion is completely governed by the change in
+density and the divergence of the horizontal velocity field.
+Further, if the flow is incompressible ($\nabla \cdot \mathbf{u} = 0$),
+we get:
+
+\begin{equation}
+  \frac{\partial w}{\partial z} = - \frac{\partial u}{\partial x} - \frac{\partial v}{\partial y}
+  \label{eq:hydrostatic_continuity}
+\end{equation}
+This relationship will prove to be extremely useful in ocean applications where
+only the horizontal velocity field is resolved.
+For example, a group of ocean surface drifters converging towards a region is
+indicative of downwelling (downward motion in the ocean) in that region.
+Another example is that of ocean circulation models, which are typically
+designed as hydrostatic.
+In the case of such models, the horizontal components of the velocity are
+prognostic variables, and the vertical velocity is diagnosed using
+Eq. \ref{eq:hydrostatic_continuity}.
+
+\subsection{Equation of state}
+
+TODO
+
+\subsubsection{In the atmosphere}
+
+Ideal gas law:
+
+\begin{equation}
+  p = \rho R T
+\end{equation}
+where $R$ is the specific gas constant for the gas in question.
+
+TODO
+
+\subsubsection{In the ocean}
+
+Equation of state for seawater:
+
+\begin{equation}
+  \rho = \rho(T, S, p)
+\end{equation}
+
+TODO
+
+\subsection{Nondimensionalization and scaling}
 
 \subsection{Exercises}
 
@@ -1307,6 +1375,14 @@ Written out explicitly, we get:
 
   \item Write a computer program that computes the divergence of a second-order
   tensor in a Cartesian, 3-dimensional coordinate system.
+
+  \item Consider two opposing, horizontal, surface currents along the $x$-axis.
+  They uniformly span a mixed layer that extends from the surface to the
+  depth of 20 meters, with a magnitude of 1 m/s.
+  The two currents meet at a stagnation zone that is 100 meters wide.
+  Calculate the downwelling velocity at the bottom of the mixed layer.
+  Assume $\nabla \cdot \mathbf{u} = 0$ and no flow in the $y$-direction.
+
 \end{enumerate}
 
 \subsection*{Further reading}
