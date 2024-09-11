@@ -1498,7 +1498,69 @@ Equations \ref{eq:momentum_navier_stokes_state},
 \ref{eq:salinity_equation_ocean} are the governing equations used in most
 numerical ocean circulation models.
 
-%\subsection{Nondimensionalization and scaling}
+\subsection{Nondimensionalization and scaling}
+
+A useful technique to simplify the analysis of the governing equations is to
+scale the variables using characteristic values for each of the variables.
+This is known as \textit{nondimensionalization}\index{Nondimensionalization}
+or \textit{scaling the equations}\index{Scaling}.
+In practice, for each (dependent or independent) variable $x$ in the equations,
+we define a characteristic value $X$.
+For example, for the velocity $\mathbf{u}$, we may pick the characteristic
+value of $U = 1\ m\ s^{-1}$ or $U = 10\ m\ s^{-1}$ for the ocean or atmosphere,
+respectively.
+We then divide each term in the equations by the characteristic value to
+obtain a nondimensional (unitless) number.
+This helps us identify the important parameters that govern the behavior of
+the system and to group terms in the equations that are of similar magnitudes.
+This is especially useful for large-scale flows, where the length and time
+scales can vary over several orders of magnitude.
+
+For example, let's look at the vector equation for horizontal momentum
+(thus, ignoring $\mathbf{g}$ for now):
+
+\begin{equation}
+  \frac{\partial \mathbf{u}}{\partial t} + (\mathbf{u} \cdot \nabla) \mathbf{u} =
+  - \frac{1}{\rho} \nabla p + \nu \nabla^2 \mathbf{u}
+\end{equation}
+
+The characteristic scales for each term are:
+
+\begin{equation}
+  \frac{\partial \mathbf{u}}{\partial t} \sim \frac{U}{T}
+\end{equation}
+
+\begin{equation}
+  (\mathbf{u} \cdot \nabla) \mathbf{u} \sim \frac{U^2}{L}
+\end{equation}
+
+\begin{equation}
+  - \frac{1}{\rho} \nabla p \sim \frac{1}{\rho} \frac{P}{L}
+\end{equation}
+
+\begin{equation}
+  \nu \nabla^2 \mathbf{u} \sim \nu \frac{U}{L^2}
+\end{equation}
+where $U$, $T$, $L$, and $P$ are the characteristic scales for the velocity,
+time, length, and pressure, respectively.
+So, if for a given flow we can estimate these characteristic values, we can
+easily determine which terms are important and which can be neglected.
+This is the basis of scaling arguments in fluid mechanics.
+
+This approach also enables characterizing the flows in terms of
+nondimensional numbers.
+For example, to describe how turbulent or laminar a flow is, it's useful to
+relate the inertial to the viscous terms in the momentum equation.
+Their ratio is called the  \textit{Reynolds number}\index{Reynolds number}:
+
+\begin{equation}
+  \frac{(\mathbf{u} \cdot \nabla) \mathbf{u}}{\nu \nabla^2 \mathbf{u}} \sim
+  \frac{\frac{U^2}{L}}{\frac{\nu U}{L^2}} = \frac{UL}{\nu} \equiv \text{Re}
+  \label{eq:reynolds_number}
+\end{equation}
+You see that the Reynolds number is proportional to the velocity and length
+scales each, and inversely proportional to the viscosity.
+A larger Reynolds number corresponds to a more turbulent flow.
 
 \subsection{Exercises}
 
@@ -1511,12 +1573,12 @@ numerical ocean circulation models.
   and discuss their similarities and differences.
   Give examples of flows that are well described by each of these equations.
 
-  \item Write a computer program that computes the divergence of a second-order
+  \item Write a computer program that calculates the divergence of a second-order
   tensor in a Cartesian, 3-dimensional coordinate system.
 
   \item Consider two opposing, horizontal, surface currents along the $x$-axis.
-  They uniformly span a mixed layer that extends from the surface to the
-  depth of 20 meters, with a magnitude of 1 m/s.
+  In the vertical they uniformly span a mixed layer that extends from the
+  surface to the depth of 20 meters, with a magnitude of 1 m s$^{-1}$.
   The two currents meet at a stagnation zone that is 100 meters wide.
   Calculate the downwelling velocity at the bottom of the mixed layer.
   Assume $\nabla \cdot \mathbf{u} = 0$, no change in mean sea level, and no
@@ -1533,8 +1595,16 @@ numerical ocean circulation models.
   and the reference pressure to be $p_0 = 10^5\ Pa$.
   When you implement your function, calculate the density of seawater for the
   range of temperatures from -2 to 30 degrees Celsius, and salinities from 20 to
-  40 g/kg, and plot it a a contour plot as a function of temperature and salinity.
+  40 g/kg, and plot it as a contour plot as a function of temperature and salinity.
   Make such plots for pressure values of $10^5$, $10^6$, and $10^7$ Pa.
+
+  \item Calculate the Reynolds number for:
+  (a) a synoptic-scale mid-latitude cyclone in the atmosphere;
+  (b) an mesoscale ocean eddy;
+  (c) a river inflow into the ocean;
+  (d) a breaking ocean surface wave;
+  (e) water flowing through a pipe with a diameter of 0.1 m and flow speed of 1 m s$^{-1}$.
+  Assume $nu = 10^{-5} m^2 s^{-1}$ for air and $nu = 10^{-6} m^2 s^{-1}$ for water.
 
 \end{enumerate}
 
@@ -1545,11 +1615,11 @@ numerical ocean circulation models.
   \item Sections 4.1-4.6 of \textit{Fluid Mechanics} by Kundu, Cohen, and Dowling
 \end{itemize}
 
-
-%\subsection{Conservation of energy}
+%\newpage
+%\section{Rotating flows}
 
 %\newpage
-%\section{Rotating and stratified flows}
+%\section{Stratified flows}
 
 %\newpage
 %\section{Shallow water equations}
