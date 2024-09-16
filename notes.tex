@@ -267,6 +267,7 @@ the two vectors times the sine of the angle between them:
 
 \begin{equation}
   ||\mathbf{a} \times \mathbf{b}|| = ||\mathbf{a}|| ||\mathbf{b}|| \sin{\theta}
+  \label{eq:cross_product_magnitude}
 \end{equation}
 So, the magnitude of the cross product is largest when the two vectors are
 orthogonal.
@@ -1615,14 +1616,235 @@ A larger Reynolds number corresponds to a more turbulent flow.
   \item Sections 4.1-4.6 of \textit{Fluid Mechanics} by Kundu, Cohen, and Dowling
 \end{itemize}
 
-%\newpage
-%\section{Rotating flows}
+\newpage
+\section{Rotating flows}
+
+Fluids behave somewhat differently when in a rotating reference frame, for
+example on the surface of a rotating planet.
+In this chapter we explore the effects of rotation on the flow.
+We begin by deriving the temporal derivative of a general vector in a rotating
+reference frame, and then apply it to find the velocity and acceleration in such
+a frame.
+From there we derive the centrifugal and Coriolis forces, and discuss their
+implications for geophysical flows.
+
+\subsection{Rate of change of a rotating vector}
+
+Before determining the what the velocity and acceleration should appear like
+in a rotating reference frame (i.e. on the surface of a rotating planet), we
+first need to understand how a vector that is fixed in the rotating frame
+appears to change over time to the observer in the inertial (fixed) frame.
+To do that, consider a vector $\mathbf{C}$ that rotates around an axis at a
+constant angular velocity $\mathbf{\Omega}$ (Fig. \ref{fig:rotating_vector}).
+The angular velocity $\mathbf{\Omega}$ is the rate of change of the angle in
+the plane that is perpendicular to the axis of rotation, and is thus
+$\frac{d\lambda}{dt}$.
+A unit vector $\mathbf{m}$ is oriented in the direction of the rate of change
+of $\mathbf{C}$, and is perpendicular to both $\mathbf{C}$ and $\mathbf{\Omega}$.
+We will assume that $\mathbf{\Omega}$ is constant.
+This is a generally good assumption for the rotation rates of planets, at least
+on time scales that we are interested in.
+A small change in $\mathbf{C}$ can then be expressed as:
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.8\textwidth]{assets/fig_rotating_vector.pdf}
+  \caption{
+    A vector $\mathbf{C}$ rotating at an angular velocity $\mathbf{\Omega}$.
+    It appears to be a constant vector in the rotating frame, whereas in the
+    inertial frame it rotates according to
+    $\left(d\mathbf{C}/dt\right)_I = \mathbf{\Omega} \times \mathbf{C}$.
+    This is Fig. 2.1 in AOFD (Vallis, 2017).
+  }
+  \label{fig:rotating_vector}
+\end{figure}
+
+\begin{equation}
+  \delta \mathbf{C} = |\mathbf{C}| \cos\theta\ \delta \lambda\ \mathbf{m}
+\end{equation}
+The change in $\mathbf{C}$ is thus proportional to:
+its magnitude;
+the cosine of the angle between $\mathbf{C}$ and the horizontal plane
+(\textit{i.e.} the plane perpendicular to $\mathbf{\Omega}$);
+the change in $\lambda$;
+and, the unit vector $\mathbf{m}$.
+Notice now that using the definition of the cross product (Eq. \ref{eq:cross_product_magnitude}),
+we can write the change in $\mathbf{C}$ as:
+
+\begin{equation}
+  \delta \mathbf{C} = |\mathbf{C}| |\mathbf{\Omega}| \sin(\pi/2 - \theta)\ \mathbf{m}\ \delta t =
+  \mathbf{\Omega} \times \mathbf{C}\ \delta t
+\end{equation}
+so the rate of change of a rotating vector, when observed from a fixed, inertial
+frame is the cross product of the angular velocity and the vector itself:
+
+\begin{equation}
+  \left(\frac{d\mathbf{C}}{dt}\right)_I = \mathbf{\Omega} \times \mathbf{C}
+\end{equation}
+Going forward, we will use the subscript $I$ to denote the inertial frame,
+non-rotating reference frame.
+
+Imagine now that you're standing on top of the rotating vector $\mathbf{C}$,
+and are still relative to that rotating reference frame, much like standing
+still on the surface of a rotating planet.
+To you as the observer in the rotating frame, the vector $\mathbf{C}$ appears
+to not change in any way.
+Consider now another vector $\mathbf{B}$ that may change (in direction or
+magnitude, or both) in the rotating reference frame.
+We can then say that the rate of change of $\mathbf{B}$ in the inertial frame
+is the vector sum of its two rates of change:
+The rate of change of $\mathbf{B}$ in the rotating frame, and the rate of
+change of the rotating frame itself:
+
+\begin{equation}
+  \left(\frac{d\mathbf{B}}{dt}\right)_I = \left(\frac{d\mathbf{B}}{dt}\right)_R + \mathbf{\Omega} \times \mathbf{B}
+  \label{eq:rate_of_change_rotating_vector}
+\end{equation}
+
+We now have a useful tool to use to determine the velocity and acceleration in
+a rotating frame, such as that of of the surface of a rotating planet.
+
+\subsection{Velocity and acceleration in a rotating frame}
+
+Consider now a position vector $\mathbf{r}$ that locates a parcel in the rotating
+frame.
+The velocity of the parcel in the inertial frame is then given by the rate of
+change of the position vector.
+Apply Eq. \ref{eq:rate_of_change_rotating_vector} to $\mathbf{r}$ to get:
+
+\begin{equation}
+  \left( \frac{d\mathbf{r}}{dt} \right)_I = \left( \frac{d\mathbf{r}}{dt} \right)_R + \mathbf{\Omega} \times \mathbf{r}
+\end{equation}
+As the time derivative of a position vector is velocity by definition, we can
+write this as:
+
+\begin{equation}
+  \mathbf{u}_I = \mathbf{u}_R + \mathbf{\Omega} \times \mathbf{r}
+  \label{eq:inertial_velocity}
+\end{equation}
+This relates the inertial and rotating velocities.
+Recall that we are interested in accelerations, as it's the acceleration that
+we solve for in the Navier-Stokes equations and relate to the forces that act
+on the fluid.
+We know that the acceleration is the rate of change of velocity, so let's apply
+Eq. \ref{eq:rate_of_change_rotating_vector} to the rotating velocity:
+
+\begin{equation}
+  \left( \frac{d\mathbf{u}_R}{dt} \right)_I = \left( \frac{d\mathbf{u}_R}{dt} \right)_R + \mathbf{\Omega} \times \mathbf{u}_R
+  \label{eq:inertial_acceleration}
+\end{equation}
+Now, use Eq. \ref{eq:inertial_velocity} to substitute for $\mathbf{u}_I$ in
+Eq. \ref{eq:inertial_acceleration}:
+
+\begin{equation}
+  \left( \frac{d\left(\mathbf{u}_I - \mathbf{\Omega} \times \mathbf{r}\right)}{dt} \right)_I = 
+  \left( \frac{d\mathbf{u}_R}{dt} \right)_R + \mathbf{\Omega} \times \mathbf{u}_R
+\end{equation}
+
+\begin{equation}
+  \left( \frac{d \mathbf{u}_I}{dt} \right)_I =
+  \left( \frac{d \mathbf{u}_R}{dt} \right)_R +
+  \mathbf{\Omega} \times \mathbf{u}_R +
+  \frac{d\mathbf{\Omega}}{dt} \times \mathbf{r} +
+  \mathbf{\Omega} \times \left( \frac{d\mathbf{r}}{dt} \right)_I
+  \label{eq:inertial_acceleration_from_rotating}
+\end{equation}
+Recall that:
+
+\begin{equation}
+  \left( \frac{d \mathbf{r}}{dt} \right)_I =
+  \left( \frac{d \mathbf{r}}{dt} \right)_R +
+  \mathbf{\Omega} \times \mathbf{r} =
+  \left( \mathbf{u}_R + \mathbf{\Omega} \times \mathbf{r} \right)
+  \label{eq:inertial_velocity_from_rotating}
+\end{equation}
+If $\mathbf{\Omega}$ is constant, as we have assumed at the beginning,
+inserting Eq. \ref{eq:inertial_velocity_from_rotating} into Eq.
+\ref{eq:inertial_acceleration_from_rotating} yields:
+
+\begin{equation}
+  \left( \frac{d \mathbf{u}_R}{dt} \right)_R =
+  \left( \frac{d \mathbf{u}_I}{dt} \right)_I -
+  2 \mathbf{\Omega} \times \mathbf{u}_R -
+  \mathbf{\Omega} \times \left( \mathbf{\Omega} \times \mathbf{r} \right)
+  \label{eq:rotating_acceleration}
+\end{equation}
+
+The interpretation of the terms in Eq. \ref{eq:rotating_acceleration} is:
+
+\begin{itemize}
+  \item $\left( \frac{d \mathbf{u}_R}{dt} \right)_R$, is the rate of change of
+  the relative velocity as observed in the rotating frame.
+  This is the rate of change of the velocity that you would measure with an
+  anemometer or current meter if position fixed relative to the rotating planet's
+  surface. 
+
+  \item $\left( \frac{d \mathbf{u}_I}{dt} \right)_I$, is the rate of change of
+  the inertial velocity, \textit{i.e.} the velocity as observed in the inertial
+  frame.
+
+  \item $-2 \mathbf{\Omega} \times \mathbf{u}_R$, is the
+  \textit{Coriolis acceleration}\index{Coriolis!acceleration}
+  \index{Acceleration!Coriolis}.
+  The Coriolis acceleration (and correspondingly, the Coriolis force) is
+  responsible for the organized rotation of large-scale atmospheric and oceanic
+  flows.
+  Notice that the Coriolis acceleration is always perpendicular to the relative
+  velocity $\mathbf{u}_R$.
+  This means that whenever we have a flow in a rotating frame, the Coriolis
+  force deflects the flow to the right or the left depending on the orientation
+  of $\Omega$ relative to the plane of the flow (i.e. the deflection is to the
+  right on the northern hemisphere and to the left on the southern hemisphere).
+
+  \item $-\mathbf{\Omega} \times \left( \mathbf{\Omega} \times \mathbf{r} \right)$,
+  is the \textit{centrifugal acceleration}\index{Acceleration!centrifugal}.
+  It's always antiparallel to the position vector $\mathbf{r}$ by definition.
+  Notice also that the centrifugal acceleration is not dependent on the velocity
+  of the parcel, but only on its position and the angular velocity of the
+  rotating frame.
+  This force could then be considered a body force, much like gravity.
+  Indeed, for practical reasons, centrifugal force if often bundled together
+  with gravitational force and expressed as a gradient of the scalar potential
+  $\Phi$:
+  \begin{equation}
+    \mathbf{g} + \mathbf{\Omega} \times \mathbf{\Omega} \times \mathbf{r} \equiv \nabla \Phi
+  \end{equation}
+
+\end{itemize}
+
+%\begin{figure}[h]
+%  \centering
+%  \includegraphics[width=\textwidth]{assets/fig_centrifugal_force.pdf}
+%  \caption{
+%  }
+%  \label{fig:centrifugal_force}
+%\end{figure}
+
+%\subsection{Coriolis and centrifugal forces}
+
+%\subsection{Governing equations in spherical coordinates}
+
+%\begin{figure}[h]
+%  \centering
+%  \includegraphics[width=\textwidth]{assets/fig_spherical_coordinate_system.pdf}
+%  \caption{
+%  }
+%  \label{fig:spherical_coordinate_system}
+%\end{figure}
+
+%\subsection{f-plane approximation}
+
+%\subsection{$\beta$-plane approximation}
+
+%\subsection{Exercises}
+
+%\subsection*{Further reading}
 
 %\newpage
 %\section{Stratified flows}
 
 %\newpage
-%\section{Shallow water equations}
+%\section{Shallow water systems}
 
 %\newpage
 %\section{Boundary layers}
