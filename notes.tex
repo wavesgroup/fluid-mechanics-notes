@@ -1807,38 +1807,53 @@ The interpretation of the terms in Eq. \ref{eq:rotating_acceleration} is:
   with gravitational force and expressed as a gradient of the scalar potential
   $\Phi$:
   \begin{equation}
-    \mathbf{g} + \mathbf{\Omega} \times \mathbf{\Omega} \times \mathbf{r} \equiv \nabla \Phi
+    \mathbf{g} - \mathbf{\Omega} \times \mathbf{\Omega} \times \mathbf{r} \equiv - \nabla \Phi
   \end{equation}
 
 \end{itemize}
 
-%\begin{figure}[h]
-%  \centering
-%  \includegraphics[width=\textwidth]{assets/fig_centrifugal_force.pdf}
-%  \caption{
-%  }
-%  \label{fig:centrifugal_force}
-%\end{figure}
+If we bundle the centrifugal and the gravitational accelerations together and
+express them as a geopotential gradient, we can write our momentum balance with
+the effects of rotation as:
 
-%\subsection{Coriolis and centrifugal forces}
+\begin{equation}
+  \frac{\partial \mathbf{u}}{\partial t} +
+  \left( \mathbf{u} \cdot \nabla \right) \mathbf{u} =
+  - \frac{1}{\rho} \nabla p
+  - \frac{1}{\rho} \nabla \Phi
+  - 2 \mathbf{\Omega} \times \mathbf{u}
+  + \nu \nabla^2 \mathbf{u}
+\end{equation}
 
-%\subsection{Governing equations in spherical coordinates}
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=\textwidth]{assets/fig_centrifugal_force.pdf}
+  \caption{
+  }
+  \label{fig:centrifugal_force}
+\end{figure}
 
-%\begin{figure}[h]
-%  \centering
-%  \includegraphics[width=\textwidth]{assets/fig_spherical_coordinate_system.pdf}
-%  \caption{
-%  }
-%  \label{fig:spherical_coordinate_system}
-%\end{figure}
+\subsection{Governing equations in spherical coordinates}
 
-%\subsection{f-plane approximation}
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.6\textwidth]{assets/fig_spherical_coordinate_system.pdf}
+  \caption{
+  }
+  \label{fig:spherical_coordinate_system}
+\end{figure}
 
-%\subsection{$\beta$-plane approximation}
+\subsection{f-plane approximation}
 
-%\subsection{Exercises}
+\subsection{$\beta$-plane approximation}
 
-%\subsection*{Further reading}
+\subsection{Exercises}
+
+\subsection*{Further reading}
+
+\begin{itemize}
+  \item Chapter 2 of \textit{EAOD} by Vallis
+\end{itemize}
 
 %\newpage
 %\section{Stratified flows}
@@ -1974,6 +1989,48 @@ This section serves a quick reference for the key equations used in this book.\\
 
 \begin{equation}
   \rho = \rho_0 \left[ 1 - \beta_T(T-T_0) + \beta_S(S-S_0) - \beta_p(p-p_0) \right]
+\end{equation}
+
+\textbf{Hydrostatic approximation:}
+
+\begin{equation}
+  \frac{dw}{dt} = 0
+\end{equation}
+
+\begin{equation}
+  \frac{\partial p}{\partial z} = -\rho g
+\end{equation}
+
+\textbf{Rate of change of a rotating vector:}
+
+\begin{equation}
+  \left(\frac{d\mathbf{C}}{dt}\right)_I = \mathbf{\Omega} \times \mathbf{C}
+\end{equation}
+
+\textbf{Rate of change of a rotating vector in a rotating frame:}
+
+\begin{equation}
+  \left(\frac{d\mathbf{B}}{dt}\right)_I = \left(\frac{d\mathbf{B}}{dt}\right)_R + \mathbf{\Omega} \times \mathbf{B}
+\end{equation}
+
+\textbf{Rate of change of velocity in a rotating frame:}
+
+\begin{equation}
+  \left( \frac{d \mathbf{u}_R}{dt} \right)_R =
+  \left( \frac{d \mathbf{u}_I}{dt} \right)_I -
+  2 \mathbf{\Omega} \times \mathbf{u}_R -
+  \mathbf{\Omega} \times \left( \mathbf{\Omega} \times \mathbf{r} \right)
+\end{equation}
+
+\textbf{Navier-Stokes equation with rotation:}
+
+\begin{equation}
+  \frac{\partial \mathbf{u}}{\partial t} +
+  \left( \mathbf{u} \cdot \nabla \right) \mathbf{u} =
+  - \frac{1}{\rho} \nabla p
+  - \frac{1}{\rho} \nabla \Phi
+  - 2 \mathbf{\Omega} \times \mathbf{u}
+  + \nu \nabla^2 \mathbf{u}
 \end{equation}
 
 \printindex
