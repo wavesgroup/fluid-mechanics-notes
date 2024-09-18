@@ -1444,7 +1444,7 @@ Instead, we assume that the ocean is a single-component fluid, and we use the
 density field $\rho$ as the equation of state.
 \begin{equation}
   \rho = \rho(T, S, p) \\
-  = \rho_0 \left[ 1 - \beta_T(T-T_0) + \beta_S(S-S_0) - \beta_p(p-p_0) \right]
+  = \rho_0 \left[ 1 - \beta_T(T-T_0) + \beta_S(S-S_0) + \beta_p(p-p_0) \right]
   \label{eq:equation_of_state_ocean}
 \end{equation}
 where $\rho_0$ is the reference density at the reference temperature $T_0$,
@@ -2006,9 +2006,13 @@ where $f_0 = 2\Omega \sin\theta_0$ and $\beta = \partial f/\partial y = (2\Omega
 \subsection{Exercises}
 
 \begin{enumerate}
+  \item Calculate the effective gravity at the Earth's Equator, poles, and 45 degrees
+  latitude, taking into effect centrifugal acceleration.
   \item Using scale analysis, show that on geophysical scales the vertical
   component of the Coriolis force is negligible compared to the other terms
   in the momentum equation.
+  \item Derive the Coriolis parameter $f$ on the $\beta$-plane assuming small
+  variation in latitude $\theta$ around the constant $\theta_0$ at which $f = f_0$.
 \end{enumerate}
 
 \subsection*{Further reading}
@@ -2193,6 +2197,28 @@ This section serves a quick reference for the key equations used in this book.\\
   - \frac{1}{\rho} \nabla \Phi
   - 2 \mathbf{\Omega} \times \mathbf{u}
   + \nu \nabla^2 \mathbf{u}
+\end{equation}
+
+\textbf{Coriolis parameter:}
+
+\begin{equation}
+  f = 2 \Omega \sin(\theta)
+\end{equation}
+
+\textbf{$f$-plane approximation:}
+
+\begin{equation}
+  f = f_0 = 2 \Omega \sin(\theta_0)
+\end{equation}
+
+\textbf{$\beta$-plane approximation:}
+
+\begin{equation}
+  f = f_0 + \beta y
+\end{equation}
+
+\begin{equation}
+  \beta = \frac{\partial f}{\partial y} = \frac{2\Omega\cos(\theta_0)}{R_E}
 \end{equation}
 
 \printindex
