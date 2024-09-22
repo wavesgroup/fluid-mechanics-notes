@@ -7,6 +7,8 @@
 \usepackage{hyperref}
 \usepackage{makeidx}
 
+\setcounter{tocdepth}{2}
+
 \hypersetup{
     colorlinks=true,
     linkcolor=blue,       % Color for internal links
@@ -1848,18 +1850,6 @@ the effects of rotation as:
   \label{fig:centrifugal_force}
 \end{figure}
 
-%\subsection{Governing equations in spherical coordinates}
-
-%TODO perhaps we'll revisit this if truly needed.
-
-%\begin{figure}[h]
-%  \centering
-%  \includegraphics[width=0.6\textwidth]{assets/fig_spherical_coordinate_system.pdf}
-%  \caption{
-%  }
-%  \label{fig:spherical_coordinate_system}
-%\end{figure}
-
 \subsection{Coriolis force components}
 
 \begin{figure}[h]
@@ -2003,6 +1993,8 @@ f = f_0 + \beta y
 where $f_0 = 2\Omega \sin\theta_0$ and $\beta = \partial f/\partial y = (2\Omega\cos\theta_0) / R_E$
 (where $R_E$ is the radius of the Earth).
 
+\subsection{Geostrophic approximation}
+
 \subsection{Exercises}
 
 \begin{enumerate}
@@ -2018,11 +2010,90 @@ where $f_0 = 2\Omega \sin\theta_0$ and $\beta = \partial f/\partial y = (2\Omega
 \subsection*{Further reading}
 
 \begin{itemize}
-  \item Sections 2.1-2.4 of \textit{EAOD} by Vallis
+  \item Sections 2.1-2.3 of \textit{EAOD} by Vallis
 \end{itemize}
 
-%\newpage
-%\section{Stratified flows}
+\newpage
+\section{Stratified flows}
+
+We derived our equations for mass and momentum conservation and we incorporated
+the effects of rotation.
+We also explored how the density may vary in the vertical according to the
+ideas gas law (in the atmosphere) or the equation of state for seawater.
+We now explore the effects of stratification on the flow and examine the
+common approximations used for large-scale oceanic flows.
+
+\subsection{The Boussinesq equations}
+
+The \textit{Boussinesq approximation}\index{Boussinesq!approximation} is an
+approximation to the full equations of motion.
+It assumes that the density and pressure perturbations are much smaller than
+their means, and when applied to the Navier-Stokes equations, results in the
+\textit{Boussinesq equations}\index{Boussinesq!equations}.
+
+We start by decomposing the density and pressure into the mean and the
+perturbation components:
+
+\begin{equation}
+  \rho = \rho_0 + \delta \rho(x, y, z, t)
+  \label{eq:boussinesq_density}
+\end{equation}
+
+\begin{equation}
+  p = p_0 + \delta p(x, y, z, t)
+  \label{eq:boussinesq_pressure}
+\end{equation}
+where $\rho_0$ and $p_0$ are the mean density and pressure, respectively,
+and $\delta \rho$ and $\delta p$ are their respective perturbations.
+For both quantities, we will require that their perturbations are much smaller
+than the means, \textit{i.e.} $\delta \rho \ll \rho_0$, $\delta p \ll p_0$.
+Since $\rho_0$ and $p_0$ are constant, the hydrostatic approximation is
+trivially satisfied:
+
+\begin{equation}
+  \frac{d p_0}{d z} = - \rho_0 g
+\end{equation}
+
+Let's first apply the Boussinesq approximation to the momentum balance.
+Recall the Navier-Stokes equation with rotation
+(Eq. \ref{eq:momentum_navier_stokes_rotating}), while neglecting the viscosity
+term:
+
+\begin{equation}
+  \frac{d \mathbf{u}}{dt} = - \frac{1}{\rho} \nabla p - f \mathbf{k} \times \mathbf{u} + \mathbf{g}
+\end{equation}
+Apply Eqs. \ref{eq:boussinesq_density}-\ref{eq:boussinesq_pressure} to the
+above equation:
+
+\begin{equation}
+  \left( \rho_0 + \delta \rho \right) \left( \frac{d \mathbf{u}}{dt} + f \mathbf{k} \times \mathbf{u} \right) =
+  - \nabla \left( p_0 + \delta p \right)
+  + \left( \rho_0 + \delta \rho \right) \mathbf{g}
+\end{equation}
+
+\begin{equation}
+  - \nabla \left( p_0 + \delta p \right) =
+  - \nabla \delta p - \frac{\partial p_0}{\partial z} \mathbf{k} = 
+  - \nabla \delta p - \rho_0 \mathbf{g}
+\end{equation}
+Now, recall that $\delta \rho \ll \rho_0$, so we can drop the $\delta \rho$
+on the left-hand side:
+
+\begin{equation}
+  \rho_0 \left( \frac{d \mathbf{u}}{dt} + f \mathbf{k} \times \mathbf{u} \right) =
+  - \nabla \delta p + \delta \rho\ \mathbf{g}
+\end{equation}
+
+\begin{equation}
+  \frac{d \mathbf{u}}{dt} + f \mathbf{k} \times \mathbf{u} =
+  - \frac{1}{\rho_0} \nabla \delta p + \frac{\delta \rho}{\rho_0} \mathbf{g}
+\end{equation}
+We can express $- g \delta \rho / \rho_0$ as $b$, \textit{buoyancy}\index{buoyancy}:
+
+\begin{equation}
+  \frac{d \mathbf{u}}{dt} + f \mathbf{k} \times \mathbf{u} =
+  - \frac{1}{\rho_0} \nabla \delta p + b \mathbf{k}
+\end{equation}
 
 %\newpage
 %\section{Shallow water systems}
