@@ -1299,7 +1299,7 @@ Written out explicitly, we get:
 This completes the full system of momentum conservation equations in the
 Cartesian coordinate system.
 
-\subsection{Hydrostatic approximation}
+\subsection{Hydrostatic balance}
 
 Take Eq. \ref{eq:momentum_navier_stokes_scalar_w} and assume that the vertical
 acceleration $\frac{dw}{dt}$ is small compared to $g$, and that the spatial
@@ -1444,6 +1444,7 @@ Ideal gas law (Eq. \ref{eq:ideal_gas_law}) doesn't apply to liquids and the
 equation of state for seawater is not easily derived.
 Instead, we assume that the ocean is a single-component fluid, and we use the
 density field $\rho$ as the equation of state.
+
 \begin{equation}
   \rho = \rho(T, S, p) \\
   = \rho_0 \left[ 1 - \beta_T(T-T_0) + \beta_S(S-S_0) + \beta_p(p-p_0) \right]
@@ -1502,6 +1503,7 @@ Equations \ref{eq:momentum_navier_stokes_state},
 numerical ocean circulation models.
 
 \subsection{Nondimensionalization and scaling}
+\label{sec:nondimensionalization_and_scaling}
 
 A useful technique to simplify the analysis of the governing equations is to
 scale the variables using characteristic values for each of the variables.
@@ -1607,7 +1609,7 @@ A larger Reynolds number corresponds to a more turbulent flow.
   (c) a river inflow into the ocean;
   (d) a breaking ocean surface wave;
   (e) water flowing through a pipe with a diameter of 0.1 m and flow speed of 1 m s$^{-1}$.
-  Assume $nu = 10^{-5} m^2 s^{-1}$ for air and $nu = 10^{-6} m^2 s^{-1}$ for water.
+  Assume $\nu = 10^{-5} m^2 s^{-1}$ for air and $\nu = 10^{-6} m^2 s^{-1}$ for water.
 
 \end{enumerate}
 
@@ -1993,7 +1995,113 @@ f = f_0 + \beta y
 where $f_0 = 2\Omega \sin\theta_0$ and $\beta = \partial f/\partial y = (2\Omega\cos\theta_0) / R_E$
 (where $R_E$ is the radius of the Earth).
 
-\subsection{Geostrophic approximation}
+\subsection{Geostrophic balance}
+
+Now that we have incorporated the effects of rotation into our equations of motion,
+let's evaluate the scales of the terms in the horizontal momentum equations.
+We will start from Eq. \ref{eq:momentum_navier_stokes_rotating}, use the f-plane
+notation for the Coriolis term, ignore the viscous terms, and drop the gravity
+term as we're looking at the flow in the horizontal plane:
+
+\begin{equation}
+  \frac{\partial \mathbf{u}}{\partial t} +
+  (\mathbf{u} \cdot \nabla) \mathbf{u} +
+  \mathbf{f} \times \mathbf{u} =
+  - \frac{1}{\rho} \nabla p
+\end{equation}
+
+As we did in Section \ref{sec:nondimensionalization_and_scaling}, let's scale
+each term on the left-hand side with their characteristic scales for mesoscale
+ocean flow ($L \sim 10^5\ m$, $T \sim 10^6\ s$, $U \sim 10^{-1}\ m/s$):
+
+\begin{itemize}
+  \item $\frac{\partial \mathbf{u}}{\partial t} \sim \frac{U}{T} \sim 10^{-7}$
+  \item $(\mathbf{u} \cdot \nabla) \mathbf{u} \sim \frac{U^2}{L} \sim 10^{-7}$
+  \item $\mathbf{f} \times \mathbf{u} \sim f_0 U \sim 10^{-6}$
+\end{itemize}
+This means that on these oceanic scales ($L \sim 100\ km$, $T \sim 1\ day$),
+the inertial terms are of the same order of magnitude as the Coriolis term.
+In other words, rotation here is much more important than the local rate of
+change or advection.
+Also, whatever the scale of the pressure gradient term is, it is the only
+term that can balance the rotation.
+Thus, if we can state that the inertial terms can be neglected, we can also
+state:
+
+\begin{equation}
+  \mathbf{f} \times \mathbf{u} \approx - \frac{1}{\rho} \nabla p
+\end{equation}
+or, in scalar component form:
+
+\begin{equation}
+  f u \approx - \frac{1}{\rho} \frac{\partial p}{\partial y}
+\end{equation}
+
+\begin{equation}
+  f v \approx \frac{1}{\rho} \frac{\partial p}{\partial x}
+\end{equation}
+
+This balance is called the
+\textit{geostrophic balance}\index{Geostrophic!balance}\index{Balance!geostrophic},
+and it is a key concept in geophysical fluid dynamics.
+It states that the flow is governed by the balance between the rotation and the
+pressure gradient force.
+Although the geostrophic balance is strictly an approximation and it never holds
+exactly, large scale oceanic ($L \sim 100\ km$ and larger) and atmospheric
+($L \sim 1000\ km$ and larger) flows are often in geostrophic balance.
+For the analysis of geophysical flows at such scales, it is then useful to
+define the \textit{geostrophic velocity}\index{Geostrophic!velocity} as:
+
+\begin{equation}
+  u_g = - \frac{1}{\rho f} \frac{\partial p}{\partial y}
+\end{equation}
+
+\begin{equation}
+  v_g = \frac{1}{\rho f} \frac{\partial p}{\partial x}
+\end{equation}
+Notice that the geostrophic flow is always perpendicular to the pressure gradient,
+which means it is parallel to the isobars (lines of constant pressure).
+This also means that the isobars are streamlines of the geostrophic flow.
+In the northern hemisphere ($f > 0$), the geostrophic flow is cyclonic
+(counter-clockwise) around the low-pressure region and anti-cyclonic
+(clockwise) around the high-pressure region.
+In the southern hemisphere ($f < 0$), it is the opposite.
+A nearly geostrophic flow is illustrated in Fig. \ref{fig:geostrophic_flow}.
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.8\textwidth]{assets/fig_geostrophic_balance.pdf}
+  \caption{
+    Geostrophic flow with a positive value of the Coriolis parameter $f$.
+    Flow is parallel to the lines of constant pressure (isobars).
+    Cyclonic flow is anticlockwise around a low pressure region and
+    anticyclonic flow is clockwise around a high. If $f$ were negative, as in
+    the Southern Hemisphere, (anti)cyclonic flow would be (anti)clockwise.
+    This is Fig. 2.5 in AOFD (Vallis, 2017).
+  }
+  \label{fig:geostrophic_flow}
+\end{figure}
+
+\subsection{Rossby number}
+
+Recall that we required the inertial terms to be much smaller than the Coriolis
+term for the geostrophic approximation to hold.
+Like we did earlier with the Reynolds number to quantify how turbulent a flow is,
+we can define the \textit{Rossby number}\index{Rossby!number} as:
+
+\begin{equation}
+  \text{Ro} \equiv
+  \frac{\text{Advection}}{\text{Rotation}} = 
+  \frac{\left( \mathbf{u} \cdot \nabla \right) \mathbf{u}}{\mathbf{f} \times \mathbf{u}}
+  \approx \frac{\frac{U^2}{L}}{fU}
+  \approx \frac{U}{fL}
+\end{equation}
+Though the Rossby number characterizes the relative importance of rotation in
+the flow, notice that the rotation term is in the denominator.
+The Rossby number is thus small for flows in which rotation dominates over
+advection.
+In general, flows with a Rossby number of 0.1 or smaller are considered
+approximately geostrophically balanced.
 
 \subsection{Exercises}
 
@@ -2054,6 +2162,8 @@ trivially satisfied:
   \frac{d p_0}{d z} = - \rho_0 g
 \end{equation}
 
+\subsection{Momentum balance}
+
 Let's first apply the Boussinesq approximation to the momentum balance.
 Recall the Navier-Stokes equation with rotation
 (Eq. \ref{eq:momentum_navier_stokes_rotating}), while neglecting the viscosity
@@ -2063,10 +2173,10 @@ term:
   \frac{d \mathbf{u}}{dt} = - \frac{1}{\rho} \nabla p - f \mathbf{k} \times \mathbf{u} + \mathbf{g}
 \end{equation}
 Apply Eqs. \ref{eq:boussinesq_density}-\ref{eq:boussinesq_pressure} to the
-above equation:
+above equation to get:
 
 \begin{equation}
-  \left( \rho_0 + \delta \rho \right) \left( \frac{d \mathbf{u}}{dt} + f \mathbf{k} \times \mathbf{u} \right) =
+  \left( \rho_0 + \delta \rho \right) \left( \frac{d \mathbf{u}}{dt} + \mathbf{f} \times \mathbf{u} \right) =
   - \nabla \left( p_0 + \delta p \right)
   + \left( \rho_0 + \delta \rho \right) \mathbf{g}
 \end{equation}
@@ -2080,23 +2190,95 @@ Now, recall that $\delta \rho \ll \rho_0$, so we can drop the $\delta \rho$
 on the left-hand side:
 
 \begin{equation}
-  \rho_0 \left( \frac{d \mathbf{u}}{dt} + f \mathbf{k} \times \mathbf{u} \right) =
+  \rho_0 \left( \frac{d \mathbf{u}}{dt} + \mathbf{f} \times \mathbf{u} \right) =
   - \nabla \delta p + \delta \rho\ \mathbf{g}
 \end{equation}
 
 \begin{equation}
-  \frac{d \mathbf{u}}{dt} + f \mathbf{k} \times \mathbf{u} =
+  \frac{d \mathbf{u}}{dt} + \mathbf{f} \times \mathbf{u} =
   - \frac{1}{\rho_0} \nabla \delta p + \frac{\delta \rho}{\rho_0} \mathbf{g}
 \end{equation}
-We can express $- g \delta \rho / \rho_0$ as $b$, \textit{buoyancy}\index{buoyancy}:
+For convenience of notation, let's now define \textit{buoyancy}\index{buoyancy}
+as $b = - g \delta \rho / \rho_0$, and re-write the above to obtain the
+Boussinesq momentum equation:
 
 \begin{equation}
-  \frac{d \mathbf{u}}{dt} + f \mathbf{k} \times \mathbf{u} =
+  \frac{d \mathbf{u}}{dt} + \mathbf{f} \times \mathbf{u} =
+  - \frac{1}{\rho_0} \nabla \delta p + b \mathbf{k}
+\end{equation}
+This equation states that now that we are in a gradually stratified fluid,
+the gravity term is scaled by $\delta \rho / \rho_0$ to yield the appropriate
+vertical acceleration, and the pressure gradient is due to the relatively
+small perturbations in density $\delta \rho$ around  the mean density $\rho_0$.
+
+\subsection{Continuity}
+
+As we did for the momentum equation, we'll now apply the Boussinesq approximation
+(\textit{i.e.} $\rho = \rho_0 + \delta \rho$, $\delta \rho \ll \rho_0$) to the
+continuity equation.
+Recall the continuity equation in its complete form:
+
+\begin{equation}
+  \frac{d \rho}{dt} + \rho \nabla \cdot \mathbf{u} = 0
+\end{equation}
+Insert Eq. \ref{eq:boussinesq_density} to get:
+
+\begin{equation}
+  \frac{d\delta \rho}{dt} + \left( \rho_0 + \delta \rho \right) \nabla \cdot \mathbf{u} = 0
+\end{equation}
+Then, if we can state that that $d\delta \rho / dt \ll \rho_0 \nabla \cdot \mathbf{u}$,
+which we will for the Boussinesq approximation, we recover the original
+continuity equation for incompressible flows:
+
+\begin{equation}
+  \nabla \cdot \mathbf{u} = 0
+\end{equation}
+Note that we do not say that strictly $d \delta \rho / dt = 0$, but rather that
+we can neglect it in this equation in favor of the velocity divergence term.
+The evolution of $\delta \rho$ is still governed by the evolution of buoyancy,
+which in turn is governed by the evolution of the temperature and salinity fields
+and the equation of state.
+The buoyancy $b = - g \delta \rho / \rho_0$ evolves as:
+
+\begin{equation}
+  \frac{d b}{dt} = \dot{b}
+\end{equation}
+and the equation of state can be expressed in terms of buoyancy:
+
+\begin{equation}
+  b = b(T, S, p)
+\end{equation}
+which is just another form of Eq. \ref{eq:equation_of_state_ocean}.
+
+Finally the temperature and salinity evolve as before, following
+Eqs. \ref{eq:temperature_equation_ocean} and \ref{eq:salinity_equation_ocean},
+respectively.
+
+\subsection{Complete system of equations}
+
+The full system of Boussinesq equations for the ocean are then:
+
+\begin{equation}
+  \frac{d \mathbf{u}}{dt} + \mathbf{f} \times \mathbf{u} =
   - \frac{1}{\rho_0} \nabla \delta p + b \mathbf{k}
 \end{equation}
 
-%\newpage
-%\section{Shallow water systems}
+\begin{equation}
+  \nabla \cdot \mathbf{u} = 0
+\end{equation}
+
+\begin{equation}
+  \frac{d T}{dt} = \dot{T}
+\end{equation}
+
+\begin{equation}
+  \frac{d S}{dt} = \dot{S}
+\end{equation}
+
+\begin{equation}
+  b = b(T, S, p)
+\end{equation}
+
 
 %\newpage
 %\section{Boundary layers}
@@ -2290,6 +2472,28 @@ This section serves a quick reference for the key equations used in this book.\\
 
 \begin{equation}
   \beta = \frac{\partial f}{\partial y} = \frac{2\Omega\cos(\theta_0)}{R_E}
+\end{equation}
+
+\textbf{Geostrophic balance:}
+
+\begin{equation}
+  \mathbf{f} \times \mathbf{u} = - \frac{1}{\rho} \nabla p
+\end{equation}
+
+\textbf{Geostrophic velocity:}
+
+\begin{equation}
+  u_g = - \frac{1}{\rho f} \frac{\partial p}{\partial y}
+\end{equation}
+
+\begin{equation}
+  v_g = \frac{1}{\rho f} \frac{\partial p}{\partial x}
+\end{equation}
+
+\textbf{Rossby number:}
+
+\begin{equation}
+  \text{Ro} \equiv \frac{\left( \mathbf{u} \cdot \nabla \right) \mathbf{u}}{\mathbf{f} \times \mathbf{u}} \approx \frac{U}{fL}
 \end{equation}
 
 \printindex
