@@ -1996,6 +1996,7 @@ where $f_0 = 2\Omega \sin\theta_0$ and $\beta = \partial f/\partial y = (2\Omega
 (where $R_E$ is the radius of the Earth).
 
 \subsection{Geostrophic balance}
+\label{sec:geostrophic_balance}
 
 Now that we have incorporated the effects of rotation into our equations of motion,
 let's evaluate the scales of the terms in the horizontal momentum equations.
@@ -2054,10 +2055,12 @@ define the \textit{geostrophic velocity}\index{Geostrophic!velocity} as:
 
 \begin{equation}
   u_g = - \frac{1}{\rho f} \frac{\partial p}{\partial y}
+  \label{eq:geostrophic_velocity_u}
 \end{equation}
 
 \begin{equation}
   v_g = \frac{1}{\rho f} \frac{\partial p}{\partial x}
+  \label{eq:geostrophic_velocity_v}
 \end{equation}
 Notice that the geostrophic flow is always perpendicular to the pressure gradient,
 which means it is parallel to the isobars (lines of constant pressure).
@@ -2113,12 +2116,17 @@ approximately geostrophically balanced.
   in the momentum equation.
   \item Derive the Coriolis parameter $f$ on the $\beta$-plane assuming small
   variation in latitude $\theta$ around the constant $\theta_0$ at which $f = f_0$.
+  \item Linearized horizontal momentum equations that neglect the pressure
+  gradient force is $\frac{\partial \mathbf{u}}{\partial t} + \mathbf{f} \times \mathbf{u} = 0$.
+  Taking the initial condition $\mathbf{u}(t=0) = [u_0, v_0]$, derive the
+  solution for $\mathbf{u}(t)$ and show that it results in a circular
+  oscillation in the horizontal plane.
 \end{enumerate}
 
 \subsection*{Further reading}
 
 \begin{itemize}
-  \item Sections 2.1-2.3 of \textit{EAOD} by Vallis
+  \item Sections 2.1-2.3 and 3.3 of \textit{EAOD} by Vallis
 \end{itemize}
 
 \newpage
@@ -2146,23 +2154,35 @@ perturbation components:
   \rho = \rho_0 + \delta \rho(x, y, z, t)
   \label{eq:boussinesq_density}
 \end{equation}
+where $\rho_0$ is the mean density and $\delta \rho$ is its perturbation.
+Further, we decompose the pressure as:
 
 \begin{equation}
-  p = p_0 + \delta p(x, y, z, t)
+  p = p_0(z) + \delta p(x, y, z, t)
   \label{eq:boussinesq_pressure}
 \end{equation}
-where $\rho_0$ and $p_0$ are the mean density and pressure, respectively,
-and $\delta \rho$ and $\delta p$ are their respective perturbations.
-For both quantities, we will require that their perturbations are much smaller
-than the means, \textit{i.e.} $\delta \rho \ll \rho_0$, $\delta p \ll p_0$.
-Since $\rho_0$ and $p_0$ are constant, the hydrostatic approximation is
-trivially satisfied:
+where $p_0$ is the horizontally and temporally averaged pressure and $\delta p$
+is its perturbation.
+Unlike in the density decomposition, the mean pressure component is allowed to
+vary in $z$.
+For both quantities, we require that their perturbations are much smaller
+than their respective means, \textit{i.e.} $\delta \rho \ll \rho_0$, $\delta p \ll p_0$.
+In other words, the pressure vary much more in the vertical than in the
+horizontal or over time, and any perturbations in density, including those in
+the vertical, are much smaller than the mean density.
+This approximation can be demonstrated to hold well by using the equation of
+state for seawater (Eq. \ref{eq:equation_of_state_ocean}), for example.
+The hydrostatic approximation for them is trivially satisfied:
 
 \begin{equation}
   \frac{d p_0}{d z} = - \rho_0 g
+  \label{eq:boussinesq_pressure_hydrostatic}
 \end{equation}
 
-\subsection{Momentum balance}
+Now that we've established the approximation we need, let's proceed to apply it
+to our momentum and continuity equations.
+
+\subsubsection{Momentum balance}
 
 Let's first apply the Boussinesq approximation to the momentum balance.
 Recall the Navier-Stokes equation with rotation
@@ -2211,7 +2231,7 @@ the gravity term is scaled by $\delta \rho / \rho_0$ to yield the appropriate
 vertical acceleration, and the pressure gradient is due to the relatively
 small perturbations in density $\delta \rho$ around  the mean density $\rho_0$.
 
-\subsection{Continuity}
+\subsubsection{Continuity}
 
 As we did for the momentum equation, we'll now apply the Boussinesq approximation
 (\textit{i.e.} $\rho = \rho_0 + \delta \rho$, $\delta \rho \ll \rho_0$) to the
@@ -2254,7 +2274,7 @@ Finally the temperature and salinity evolve as before, following
 Eqs. \ref{eq:temperature_equation_ocean} and \ref{eq:salinity_equation_ocean},
 respectively.
 
-\subsection{Complete system of equations}
+\subsubsection{Complete system of equations}
 
 The full system of Boussinesq equations for the ocean are then:
 
@@ -2279,15 +2299,88 @@ The full system of Boussinesq equations for the ocean are then:
   b = b(T, S, p)
 \end{equation}
 
+\subsection{Thermal wind balance}
 
-%\newpage
-%\section{Boundary layers}
+Now that we regard the ocean as a stratified and rotating fluid with a buoyancy
+defined as $b = - g \delta \rho / \rho_0$, an emerging property of the flow
+appears if we combine this fact with the geostrophic balance
+(see Section \ref{sec:geostrophic_balance}).
+Recall the components of geostrophic velocity (Eqs. \ref{eq:geostrophic_u}-\ref{eq:geostrophic_v}):
 
-%\newpage
-%\section{Turbulence}
+\begin{equation}
+  u_g = - \frac{1}{\rho f} \frac{\partial p}{\partial y}
+  \label{eq:geostrophic_u}
+\end{equation}
 
-%\newpage
-%\section{Surface gravity waves}
+\begin{equation}
+  v_g = \frac{1}{\rho f} \frac{\partial p}{\partial x}
+  \label{eq:geostrophic_v}
+\end{equation}
+
+Differentiate each with respect to $z$ to get:
+
+\begin{equation}
+  \frac{\partial u_g}{\partial z} =
+  - \frac{1}{\rho f} \frac{\partial^2 p}{\partial z \partial y} =
+  - \frac{1}{\rho f} \frac{\partial}{\partial y} \left( \frac{\partial p_0}{\partial z} + \frac{\partial \delta p}{\partial z} \right)
+\end{equation}
+
+\begin{equation}
+  \frac{\partial v_g}{\partial z} =
+  \frac{1}{\rho f} \frac{\partial^2 p}{\partial z \partial x} =
+  \frac{1}{\rho f} \frac{\partial}{\partial x} \left( \frac{\partial p_0}{\partial z} + \frac{\partial \delta p}{\partial z} \right)
+\end{equation}
+Applying the hydrostatic approximation (Eq. \ref{eq:boussinesq_pressure_hydrostatic})
+to the above equations, and recalling the definition of buoyancy, we get:
+
+\begin{equation}
+  \frac{\partial u_g}{\partial z} =
+  - \frac{1}{f} \frac{\partial b}{\partial y}
+  \label{eq:thermal_wind_u}
+\end{equation}
+
+\begin{equation}
+  \frac{\partial v_g}{\partial z} =
+  \frac{1}{f} \frac{\partial b}{\partial x}
+  \label{eq:thermal_wind_v}
+\end{equation}
+
+Equations \ref{eq:thermal_wind_u}-\ref{eq:thermal_wind_v} are known as the
+\textit{thermal wind balance}\index{Thermal wind!balance}
+(despite the name, it applies to oceans and atmopsheres alike!).
+It states that the geostrophic velocity must be vertically sheared in the
+presence of a horizontal buoyancy (density) gradient. 
+This is illustrated in Fig. \ref{fig:thermal_wind}.
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.8\textwidth]{assets/fig_thermal_wind.pdf}
+  \caption{
+    The mechanism of thermal wind. A cold fluid is denser than a warm fluid,
+    so by hydrostasy the vertical pressure gradient is greater where the fluid
+    is cold. Thus, pressure gradients form as shown, where "higher" and "lower"
+    mean relative to the average at that height. The horizontal pressure gradients
+    are balanced by the Coriolis force, producing (for $f > 0$) the horizontal
+    winds shown. Only the wind shear is given by the thermal wind.
+    This is Fig. 2.6 in AOFD (Vallis, 2017).
+  }
+  \label{fig:thermal_wind}
+\end{figure}
+
+\subsection{Exercises}
+
+\begin{enumerate}
+  \item Use the liner equation of state for seawater to demonstrate that the
+  variations of density in the ocean are very small compared to the mean
+  density. How large (in percent relative change) are these variations with
+  respect to the changes in temperature, salinity, and pressure in the ocean?
+\end{enumerate}
+
+\subsection{Further reading}
+
+\begin{itemize}
+  \item Chapters 2 and 3 of \textit{EAOD} by Vallis
+\end{itemize}
 
 \newpage
 \appendix
@@ -2494,6 +2587,55 @@ This section serves a quick reference for the key equations used in this book.\\
 
 \begin{equation}
   \text{Ro} \equiv \frac{\left( \mathbf{u} \cdot \nabla \right) \mathbf{u}}{\mathbf{f} \times \mathbf{u}} \approx \frac{U}{fL}
+\end{equation}
+
+\textbf{Boussinesq approximation:}
+
+\begin{equation}
+  \rho = \rho_0 + \delta \rho(x, y, z, t)
+\end{equation}
+
+\begin{equation}
+  p = p_0(z) + \delta p(x, y, z, t)
+\end{equation}
+
+\textbf{Boussinesq equations:}
+
+\begin{equation}
+  \frac{d \mathbf{u}}{dt} + \mathbf{f} \times \mathbf{u} =
+  - \frac{1}{\rho_0} \nabla \delta p + b \mathbf{k}
+\end{equation}
+
+\begin{equation}
+  \nabla \cdot \mathbf{u} = 0
+\end{equation}
+
+\begin{equation}
+  \frac{d T}{dt} = \dot{T}
+\end{equation}
+
+\begin{equation}
+  \frac{d S}{dt} = \dot{S}
+\end{equation}
+
+\begin{equation}
+  b = b(T, S, p)
+\end{equation}
+
+\textbf{Buoyancy:}
+
+\begin{equation}
+  b = - g \frac{\delta \rho}{\rho_0}
+\end{equation}
+
+\textbf{Thermal wind balance:}
+
+\begin{equation}
+  \frac{\partial u_g}{\partial z} = - \frac{1}{f} \frac{\partial b}{\partial y}
+\end{equation}
+
+\begin{equation}
+  \frac{\partial v_g}{\partial z} = \frac{1}{f} \frac{\partial b}{\partial x}
 \end{equation}
 
 \printindex
