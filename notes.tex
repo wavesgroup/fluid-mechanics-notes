@@ -2106,6 +2106,81 @@ advection.
 In general, flows with a Rossby number of 0.1 or smaller are considered
 approximately geostrophically balanced.
 
+\subsection{Inertial oscillations}
+
+An analytical solution to the linearized horizontal momentum equations with
+rotation gives rise to a steady circular motion called the \textit{inertial
+oscillation}\index{Inertial!oscillation}.
+Start from the linearized horizontal momentum equations with rotation
+and with the pressure gradient force neglected:
+
+\begin{equation}
+  \frac{\partial \mathbf{u}}{\partial t} + \mathbf{f} \times \mathbf{u} = 0
+\end{equation}
+In scalar component form, this is:
+
+\begin{equation}
+  \frac{\partial u}{\partial t} + f v = 0
+  \label{eq:inertial_oscillation_dudt}
+\end{equation}
+
+\begin{equation}
+  \frac{\partial v}{\partial t} - f u = 0
+  \label{eq:inertial_oscillation_dvdt}
+\end{equation}
+These two equations are linear but coupled, so we need to decouple them
+first to obtain the equations with one unknown variable each.
+Differentiate each equation with respect to time to get:
+
+\begin{equation}
+  \frac{\partial^2 u}{\partial t^2} + f \frac{\partial v}{\partial t} = 0
+\end{equation}
+
+\begin{equation}
+  \frac{\partial^2 v}{\partial t^2} - f \frac{\partial u}{\partial t} = 0
+\end{equation}
+and then insert Eqs. (\ref{eq:inertial_oscillation_dudt})-(\ref{eq:inertial_oscillation_dvdt})
+into the above to get:
+
+\begin{equation}
+  \frac{\partial^2 u}{\partial t^2} + f^2 u = 0
+\end{equation}
+
+\begin{equation}
+  \frac{\partial^2 v}{\partial t^2} - f^2 v = 0
+\end{equation}
+The equations are now decoupled and each is a second-order, linear, homogeneous,
+ordinary differential equation with constant coefficients.
+The general solution to these equations is:
+
+\begin{equation}
+  u = A \cos(f t) + B \sin(f t)
+\end{equation}
+
+\begin{equation}
+  v = C \cos(f t) + D \sin(f t)
+\end{equation}
+To find the constants $A$, $B$, $C$, and $D$, take the initial conditions for
+the velocity to be $\mathbf{u}(t=0) = [u_0, v_0]$.
+This results in:
+
+\begin{equation}
+  u = u_0 \cos(f t) + v_0 \sin(f t)
+  \label{eq:inertial_oscillation_u}
+\end{equation}
+
+\begin{equation}
+  v = v_0 \cos(f t) - u_0 \sin(f t)
+  \label{eq:inertial_oscillation_v}
+\end{equation}
+These equations describe a circular motion in the horizontal plane with a radius
+of $r_0 = \sqrt{u_0^2 + v_0^2} / f$.
+It can be demonstrated that the motion is circular by integrating the velocities
+(Eqs. \ref{eq:inertial_oscillation_u}-\ref{eq:inertial_oscillation_v}) over time
+to obtain displacements $x(t)$ and $y(t)$ and showing that the displacement
+radius $r = \sqrt{x^2 + y^2}$ is constant, which can only be true for a circular
+motion.
+
 \subsection{Exercises}
 
 \begin{enumerate}
@@ -2116,11 +2191,6 @@ approximately geostrophically balanced.
   in the momentum equation.
   \item Derive the Coriolis parameter $f$ on the $\beta$-plane assuming small
   variation in latitude $\theta$ around the constant $\theta_0$ at which $f = f_0$.
-  \item Linearized horizontal momentum equations that neglect the pressure
-  gradient force is $\frac{\partial \mathbf{u}}{\partial t} + \mathbf{f} \times \mathbf{u} = 0$.
-  Taking the initial condition $\mathbf{u}(t=0) = [u_0, v_0]$, derive the
-  solution for $\mathbf{u}(t)$ and show that it results in a circular
-  oscillation in the horizontal plane.
 \end{enumerate}
 
 \subsection*{Further reading}
@@ -2367,10 +2437,127 @@ This is illustrated in Fig. \ref{fig:thermal_wind}.
   \label{fig:thermal_wind}
 \end{figure}
 
+\subsection{Static instability}
+
+We now consider how a fluid parcel may oscillate when its density is perturbed
+from its resting state and in absence of horizontal flow.
+This allows us to study the vertical motions due to the vertical differences
+in density and in isolation from other processes.
+We will approach this problem by displacing a fluid parcel
+\textit{adiabatically}\index{adiabatic!displacement}
+(i.e. without exchange of heat or mass with the environment) by a small distance
+$\delta z$ and examining how the pressure and gravity forces act on it in response
+(Fig. \ref{fig:static_instability}).
+Recall that in Eq. \ref{eq:boussinesq_density} we allowed for the density
+variations to be much smaller than the mean density, \textit{i.e.}
+$\delta \rho \ll \rho_0$.
+Here we expand the density decomposition to a finer detail, specifically:
+
+\begin{equation}
+  \rho = \rho_0 + \widetilde{\rho}(z) + \delta \rho(x, y, z, t)
+\end{equation}
+where we now differentiate between the mean density $\rho_0$ and the
+vertically-varying environmental density $\widetilde{\rho}(z)$, while the 
+perturbation $\delta \rho$ includes the vertical, horizontal, and temporal
+density variations.
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.8\textwidth]{assets/fig_static_instability.pdf}
+  \caption{
+    A parcel is adiabatically displaced upward from level $z$ to $z + \delta z$.
+    A tilde denotes the value in the environment, and variables without tildes
+    are those in the parcel.
+    The parcel preserves its potential density, $\rho_\theta$, which it takes
+    from the environment at level $z$.
+    If $z + \delta z$ is the reference level, the potential density there is
+    equal to the actual density.
+    The parcel's stability is determined by the difference between its density
+    and the environmental density.
+    If the difference is positive, the displacement is stable, and if negative
+    the displacement is unstable.
+    This is Fig. 2.8 in AOFD (Vallis, 2017).
+  }
+  \label{fig:static_instability}
+\end{figure}
+
+As the fluid parcel is displaced adiabatically, its pressure changes
+instantaneously to assume the same pressure as the environment.
+However, its temperature and salinity do not change instantaneously, resulting
+in a density change.
+To account for the instantaneous change in pressure as the parcel is displaced
+in height, rather than the actual density we need to consider the parcel's
+\textit{potential density}\index{Potential density}, $\rho_\theta$.
+The potential density is the density the parcel would have if it were returned
+to the level where the initial pressure was $p_0$:
+
+\begin{equation}
+  \rho_\theta = \rho + \frac{p_0}{c_s^2} = \rho + \frac{\rho_0 g z}{c_s^2}
+  \label{eq:potential_density}
+\end{equation}
+where $c_s^2 = \left| \partial p / \partial \rho \right|_\theta$ is the square of
+the speed of sound in the fluid, which we here assume to be constant and equal
+to $\approx 1500 \, \text{m/s}$.
+$c_s^2$ is also related to the pressure compressibility of the fluid in the
+equation of state for seawater (Eq. \ref{eq:equation_of_state_ocean}),
+$\beta_p = 1/(\rho_0 c_s^2)$.
+Thus, if the parcel ascends or descends adiabatically, without a change in
+temperature or salinity, but allowing it to assume environmental pressure,
+its density will change but its potential density will remain constant.
+Potential density is thus a useful concept for understanding the static stability
+of the fluid.
+
+From Fig. \ref{fig:static_instability}, taking the reference level to be 
+$z + \delta z$, we have:
+
+\begin{equation}
+  \delta \rho = \rho(z + \delta z) - \widetilde{\rho}(z + \delta z) =
+  \rho_\theta(z + \delta z) - \widetilde{\rho}_\theta(z + \delta z) =
+  \widetilde{\rho}_\theta(z) - \widetilde{\rho}_\theta(z + \delta z)  
+\end{equation}
+
+Then, for small $\delta z$:
+
+\begin{equation}
+  \delta \rho = - \frac{\partial \widetilde{\rho}_\theta}{\partial z} \delta z
+\end{equation}
+
+The parcel's static stability is thus determined by the vertical gradient of
+the locally-referenced potential density of the environment,
+$\widetilde{\rho_\theta}$:
+
+\begin{equation}
+  \frac{\partial \widetilde{\rho}_\theta}{\partial z} < 0 \quad \text{(statically stable)}
+\end{equation}
+
+\begin{equation}
+  \frac{\partial \widetilde{\rho}_\theta}{\partial z} > 0 \quad \text{(statically unstable)}
+\end{equation}
+
+Now, to determine the oscillatory motion of the parcel, we apply Newton's second
+law and balance the acceleration of the parcel with the buoyancy force:
+
+\begin{equation}
+  \frac{\partial^2 \delta z}{\partial t^2} = \frac{g}{\rho} \left( \frac{\partial \widetilde{\rho}_\theta}{\partial z} \right) \delta z =
+  - N^2 \delta z
+\end{equation}
+where we have defined the \textit{Brunt-Väisälä frequency}\index{Brunt-Väisälä frequency}
+(or buoyancy frequency) as:
+
+\begin{equation}
+  N^2 = - \frac{g}{\widetilde{\rho}_\theta} \frac{\partial \widetilde{\rho}_\theta}{\partial z} =
+  \frac{d\widetilde{b}}{dz}
+\end{equation}
+while noting that $\rho(z) = \widetilde{\rho}_\theta(z)$ within
+$\mathcal{O}(\delta z)$.
+A parcel displaced from its equilibrium position will oscillate with angular
+frequency $N$ if $N^2 > 0$ (statically stable) and will freely accelerate
+upward if $N^2 < 0$ (statically unstable).
+
 \subsection{Exercises}
 
 \begin{enumerate}
-  \item Use the liner equation of state for seawater to demonstrate that the
+  \item Use the linear equation of state for seawater to demonstrate that the
   variations of density in the ocean are very small compared to the mean
   density. How large (in percent relative change) are these variations with
   respect to the changes in temperature, salinity, and pressure in the ocean?
@@ -2636,6 +2823,28 @@ This section serves a quick reference for the key equations used in this book.\\
 
 \begin{equation}
   \frac{\partial v_g}{\partial z} = \frac{1}{f} \frac{\partial b}{\partial x}
+\end{equation}
+
+\textbf{Potential density:}
+
+\begin{equation}
+  \rho_\theta = \rho + \frac{\rho0 g z}{c_s^2}
+\end{equation}
+
+\textbf{Brunt-Väisälä (buoyancy) frequency:}
+
+\begin{equation}
+  N^2 = - \frac{g}{\widetilde{\rho}_\theta} \frac{\partial \widetilde{\rho}_\theta}{\partial z}
+\end{equation}
+
+\textbf{Static instability:}
+
+\begin{equation}
+  \frac{\partial \widetilde{\rho}_\theta}{\partial z} < 0 \quad \text{(stable)}
+\end{equation}
+
+\begin{equation}
+  \frac{\partial \widetilde{\rho}_\theta}{\partial z} > 0 \quad \text{(unstable)}
 \end{equation}
 
 \printindex
