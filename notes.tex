@@ -2563,11 +2563,184 @@ upward if $N^2 < 0$ (statically unstable).
   respect to the changes in temperature, salinity, and pressure in the ocean?
 \end{enumerate}
 
-\subsection{Further reading}
+\subsection*{Further reading}
 
 \begin{itemize}
   \item Chapters 2 and 3 of \textit{EAOD} by Vallis
 \end{itemize}
+
+\newpage
+\section{Shallow water systems}
+\label{sec:shallow_water_systems}
+
+In this chapter we move away from the continuously stratified ocean and
+approximate it to a single layer of incompressible fluid that is also in
+hydrostatic balance.
+It turns out that this seemingly drastic approximation still allows the
+reduced equation set to reproduce many observed large scale oceanic and
+atmospheric phenomena.
+In fact, the shallow water system of equations is the basis for some operational
+ocean prediction models, especially if applied to the nearshore and coastal
+ocean.
+We begin by introducing the key assumptions that allow the derivation of the
+shallow water equations, and after that we derive the general solutions to the
+equations.
+
+\subsection{Key assumptions}
+
+The name "shallow water" may be revealing about the approximations that we will
+make about the flow:
+
+\begin{enumerate}
+  \item \textbf{Shallow:} The vertical scale of the flow is much smaller than the
+    horizontal scale. Although this doesn't mean that there is no vertical
+    flow, it does mean that the horizontal flow is much larger,
+    \textit{i.e.} $u, v \gg w$.
+  \item \textbf{Water:} The flow is incompressible, \textit{i.e.}
+  $\nabla \cdot \mathbf{u} = 0$.
+\end{enumerate}
+As a consequence of the above approximations, our flow will also be hydrostatic,
+\textit{i.e.} $\partial p / \partial z = -\rho g$.
+This approximation will show to be instrumental in allowing us to cast the 
+horizontal pressure gradient in terms of the surface elevation only.
+
+The flow can then be described as a thin layer of fluid over a rigid bottom
+that may vary in the horizontal, and with a free surface that can freely
+move in the vertical in response to the flow and incompressibility
+(Fig. \ref{fig:shallow_water1}).
+This layer of fluid may or may not be covered on top by another layer of fluid,
+with its own hydrostatic pressure imposed on the surface.
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.8\textwidth]{assets/fig_shallow_water1.pdf}
+  \caption{
+    A shallow water system.
+    $h$ is the thickness of a water column, $H$ its mean thickness, $\eta$ the
+    height of the free surface and $\eta_b$ is the height of the lower, rigid
+    surface above some arbitrary origin, typically chosen such that the average
+    of $\eta_b$ is zero.
+    $\Delta \eta$ is the deviation free surface height, so we have
+    $\eta = \eta_b + h = H + \Delta \eta$.
+    This is Fig. 3.1 in AOFD (Vallis, 2017).
+  }
+  \label{fig:shallow_water1}
+\end{figure}
+
+\subsection{The shallow water equations}
+
+The shallow water equations consist of the momentum and the continuity
+equations.
+For 2-dimensional horizontal flow, the momentum equation can be expressed as
+a single equation in vector form, or as two scalar equations in $x$ and $y$.
+
+\subsubsection{Momentum equation}
+
+We begin from the vector momentum equation with rotation:
+
+\begin{equation}
+  \frac{d \mathbf{u}}{dt} + \mathbf{f} \times \mathbf{u} =
+  - \frac{1}{\rho} \nabla p + \mathbf{g}
+  \label{eq:shallow_water_momentum1}
+\end{equation}
+In the vertical component of this equation we will neglect the vertical
+acceleration to obtain the hydrostatic balance, as we did previously:
+
+\begin{equation}
+  \frac{\partial p}{\partial z} = -\rho g
+\end{equation}
+We can integrate the hydrostatic balance in $z$ to obtain the pressure as a
+function of height:
+
+\begin{equation}
+  \int_{p(z)}^{p_\eta} dp = - \int_z^\eta \rho g \, dz
+\end{equation}
+where $p_\eta$ is the pressure at $z = \eta$.
+This yields:
+
+\begin{equation}
+  p(z) = p_\eta - \rho g \eta + \rho g z
+\end{equation}
+We will now take a horizontal gradient to both sides and assume for simplicity
+that the horizontal gradient of $p_\eta$ is negligible compared to the other
+terms.
+Further, taking that neither the density nor gravity vary in the horizontal,
+and noting that $z$ as a vertical coordinate cannot vary in the horizontal,
+we get:
+
+\begin{equation}
+  \nabla p = - \rho g \nabla \eta
+  \label{eq:shallow_water_momentum2}
+\end{equation}
+Inserting Eq. \ref{eq:shallow_water_momentum2} into
+Eq. \ref{eq:shallow_water_momentum1} to get:
+
+\begin{equation}
+  \frac{d \mathbf{u}}{dt} + \mathbf{f} \times \mathbf{u} =
+  g \nabla \eta
+  \label{eq:shallow_water_momentum3}
+\end{equation}
+which is the shallow water momentum equation with rotation.
+Let's now proceed to derive the shallow water continuity equation and complete
+the system of equations.
+
+\subsubsection{Continuity equation}
+
+An intuitive approach to deriving the shallow water continuity is to consider
+a column of fluid in a one-dimensional horizontal flow whose spatial variations
+would cause a change in the surface elevation of that column due to the
+incompressibility (Fig. \ref{fig:shallow_water2}).
+Although the bottom surface here is shown to be flat, recall from Fig.
+\ref{fig:shallow_water1} that it doesn't need to be, and the water column height
+$h$ comprises of the water depth (as measured from the rigid bottom to the mean
+water level) plus the deviation of the free surface from the mean water level,
+$\Delta \eta$.
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.8\textwidth]{assets/fig_shallow_water2.pdf}
+  \caption{
+    The mass budget for a column of area $A$ in a shallow water system.
+    There is a non-zero vertical velocity at the top of the column if the mass
+    convergence into the column is non-zero.
+    This is Fig. 3.2 in AOFD (Vallis, 2017).
+  }
+  \label{fig:shallow_water2}
+\end{figure}
+
+The difference between the amount of liquid flowing into and out of the column
+thus must be balanced by a change in the surface elevation of the column:
+
+\begin{equation}
+  u_2 h_2 - u_1 h_1 = \frac{\partial \eta}{\partial t} \Delta x
+\end{equation}
+Rearranging the terms leads to:
+
+\begin{equation}
+  \frac{\partial \eta}{\partial t} = 
+  \frac{u_2 h_2 - u_1 h_1}{\Delta x} \approx
+  \frac{\partial (u h)}{\partial x}
+  \label{eq:shallow_water_continuity1}
+\end{equation}
+Generalized in vector form, this becomes the Eulerian form of the shallow water
+continuity equation:
+
+\begin{equation}
+  \frac{\partial \eta}{\partial t} + \nabla \cdot (h \mathbf{u}) = 0
+  \label{eq:shallow_water_continuity2}
+\end{equation}
+and from there, while noting that $h - \eta$, the mean water depth, does not vary
+in time, the Lagrangian form is:
+
+\begin{equation}
+  \frac{d \eta}{dt} + h \nabla \cdot \mathbf{u} = 0
+  \label{eq:shallow_water_continuity3}
+\end{equation}
+
+\subsection{General solutions}
+
+\subsection{Exercises}
+
 
 \newpage
 \appendix
