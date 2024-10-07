@@ -2627,7 +2627,7 @@ with its own hydrostatic pressure imposed on the surface.
   \label{fig:shallow_water1}
 \end{figure}
 
-\subsection{The shallow water equations}
+\subsection{Shallow water equations}
 
 The shallow water equations consist of the momentum and the continuity
 equations.
@@ -2737,10 +2737,237 @@ in time, the Lagrangian form is:
   \label{eq:shallow_water_continuity3}
 \end{equation}
 
-\subsection{General solutions}
+Alternatively, we can derive the shallow water continuity from the incompressibility
+of the flow:
 
-\subsection{Exercises}
+\begin{equation}
+  \nabla \cdot \mathbf{u} = 
+  \frac{\partial u}{\partial x} + 
+  \frac{\partial v}{\partial y} + 
+  \frac{\partial w}{\partial z} = 0
+\end{equation}
 
+\begin{equation}
+  \frac{\partial w}{\partial z} \approx \frac{w_\eta - w_b}{h} = - \frac{\partial u}{\partial x} - \frac{\partial v}{\partial y}
+\end{equation}
+where $w_\eta$ and $w_b$ are the vertical velocities at the free surface and the
+rigid bottom surface, respectively, and $h$ is, again, the distance of the free
+surface from the bottom.
+$w_b$ must be zero, of course, and $w_\eta = \partial \eta / \partial t$,
+so we get:
+
+\begin{equation}
+  \frac{d \eta}{dt} + h \nabla \cdot \mathbf{u} = 0
+\end{equation}
+which is the Lagrangian form of the shallow water continuity and the same
+equation as Eq. \ref{eq:shallow_water_continuity3}.
+To get the Eulerian form from here, we first need to recognize that
+$d\eta/dt = dh/dt$ because $h = \overline{h} + \eta$, where $\overline{h}$ is the
+mean water depth.
+Then, expanding the Lagrangian derivative, we recover Eq.
+\ref{eq:shallow_water_continuity2}.
+
+\subsubsection{The complete equation set}
+
+The momentum and continuity equations that we derived above form the complete
+set of shallow water equations.
+In vector form, they are:
+
+\begin{equation}
+  \frac{d \mathbf{u}}{dt} + \mathbf{f} \times \mathbf{u} =
+  g \nabla \eta
+  \label{eq:shallow_water_final_momentum}
+\end{equation}
+
+\begin{equation}
+  \frac{\partial \eta}{\partial t} + \nabla \cdot (h \mathbf{u}) = 0
+  \label{eq:shallow_water_final_continuity}
+\end{equation}
+
+And in scalar form, in two dimensions:
+
+\begin{equation}
+  \frac{\partial u}{\partial t} +
+  u \frac{\partial u}{\partial x} +
+  v \frac{\partial u}{\partial y} -
+  f v = 
+  -g \frac{\partial \eta}{\partial x}
+  \label{eq:shallow_water_final_scalar_u}
+\end{equation}
+
+\begin{equation}
+  \frac{\partial v}{\partial t} +
+  u \frac{\partial v}{\partial x} +
+  v \frac{\partial v}{\partial y} +
+  f u =
+  -g \frac{\partial \eta}{\partial y}
+  \label{eq:shallow_water_final_scalar_v}
+\end{equation}
+
+\begin{equation}
+  \frac{\partial \eta}{\partial t} +
+  \frac{\partial (hu)}{\partial x} +
+  \frac{\partial (hv)}{\partial y} = 0
+  \label{eq:shallow_water_final_scalar_eta}
+\end{equation}
+which closes our system of equations.
+In two dimensions, we thus have three equations for the three unknown
+variables $u$, $v$, and $\eta$.
+The flow is inviscid (no friction) but nonlinear (advective term
+$\mathbf{u} \cdot \nabla \mathbf{u}$ is present), so this system of equations
+allows for turbulence but does not dissipate energy.
+Also, notice that the Coriolis force is present but has seamlessly percolated
+from the starting equation without breaking any of the assumptions.
+Thus, to consider shallow water systems in a non-rotating frame, simply drop
+the Coriolis term.
+
+We now proceed to further simplify this equation set to derive a general
+solution for the shallow water equations.
+
+\subsection{General solution}
+
+As we proceed without our intention to derive a solution to the
+equations (\ref{eq:shallow_water_final_scalar_u}-\ref{eq:shallow_water_final_scalar_eta}),
+notice that the nonlinear terms get in the way of an analytical solution.
+To work around this, we will linearize the equations by decomposing the flow
+into a mean and a perturbation:
+
+\begin{equation}
+  h(x, y, t) = H + \eta'(x, y, t)
+\end{equation}
+
+\begin{equation}
+  \mathbf{u}(x, y, t) = \mathbf{U} + \mathbf{u}'(x, y, t)
+\end{equation}
+and since the mean flow in space and time does not vary, and it is by definition
+zero for the fluid at rest, then the velocity field is equal to its perturbation:
+
+\begin{equation}
+  \mathbf{u}(x, y, t) = \mathbf{u}'(x, y, t)
+\end{equation}
+
+Insert these decompositions Eqs. (\ref{eq:shallow_water_final_momentum})
+and (\ref{eq:shallow_water_final_continuity}) to get:
+
+\begin{equation}
+  \frac{\partial \mathbf{u}'}{\partial t} + 
+  \mathbf{u}' \cdot \nabla \mathbf{u}' +
+  \mathbf{f} \times \mathbf{u}' =
+  - g \nabla \left( H + \eta' \right)
+\end{equation}
+
+\begin{equation}
+  \frac{\partial \eta'}{\partial t} + \nabla \cdot \left[ (H + \eta') \mathbf{u}' \right] = 0
+\end{equation}
+Although we do not (and cannot) require that the perturbations on their own
+are small enough to neglect, the products of two perturbations are assumed to
+be.
+This allows us to linearize the equations and obtain:
+
+\begin{equation}
+  \frac{\partial \mathbf{u}'}{\partial t} + 
+  \mathbf{f} \times \mathbf{u}' +
+  g \nabla \eta' = 0
+\end{equation}
+
+\begin{equation}
+  \frac{\partial \eta'}{\partial t} + H \nabla \cdot \mathbf{u}' = 0
+\end{equation}
+Or, in scalar form:
+
+\begin{equation}
+  \frac{\partial u'}{\partial t} - f v' + g \frac{\partial \eta'}{\partial x} = 0
+  \label{eq:swe_linear_u}
+\end{equation}
+
+\begin{equation}
+  \frac{\partial v'}{\partial t} + f u' + g \frac{\partial \eta'}{\partial y} = 0
+  \label{eq:swe_linear_v}
+\end{equation}
+
+\begin{equation}
+  \frac{\partial \eta'}{\partial t} + H \frac{\partial u'}{\partial x} + H \frac{\partial v'}{\partial y} = 0
+  \label{eq:swe_linear_eta}
+\end{equation}
+
+Assume the general solution to have a wave-like form:
+
+\begin{equation}
+  (u, v, \eta) = (\widehat{u}, \widehat{v}, \widehat{\eta}) e^{i(kx + ly - \omega t)}
+\end{equation}
+where $\widehat{u}$, $\widehat{v}$, and $\widehat{\eta}$ are the amplitudes of the
+wave-like perturbations, $k$ and $l$ are the wavenumbers, and $\omega$ is the
+angular frequency.
+Insert the wave form into Eqs. (\ref{eq:swe_linear_u}-\ref{eq:swe_linear_eta})
+to get:
+
+\begin{equation}
+  - i \omega \widehat{u} - f \widehat{v} + i g k \widehat{\eta} = 0
+\end{equation}
+
+\begin{equation}
+  - i \omega \widehat{v} + f \widehat{u} + i g l \widehat{\eta} = 0
+\end{equation}
+
+\begin{equation}
+  - i \omega \widehat{\eta} + i H k \widehat{u} + i H l \widehat{v} = 0
+\end{equation}
+or, in matrix form:
+
+\begin{equation}
+  \begin{bmatrix}
+    - i \omega & - f        & i g k \\
+    f          & - i \omega & i g l \\
+    i H k      & i H l      & - i \omega
+  \end{bmatrix}
+  \begin{bmatrix}
+    \widehat{u} \\
+    \widehat{v} \\
+    \widehat{\eta}
+  \end{bmatrix} = 0
+\end{equation}
+The solution to this system requires that the determinant of the matrix be zero,
+which yields:
+
+\begin{equation}
+  \omega[\omega^2 - f^2 - gH(k^2 + l^2)] = 0
+  \label{eq:swe_determinant}
+\end{equation}
+A trivial solution to this equation is $\omega = 0$, which corresponds to an
+unperturbed, constant flow.
+The other, non-trivial solution is the dispersion relation for shallow water
+gravity waves in a rotating frame:
+
+\begin{equation}
+  \omega = \sqrt{f^2 + gH(k^2 + l^2)}
+  \label{eq:swe_dispersion}
+\end{equation}
+This dispersion relationship connects the frequency to the wavenumber, and we
+see that it scales with the Coriolis frequency $f$ and the gravity wave
+phase speed $\sqrt{gH}$.
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.8\textwidth]{assets/fig_swe_dispersion.pdf}
+  \caption{
+    Dispersion relation for Poincaré waves and non-rotating shallow water
+    waves.
+    Frequency is scaled by the Coriolis frequency $f$, and wavenumber by the
+    inverse deformation radius $\sqrt{gH}/f$.
+    For small wavenumbers the frequency of the Poincaré waves is approximately
+    $f$, and for high wavenumbers is asymptotes to that of non-rotating waves.
+    This is Fig. 3.8 in AOFD (Vallis, 2017).
+  }
+  \label{fig:swe_dispersion}
+\end{figure}
+
+%\subsection{Exercises}
+
+\subsection*{Further reading}
+
+\begin{itemize}
+  \item Chapter 4 of EAOD by Vallis.
+\end{itemize}
 
 \newpage
 \appendix
@@ -3001,7 +3228,7 @@ This section serves a quick reference for the key equations used in this book.\\
 \textbf{Potential density:}
 
 \begin{equation}
-  \rho_\theta = \rho + \frac{\rho0 g z}{c_s^2}
+  \rho_\theta = \rho + \frac{p_0 g z}{c_s^2}
 \end{equation}
 
 \textbf{Brunt-Väisälä (buoyancy) frequency:}
@@ -3018,6 +3245,24 @@ This section serves a quick reference for the key equations used in this book.\\
 
 \begin{equation}
   \frac{\partial \widetilde{\rho}_\theta}{\partial z} > 0 \quad \text{(unstable)}
+\end{equation}
+
+\textbf{Shallow water momentum equation:}
+
+\begin{equation}
+  \frac{d \mathbf{u}}{dt} + \mathbf{f} \times \mathbf{u} = - g \nabla \eta
+\end{equation}
+
+\textbf{Shallow water continuity equation:}
+
+\begin{equation}
+  \frac{\partial \eta}{\partial t} + \nabla \cdot (h \mathbf{u}) = 0
+\end{equation}
+
+\textbf{Shallow water dispersion relation:}
+
+\begin{equation}
+  \omega = \sqrt{f^2 + gH(k^2 + l^2)}
 \end{equation}
 
 \printindex
