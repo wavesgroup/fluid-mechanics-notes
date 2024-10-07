@@ -2656,10 +2656,10 @@ function of height:
   \int_{p(z)}^{p_\eta} dp = - \int_z^\eta \rho g \, dz
 \end{equation}
 where $p_\eta$ is the pressure at $z = \eta$.
-This yields:
+Rearranging the terms after integration yields:
 
 \begin{equation}
-  p(z) = p_\eta - \rho g \eta + \rho g z
+  p(z) = p_\eta + \rho g \eta - \rho g z
 \end{equation}
 We will now take a horizontal gradient to both sides and assume for simplicity
 that the horizontal gradient of $p_\eta$ is negligible compared to the other
@@ -2669,15 +2669,16 @@ and noting that $z$ as a vertical coordinate cannot vary in the horizontal,
 we get:
 
 \begin{equation}
-  \nabla p = - \rho g \nabla \eta
+  \nabla p = \rho g \nabla \eta
   \label{eq:shallow_water_momentum2}
 \end{equation}
 Inserting Eq. \ref{eq:shallow_water_momentum2} into
-Eq. \ref{eq:shallow_water_momentum1} to get:
+Eq. \ref{eq:shallow_water_momentum1}, and taking $\nabla$ to be the horizontal
+divergence going forward, we get:
 
 \begin{equation}
   \frac{d \mathbf{u}}{dt} + \mathbf{f} \times \mathbf{u} =
-  g \nabla \eta
+  - g \nabla \eta
   \label{eq:shallow_water_momentum3}
 \end{equation}
 which is the shallow water momentum equation with rotation.
