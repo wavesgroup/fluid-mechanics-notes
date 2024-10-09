@@ -2777,7 +2777,7 @@ In vector form, they are:
 
 \begin{equation}
   \frac{d \mathbf{u}}{dt} + \mathbf{f} \times \mathbf{u} =
-  g \nabla \eta
+  - g \nabla \eta
   \label{eq:shallow_water_final_momentum}
 \end{equation}
 
@@ -3023,14 +3023,24 @@ and the dispersion relation simplifies to:
   \omega = f
 \end{equation}
 which corresponds to a circular motion with the frequency that exactly equals
-the Coriolis frequency (because $(u, v) = (\widehat{u}, \widehat{v}) e^{i f t}$).
+the Coriolis frequency (because $(u, v) = (\widehat{u}, \widehat{v}) e^{- i f t}$).
 Recall that we already explored this solution by dropping the pressure gradient
 terms in the rotating momentum equations back in Section
 \ref{sec:inertial_oscillations}.
 Here, it comes out as a limiting case from the general solution which we
 couldn't obtain prior to the shallow water approximations and linearization.
 
-%\subsection{Exercises}
+\subsection{Exercises}
+
+\begin{enumerate}
+  \item Assuming shallow water approximation and mid-latitudes, quantify the
+  relative importance of planetary rotation in the flow for (a) wind-generated
+  swell waves, (b) a submesoscale eddy, (c) Gulf Stream, and (d) a synoptic-scale
+  cyclone in the atmosphere.
+  \item Consider characteristic mid-latitude flows on Earth, Jupiter, and Titan.
+  At what spatial scales does the gravity play equal role as the rotation?
+  Assume the shallow water dispersion relationship for your analysis.
+\end{enumerate}
 
 \subsection*{Further reading}
 
