@@ -2107,6 +2107,7 @@ In general, flows with a Rossby number of 0.1 or smaller are considered
 approximately geostrophically balanced.
 
 \subsection{Inertial oscillations}
+\label{sec:inertial_oscillations}
 
 An analytical solution to the linearized horizontal momentum equations with
 rotation gives rise to a steady circular motion called the \textit{inertial
@@ -2946,6 +2947,23 @@ gravity waves in a rotating frame:
 This dispersion relationship connects the frequency to the wavenumber, and we
 see that it scales with the Coriolis frequency $f$ and the gravity wave
 phase speed $\sqrt{gH}$.
+This general solution corresponds to the so-called
+\textit{Poincaré waves}\index{Poincaré waves}, which are the surface gravity
+waves with effects of rotation.
+They are also commonly referred to as
+\textit{inertial-gravity waves}\index{Inertial-gravity waves}.
+Increasing the Coriolis parameter $f$ while keeping the other parameters fixed
+increases the frequency of the waves by enhancing the rotation.
+Similarly, increasing the gravitational acceleration $g$ or the mean water depth
+$H$ increases the frequency of the waves by enhancing the gravity wave phase
+speed.
+Notice also that the frequency $\omega$ scales linearly with the wavenumber
+$k^2 + l^2$, their ratio $\omega / (k^2 + l^2)$ being the phase speed of the
+wave:
+
+\begin{equation}
+  c_p = \frac{\omega}{\sqrt{k^2 + l^2}} = \sqrt{\frac{f^2}{k^2 + l^2} + gH}
+\end{equation}
 
 \begin{figure}[h]
   \centering
@@ -2961,6 +2979,56 @@ phase speed $\sqrt{gH}$.
   }
   \label{fig:swe_dispersion}
 \end{figure}
+
+As there are two independent parameters in Eq. \ref{eq:swe_dispersion} that
+originate from different terms in the shallow water equations, we can turn the
+knobs on each to explore some limiting cases of the general solution.
+
+\subsubsection{Short gravity waves}
+
+In the case of short gravity waves, the pressure gradient terms (and thus,
+gravity) dominate the Coriolis term (rotation):
+
+\begin{equation}
+  gH(k^2 + l^2) \gg f^2
+\end{equation}
+In this case, the dispersion relation simplifies to:
+
+\begin{equation}
+  \omega = \sqrt{gH(k^2 + l^2)}
+\end{equation}
+which is the dispersion relation for (non-rotating) shallow water gravity waves.
+Notice, however, that we don't require there to be no rotation at all to obtain
+the non-rotating gravity waves.
+Rather, we simply require that the waves are so short (high wavenumber) that the
+Coriolis force is negligible compared to the gravity force.
+Real-life examples of this solution include tsunamis, wind-generated swell
+waves on the ocean surface, or small ripples that propagate radially outward
+when throwing a stone into a pond.
+
+\subsubsection{Inertial oscillations}
+\index{Inertial!oscillation}
+
+If the wavenumber is so small (large wavelength) that the gravity term can be
+neglected in favor of the Coriolis term, we recover a class of motion that we
+explored earlier, the inertial oscillations.
+In this case, the rotation dominates over the gravity:
+
+\begin{equation}
+  f^2 \gg gH(k^2 + l^2)
+\end{equation}
+and the dispersion relation simplifies to:
+
+\begin{equation}
+  \omega = f
+\end{equation}
+which corresponds to a circular motion with the frequency that exactly equals
+the Coriolis frequency (because $(u, v) = (\widehat{u}, \widehat{v}) e^{i f t}$).
+Recall that we already explored this solution by dropping the pressure gradient
+terms in the rotating momentum equations back in Section
+\ref{sec:inertial_oscillations}.
+Here, it comes out as a limiting case from the general solution which we
+couldn't obtain prior to the shallow water approximations and linearization.
 
 %\subsection{Exercises}
 
@@ -3260,10 +3328,22 @@ This section serves a quick reference for the key equations used in this book.\\
   \frac{\partial \eta}{\partial t} + \nabla \cdot (h \mathbf{u}) = 0
 \end{equation}
 
-\textbf{Shallow water dispersion relation:}
+\textbf{Inertial-gravity wave dispersion:}
 
 \begin{equation}
   \omega = \sqrt{f^2 + gH(k^2 + l^2)}
+\end{equation}
+
+\textbf{Gravity wave dispersion:}
+
+\begin{equation}
+  \omega = \sqrt{gH(k^2 + l^2)}
+\end{equation}
+
+\textbf{Inertial wave dispersion:}
+
+\begin{equation}
+  \omega = f
 \end{equation}
 
 \printindex
