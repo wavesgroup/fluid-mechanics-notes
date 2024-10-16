@@ -3057,7 +3057,24 @@ couldn't obtain prior to the shallow water approximations and linearization.
 
 \subsection{Conservative properties}
 
+We now look at some conservative properties of the shallow water equations,
+namely the potential vorticity conservation and the conservation of energy.
+The former is a material conservative property, meaning that it is conserved
+along a fluid parcel as it moves and deforms.
+The latter is a volume-integrated conservative property, meaning that it is
+conserved in a control volume as the fluid evolves in time.
+The conservation of potential vorticity yields some interesting emerging
+properties of the flow, such as the vortex stretching due to the change in the
+fluid depth, and the planetary waves due to the meridional variation of the
+planetary vorticity (Coriolis parameter $f$).
+
 \subsubsection{Potential vorticity}
+
+\textit{Potential vorticity} (PV)\index{Potential vorticity} describes the rate
+of rotation of a fluid parcel scaled by the fluid depth.
+It is a material property, meaning that it is conserved along a fluid parcel
+as it moves and deforms.
+Start from the momentum equation with effects of rotation:
 
 \begin{equation}
   \frac{\partial \mathbf{u}}{\partial t} +
@@ -3065,6 +3082,7 @@ couldn't obtain prior to the shallow water approximations and linearization.
   \mathbf{f} \times \mathbf{u} =
   - g \nabla \eta
 \end{equation}
+We will rely on the following vector identity to rewrite the advective term:
 
 \begin{equation}
   \mathbf{u} \cdot \nabla \mathbf{u} =
@@ -3096,8 +3114,9 @@ Next, we use the vector triple product identity:
   \mathbf{u} \nabla \cdot \boldsymbol{\omega}
 \end{equation}
 Since vorticity must be divergence free ($\nabla \cdot \boldsymbol{\omega} = 0$),
-and its always perpendicular to the velocity vector ($\boldsymbol{\omega} \cdot \mathbf{u} = 0$),
-define the vertical component of the vorticity to be:
+and it's perpendicular to the velocity vector ($\boldsymbol{\omega} \cdot \mathbf{u} = 0$),
+the second and the fourth terms vanish.
+Define the vertical component of the vorticity to be:
 
 \begin{equation}
   \zeta = \mathbf{k} \cdot \boldsymbol{\omega}
@@ -3176,35 +3195,40 @@ Start from the definitions of potential and kinetic energy:
 \begin{equation}
   KE = \int_0^h \frac{1}{2} \rho \mathbf{u}^2\ dz = \frac{1}{2} \rho \mathbf{u}^2 h
 \end{equation}
+The total energy is the sum of potential and kinetic energy:
 
+\begin{equation}
+  E = PE + KE = \frac{1}{2} \rho g h^2 + \frac{1}{2} \rho \mathbf{u}^2 h
+\end{equation}
+Let's now proceed to derive the PE and KE equations for the shallow water
+systems.
 Recall the shallow water continuity equation:
 
 \begin{equation}
   \frac{dh}{dt} + h \nabla \cdot \mathbf{u} = 0
 \end{equation}
-Multiply it by $h$ to get:
+Multiply it by $gh$ to get:
 
 \begin{equation}
-  \frac{d}{dt} \left( \frac{h^2}{2} \right) + h^2 \nabla \cdot \mathbf{u} = 0
+  \frac{d}{dt} \left( \frac{gh^2}{2} \right) + gh^2 \nabla \cdot \mathbf{u} = 0
 \end{equation}
 Expand the Lagrangian derivative:
 
 \begin{equation}
-  \frac{\partial}{\partial t} \left( \frac{h^2}{2} \right) +
-  \mathbf{u} \cdot \nabla \left( \frac{h^2}{2} \right) +
-  h^2 \nabla \cdot \mathbf{u} = 0
+  \frac{\partial}{\partial t} \left( \frac{gh^2}{2} \right) +
+  \mathbf{u} \cdot \nabla \left( \frac{gh^2}{2} \right) +
+  gh^2 \nabla \cdot \mathbf{u} = 0
 \end{equation}
 Then, we borrow a half of the third term to combine it with the second term:
 
 \begin{equation}
-  \frac{\partial}{\partial t} \left( \frac{h^2}{2} \right) +
-  \nabla \left( \mathbf{u} \frac{h^2}{2} \right) +
-  \frac{h^2}{2} \nabla \cdot \mathbf{u} = 0
+  \frac{\partial}{\partial t} \left( \frac{gh^2}{2} \right) +
+  \nabla \left( \mathbf{u} \frac{gh^2}{2} \right) +
+  \frac{gh^2}{2} \nabla \cdot \mathbf{u} = 0
   \label{eq:swe_potential_energy}
 \end{equation}
 which is the equation for the evolution of potential energy.
-Note that the density and $\rho$ and gravitational acceleration $g$ are assumed
-constant and are omitted here for brevity.
+Note that the density $\rho$ is assumed constant and is omitted here for brevity.
 
 Next, recall the momentum equation, assuming uniform mean water depth for
 simplicity:
@@ -3259,12 +3283,14 @@ Now, combine Eqs. \ref{eq:swe_potential_energy} and \ref{eq:swe_kinetic_energy} 
   + \nabla \cdot \left[ \mathbf{u} \left( \frac{1}{2} h\mathbf{u}^2 + gh^2\right) \right] = 0
 \end{equation}
 which is the conservation of total energy $E = PE + KE$, and
-$F = \mathbf{u} \left( \frac{1}{2} h\mathbf{u}^2 + gh^2\right)$ is the energy flux
+$\mathbf{F} = \mathbf{u} \left( \frac{1}{2} h\mathbf{u}^2 + gh^2\right)$ is the energy flux
 such that we can write:
 
 \begin{equation}
-  \frac{\partial E}{\partial t} + \nabla \cdot F = 0
+  \frac{\partial E}{\partial t} + \nabla \cdot \mathbf{F} = 0
 \end{equation}
+The total energy of the system $E$ is thus conserved and entirely governed by
+the divergence of the energy flux $\mathbf{F}$.
 
 \subsection{Exercises}
 
@@ -3276,6 +3302,18 @@ such that we can write:
   \item Consider characteristic mid-latitude flows on Earth, Jupiter, and Titan.
   At what spatial scales does the gravity play equal role as the rotation?
   Assume the shallow water dispersion relationship for your analysis.
+  \item Show that the vector identity
+  \begin{equation}
+    \nabla \times (\mathbf{a} \times \mathbf{b}) =
+    (\mathbf{b} \cdot \nabla) \mathbf{a} - (\mathbf{a} \cdot \nabla) \mathbf{b} +
+    \mathbf{a} \nabla \cdot \mathbf{b} - \mathbf{b} \nabla \cdot \mathbf{a}
+  \end{equation}
+  holds for arbitrary vector fields $\mathbf{a}$ and $\mathbf{b}$.
+  \item An ocean eddy with initial relative vorticity $\zeta_0$ begins its
+  journey northward at 30$^\circ$N and depth of 2000 m and travels with the
+  mean flow to 40$^\circ$N and depth of 1000 m.
+  Assuming the potential vorticity of the eddy is conserved, calculate the its
+  final relative vorticity.
 \end{enumerate}
 
 \subsection*{Further reading}
