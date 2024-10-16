@@ -37,18 +37,22 @@
 
 \subsection{What will you learn in this course}
 
-The course aims to provide students with a solid understanding of fluid
-mechanics fundamentals relevant to ocean physics researchers.
+The course aims to provide students with a solid understanding of key fluid
+mechanics concepts that are used in ocean physics research.
+This course will first refresh you on the vector calculus needed to understand
+fluid mechanics, and introduce the Eulerian and Lagrangian views of the flow.
+We then proceed to derive the conservation equations for mass and momentum.
+We will then consider the effects of rotation and stratification, and look
+at some steady solutions of the rotating Navier-Stokes equations.
+Then, we will simplify the flow by looking at it as a thin layer of
+incompressible rotating fluid that flows over a variable bottom topography
+and a free surface.
+From there, we will study turbulence and boundary layers, and complete the
+course with the linear theory of surface gravity waves.
 By the end of the course, you will be proficient in applying fluid mechanical
-concepts and mathematical tools to solve ocean physics research problems.
-The course schedule covers a wide range of topics, starting with a review of
-vector calculus and progressing through fluid kinematics, velocity gradients,
-strain rates, rotation, and stress. It also includes the conservation of
-volume, mass, and momentum, as well as stream functions, velocity potentials,
-and Bernoulli's principle. Advanced topics such as vorticity, boundary layers,
-turbulence, steady Navier-Stokes equations, flow instabilities, rotating and
-stratified flows, and both surface and internal gravity waves are also covered.
-The course concludes with a review and discussion session.
+concepts and mathematical tools to solve many ocean physics research problems.
+It will also prepare you for more specialized courses on turbulence, waves,
+and geophysical fluid dynamics.
 
 \subsection{Reference textbooks}
 
@@ -449,6 +453,27 @@ Curl of a vector field is another vector that is orthogonal to the original
 vector field and quantifies how much the vector field is rotating around a
 point.
 When curl is zero, the vector field is said to be \textit{irrotational}.
+
+\subsubsection{Useful vector identities}
+
+Curl of a gradient of a scalar field is always zero:
+
+\begin{equation}
+  \nabla \times (\nabla T) = 0
+\end{equation}
+Further, divergence of a curl of a vector field is always zero:
+
+\begin{equation}
+  \nabla \cdot (\nabla \times \mathbf{u}) = 0
+\end{equation}
+Finally, curl of a curl of a vector field is:
+
+\begin{equation}
+  \nabla \times (\nabla \times \mathbf{u}) = \nabla (\nabla \cdot \mathbf{u}) - \nabla^2 \mathbf{u}
+\end{equation}
+
+Some of these identities will come handy when we derive the conservation of
+vorticity laws.
 
 \subsection{Gauss and Stokes theorems}
 
@@ -3030,6 +3055,95 @@ terms in the rotating momentum equations back in Section
 Here, it comes out as a limiting case from the general solution which we
 couldn't obtain prior to the shallow water approximations and linearization.
 
+\subsection{Conservative properties}
+
+\subsubsection{Potential vorticity}
+
+\begin{equation}
+  \frac{\partial \mathbf{u}}{\partial t} +
+  \mathbf{u} \cdot \nabla \mathbf{u} +
+  \mathbf{f} \times \mathbf{u} =
+  - g \nabla \eta
+\end{equation}
+
+\begin{equation}
+  \mathbf{u} \cdot \nabla \mathbf{u} =
+  \frac{1}{2} \nabla (\mathbf{u}^2) -
+  \mathbf{u} \times (\nabla \times \mathbf{u})
+\end{equation}
+and recognize $\nabla \times \mathbf{u} = \boldsymbol{\omega}$ as the vorticity
+to rewrite the above as:
+
+\begin{equation}
+  \frac{\partial \mathbf{u}}{\partial t} +
+  \left(\boldsymbol{\omega} + \mathbf{f}\right) \times \mathbf{u} =
+  - g \nabla \left(\eta + \frac{1}{2} \mathbf{u}^2 \right)
+\end{equation}
+Take a curl of this equation to get:
+
+\begin{equation}
+  \frac{\partial (\nabla \times \mathbf{u})}{\partial t} +
+  \nabla \times \left[(\boldsymbol{\omega} + \mathbf{f}) \times \mathbf{u}\right] =
+  - \nabla \times \nabla \left(\eta + \frac{1}{2} \mathbf{u}^2 \right)
+\end{equation}
+Next, we use the vector triple product identity:
+
+\begin{equation}
+  \nabla \times \boldsymbol{\omega} \times \mathbf{u} =
+  (\mathbf{u} \cdot \nabla) \boldsymbol{\omega} -
+  (\boldsymbol{\omega} \cdot \nabla) \mathbf{u} +
+  \boldsymbol{\omega} \nabla \cdot \mathbf{u} -
+  \mathbf{u} \nabla \cdot \boldsymbol{\omega}
+\end{equation}
+Since vorticity must be divergence free ($\nabla \cdot \boldsymbol{\omega} = 0$),
+and $\boldsymbol{\omega}$ is non-divergent
+($(\boldsymbol{\omega} \cdot \nabla) \mathbf{u} = 0$),
+define the vertical component of the vorticity to be:
+
+\begin{equation}
+  \zeta = \mathbf{k} \cdot \boldsymbol{\omega}
+\end{equation}
+to get:
+
+\begin{equation}
+  \frac{\partial \zeta}{\partial t} +
+  \left(\mathbf{u} \cdot \nabla \right) \left(\zeta + f\right) =
+  - \left(\zeta + f\right) \nabla \cdot \mathbf{u}
+\end{equation}
+Recall the continuity equation:
+
+\begin{equation}
+  \frac{dh}{dt} = -h \nabla \cdot \mathbf{u}
+\end{equation}
+Multiply both sides by $(\zeta + f)$ to write:
+
+\begin{equation}
+  \frac{dh}{dt} \frac{\zeta + f}{h} = - \left(\zeta + f\right) \nabla \cdot \mathbf{u}
+\end{equation}
+
+\begin{equation}
+  \frac{d(\zeta + f)}{dt} = \frac{\zeta + f}{h} \frac{dh}{dt}
+\end{equation}
+Then, notice that:
+
+\begin{equation}
+  \frac{d}{dt} \left( \frac{\zeta}{h} \right) =
+  \frac{1}{h} \frac{d\zeta}{dt} +
+  \zeta \frac{d}{dt} \left( \frac{1}{h} \right) =
+  \frac{1}{h} \frac{d\zeta}{dt} -
+  \frac{\zeta}{h^2} \frac{dh}{dt} =
+  \frac{1}{h} \left( \frac{d\zeta}{dt} - \frac{\zeta}{h} \frac{dh}{dt} \right)
+\end{equation}
+which leads to:
+
+\begin{equation}
+  \frac{d}{dt} \left( \frac{\zeta + f}{h} \right) = 0
+\end{equation}
+
+
+\subsubsection{Energy}
+
+
 \subsection{Exercises}
 
 \begin{enumerate}
@@ -3077,6 +3191,18 @@ This section serves a quick reference for the key equations used in this book.\\
 
 \begin{equation}
   \nabla^2 = \frac{\partial^2}{\partial x^2} + \frac{\partial^2}{\partial y^2} + \frac{\partial^2}{\partial z^2}
+\end{equation}
+
+\textbf{Curl of a gradient:}
+
+\begin{equation}
+  \nabla \times (\nabla T) = 0
+\end{equation}
+
+\textbf{Divergence of a curl:}
+
+\begin{equation}
+  \nabla \cdot (\nabla \times \mathbf{u}) = 0
 \end{equation}
 
 \textbf{Lagrangian derivative operator:}
@@ -3354,6 +3480,12 @@ This section serves a quick reference for the key equations used in this book.\\
 
 \begin{equation}
   \omega = f
+\end{equation}
+
+\textbf{Conservation of potential vorticity:}
+
+\begin{equation}
+  \frac{d}{dt} \left( \frac{\zeta + f}{h} \right) = 0
 \end{equation}
 
 \printindex
