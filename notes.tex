@@ -3096,8 +3096,7 @@ Next, we use the vector triple product identity:
   \mathbf{u} \nabla \cdot \boldsymbol{\omega}
 \end{equation}
 Since vorticity must be divergence free ($\nabla \cdot \boldsymbol{\omega} = 0$),
-and $\boldsymbol{\omega}$ is non-divergent
-($(\boldsymbol{\omega} \cdot \nabla) \mathbf{u} = 0$),
+and its always perpendicular to the velocity vector ($\boldsymbol{\omega} \cdot \mathbf{u} = 0$),
 define the vertical component of the vorticity to be:
 
 \begin{equation}
@@ -3138,11 +3137,134 @@ which leads to:
 
 \begin{equation}
   \frac{d}{dt} \left( \frac{\zeta + f}{h} \right) = 0
+  \label{eq:swe_potential_vorticity}
 \end{equation}
+where $(\zeta + f)/h$ is the \textit{potential vorticity}\index{Potential vorticity},
+and Eq. \ref{eq:swe_potential_vorticity} is the conservation of potential
+vorticity.
 
+Let's consider some implications of it.
+First, without planetary rotation ($f = 0$), potential vorticity is $\zeta/h$.
+Imagine a parcel of fluid with some vorticity $\zeta $(for example, a small eddy).
+The eddy propagates zonally over a seamount such that the mean water depth
+gradually decreases.
+As the eddy enters progressively shallower water, its vorticity must increase
+so that the potential vorticity is conserved.
+An cold eddy (with $\zeta > 0$) will thus rotate more rapidly (cyclonically, or
+counter-clockwise in the Northern Hemisphere) as it approaches the tip of the
+seamount where the water is shallowest, and then decrease again as it moves away
+from the tip of the seamount into deeper water.
+Similarly, a warm eddy (with $\zeta < 0$) will weaken its anticyclonic (clockwise)
+rotation as it moves toward the tip of the seamount, and then strengthen it again
+as it moves away from the tip of the seamount into deeper water.
+Another consequence of the conservation of potential vorticity is that on a
+$\beta$-plane, or more generally, a rotating sphere, where the Coriolis
+parameter $f$ varies with latitude, the vorticity of a parcel will adjust to
+meridional displacements and changes in $f$ to conserve potential vorticity.
+The latter mechanism yields the so-called
+\textit{Rossby waves}\index{Rossby waves}, a key feature of mid-latitude weather
+dynamics.
 
 \subsubsection{Energy}
 
+Start from the definitions of potential and kinetic energy:
+
+\begin{equation}
+  PE = \int_0^h \rho g z\ dz = \frac{1}{2} \rho g h^2
+\end{equation}
+
+\begin{equation}
+  KE = \int_0^h \frac{1}{2} \rho \mathbf{u}^2\ dz = \frac{1}{2} \rho \mathbf{u}^2 h
+\end{equation}
+
+Recall the shallow water continuity equation:
+
+\begin{equation}
+  \frac{dh}{dt} + h \nabla \cdot \mathbf{u} = 0
+\end{equation}
+Multiply it by $h$ to get:
+
+\begin{equation}
+  \frac{d}{dt} \left( \frac{h^2}{2} \right) + h^2 \nabla \cdot \mathbf{u} = 0
+\end{equation}
+Expand the Lagrangian derivative:
+
+\begin{equation}
+  \frac{\partial}{\partial t} \left( \frac{h^2}{2} \right) +
+  \mathbf{u} \cdot \nabla \left( \frac{h^2}{2} \right) +
+  h^2 \nabla \cdot \mathbf{u} = 0
+\end{equation}
+Then, we borrow a half of the third term to combine it with the second term:
+
+\begin{equation}
+  \frac{\partial}{\partial t} \left( \frac{h^2}{2} \right) +
+  \nabla \left( \mathbf{u} \frac{h^2}{2} \right) +
+  \frac{h^2}{2} \nabla \cdot \mathbf{u} = 0
+  \label{eq:swe_potential_energy}
+\end{equation}
+which is the equation for the evolution of potential energy.
+Note that the density and $\rho$ and gravitational acceleration $g$ are assumed
+constant and are omitted here for brevity.
+
+Next, recall the momentum equation, assuming uniform mean water depth for
+simplicity:
+
+\begin{equation}
+  \frac{d\mathbf{u}}{dt} = - g \nabla h
+\end{equation}
+Multiply this by $\mathbf{u}$ and re-arrange to get:
+
+\begin{equation}
+  \mathbf{u} h \frac{d\mathbf{u}}{dt} + g\mathbf{u}h\nabla h = 0
+\end{equation}
+
+\begin{equation}
+  \frac{d}{dt} \left( \frac{h \mathbf{u}^2}{2} \right)
+  - \frac{\mathbf{u}^2}{2} \frac{dh}{dt}
+  + g\mathbf{u}\nabla \left(\frac{h^2}{2}\right)
+  = 0
+\end{equation}
+Recall the shallow water continuity to write:
+
+\begin{equation}
+  \frac{d}{dt} \left( \frac{h \mathbf{u}^2}{2} \right)
+  + \frac{h\mathbf{u}^2}{2} \nabla \cdot \mathbf{u}
+  + g\mathbf{u}\nabla \left(\frac{h^2}{2}\right)
+  = 0
+\end{equation}
+Expand the Lagrangian derivative:
+
+\begin{equation}
+  \frac{\partial}{\partial t} \left( \frac{h \mathbf{u}^2}{2} \right)
+  + \mathbf{u} \cdot \nabla \left( \frac{h \mathbf{u}^2}{2} \right)
+  + \frac{h\mathbf{u}^2}{2} \nabla \cdot \mathbf{u}
+  + g\mathbf{u}\nabla \left(\frac{h^2}{2}\right)
+  = 0
+\end{equation}
+and combine the second and third terms to write:
+
+\begin{equation}
+  \frac{\partial}{\partial t} \left( \frac{h \mathbf{u}^2}{2} \right)
+  + \nabla \cdot \left( \mathbf{u} \frac{h \mathbf{u}^2}{2} \right)
+  + g\mathbf{u}\nabla \left(\frac{h^2}{2}\right)
+  = 0
+  \label{eq:swe_kinetic_energy}
+\end{equation}
+which is the equation for the evolution of kinetic energy.
+
+Now, combine Eqs. \ref{eq:swe_potential_energy} and \ref{eq:swe_kinetic_energy} to get:
+
+\begin{equation}
+  \frac{\partial}{\partial t} \frac{1}{2} \left(h\mathbf{u}^2 + gh^2\right)
+  + \nabla \cdot \left[ \mathbf{u} \left( \frac{1}{2} h\mathbf{u}^2 + gh^2\right) \right] = 0
+\end{equation}
+which is the conservation of total energy $E = PE + KE$, and
+$F = \mathbf{u} \left( \frac{1}{2} h\mathbf{u}^2 + gh^2\right)$ is the energy flux
+such that we can write:
+
+\begin{equation}
+  \frac{\partial E}{\partial t} + \nabla \cdot F = 0
+\end{equation}
 
 \subsection{Exercises}
 
