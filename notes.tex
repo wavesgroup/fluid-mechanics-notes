@@ -3103,7 +3103,7 @@ Differentiate Eq. \ref{eq:kelvin_u} with respect to time and Eq. \ref{eq:kelvin_
 with respect to $x$, and combine them to get:
 
 \begin{equation}
-  \frac{\partial^2 u}{\partial t^2} - \sqrt{gH} \frac{\partial^2 u}{\partial x^2} = 0
+  \frac{\partial^2 u}{\partial t^2} - gH \frac{\partial^2 u}{\partial x^2} = 0
 \end{equation}
 which is the standard wave equation, whose solution is a wave that propagates
 with the phase speed $c = \sqrt{gH}$.
@@ -3848,6 +3848,22 @@ This section serves a quick reference for the key equations used in this book.\\
   \omega = f
 \end{equation}
 
+\textbf{Kelvin wave:}
+
+\begin{equation}
+  u = \widehat{u}_0 e^{\frac{y}{L_d}} e^{i(x - \sqrt{gH} t)}
+\end{equation}
+
+\begin{equation}
+  \eta = \sqrt{\frac{H}{g}} \widehat{u}_0 e^{\frac{y}{L_d}} e^{i(x - \sqrt{gH} t)}
+\end{equation}
+
+\textbf{Rossby radius of deformation:}
+
+\begin{equation}
+  L_d = \frac{\sqrt{gH}}{f}
+\end{equation}
+
 \textbf{Conservation of potential vorticity:}
 
 \begin{equation}
@@ -3896,6 +3912,18 @@ This section serves a quick reference for the key equations used in this book.\\
 
 \begin{equation}
   \mathbf{F} = \mathbf{u} \left( \frac{1}{2} h\mathbf{u}^2 + gh^2\right)
+\end{equation}
+
+\textbf{Rossby wave frequency:}
+
+\begin{equation}
+  \omega = Uk - \frac{\beta}{k}
+\end{equation}
+
+\textbf{Rossby wave phase speed:}
+
+\begin{equation}
+  c = U - \frac{\beta}{k^2}
 \end{equation}
 
 \printindex
