@@ -2851,7 +2851,8 @@ the Coriolis term.
 We now proceed to further simplify this equation set to derive a general
 solution for the shallow water equations.
 
-\subsection{General solution}
+\subsection{Poincaré waves}
+\label{sec:poincare_waves}
 
 As we proceed without our intention to derive a solution to the
 equations (\ref{eq:shallow_water_final_scalar_u}-\ref{eq:shallow_water_final_scalar_eta}),
@@ -3054,6 +3055,119 @@ terms in the rotating momentum equations back in Section
 \ref{sec:inertial_oscillations}.
 Here, it comes out as a limiting case from the general solution which we
 couldn't obtain prior to the shallow water approximations and linearization.
+
+\subsection{Kelvin waves}
+
+A special case of the general solution that is particularly relevant to the
+atmospheric and oceanic dynamics is that of a linearized shallow water flow
+that is bounded on one side by a solid boundary, such as a coastline.
+The resulting solution is a special class of gravity waves called
+\textit{Kelvin waves}\index{Kelvin waves}, which propagate as a shallow water
+gravity wave along the solid boundary and whose propagation direction, as well
+as the perturbation scale in the direction away from the boundary, are governed
+by the planetary rotation rate.
+Kelvin waves appear in both the atmosphere and the ocean.
+
+To derive the Kelvin waves, we start from the linearized shallow water equations
+(where we drop the primes for brevity):
+
+\begin{equation}
+  \frac{\partial u}{\partial t} - f v = - g \frac{\partial \eta}{\partial x}
+\end{equation}
+
+\begin{equation}
+  \frac{\partial v}{\partial t} + f u = - g \frac{\partial \eta}{\partial y}
+\end{equation}
+
+\begin{equation}
+  \frac{\partial \eta}{\partial t} + H \left( \frac{\partial u}{\partial x} + \frac{\partial v}{\partial y} \right) = 0
+\end{equation}
+Now, suppose that our solid boundary is along the $x$-axis at $y = 0$, which
+allows us to neglect the meridional flow ($v=0$):
+
+\begin{equation}
+  \frac{\partial u}{\partial t} = - g \frac{\partial \eta}{\partial x}
+  \label{eq:kelvin_u}
+\end{equation}
+
+\begin{equation}
+  f u = - g \frac{\partial \eta}{\partial x}
+  \label{eq:kelvin_v}
+\end{equation}
+
+\begin{equation}
+  \frac{\partial \eta}{\partial t} + H \frac{\partial u}{\partial x} = 0
+  \label{eq:kelvin_eta}
+\end{equation}
+Differentiate Eq. \ref{eq:kelvin_u} with respect to time and Eq. \ref{eq:kelvin_eta}
+with respect to $x$, and combine them to get:
+
+\begin{equation}
+  \frac{\partial^2 u}{\partial t^2} - \sqrt{gH} \frac{\partial^2 u}{\partial x^2} = 0
+\end{equation}
+which is the standard wave equation, whose solution is a wave that propagates
+with the phase speed $c = \sqrt{gH}$.
+We will thus assume a wave-like solution for $u$, like we did for the Poincaré
+waves in Section \ref{sec:poincare_waves}.
+However, since we now have a solid boundary at $y = 0$, we should also assume
+that the solution should vary in the $y$ direction (because it must be zero
+at the boundary, and non-zero elsewhere).
+The general solution for $u$ may be:
+
+\begin{equation}
+  u = \widehat{u}(y) e^{i(k - c t)}
+  \label{eq:kelvin_u_sol}
+\end{equation}
+As for the elevation $\eta$, insert Eq. \ref{eq:kelvin_u_sol} into Eq.
+\ref{eq:kelvin_eta} to get:
+
+\begin{equation}
+  \eta = \sqrt{\frac{g}{H}} \widehat{u}(y) e^{i(k - c t)}
+  \label{eq:kelvin_eta_sol}
+\end{equation}
+We still need to solve for $\widehat{u}(y)$, so we look for the equation that
+has a derivative with respect to $y$.
+So, insert Eqs. \ref{eq:kelvin_u_sol} and \ref{eq:kelvin_eta_sol} into Eq.
+\ref{eq:kelvin_v} to get:
+
+\begin{equation}
+  f \widehat{u}(y) = - \sqrt{\frac{H}{g}} \frac{\partial \widehat{u}(y)}{\partial y}
+\end{equation}
+which integrates to:
+
+\begin{equation}
+  \widehat{u}(y) = \widehat{u}_0 e^{-\frac{y}{L_d}}
+  \label{eq:kelvin_u_sol_y}
+\end{equation}
+where
+
+\begin{equation}
+  L_d = \frac{\sqrt{gH}}{f}
+  \label{eq:rossby_deformation_radius}
+\end{equation}
+is the \textit{Rossby radius of deformation}\index{deformation!Rossby radius}
+\index{Rossby!radius of deformation},
+which is the length scale at which planetary rotation becomes important
+relative to the effects of gravity (or buoyancy, in stratified flows).
+The complete solutions for the shallow water Kelvin waves are then:
+
+\begin{equation}
+  u = \widehat{u}_0 e^{-\frac{y}{L_d}} e^{i(k - c t)}
+\end{equation}
+
+\begin{equation}
+  \eta = \sqrt{\frac{H}{g}} \widehat{u}_0 e^{-\frac{y}{L_d}} e^{i(k - c t)}
+\end{equation}
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.4\textwidth]{assets/fig_kelvin_wave.pdf}
+  \caption{
+    Kelvin waves propagating eastward along the equator and decaying rapidly
+    away to either side.
+    This is Fig. 4.5 in Vallis (EAOD).
+  }
+\end{figure}
 
 \subsection{Conservative properties}
 
@@ -3291,6 +3405,98 @@ such that we can write:
 \end{equation}
 The total energy of the system $E$ is thus conserved and entirely governed by
 the divergence of the energy flux $\mathbf{F}$.
+
+\subsection{Rossby waves}
+
+One emerging pattern from the conservation of potential vorticity arises if
+the planetary vorticity $f$ is allowed to vary with latitude.
+This is true on a sphere where $f = 2 \Omega \sin(\theta)$, or on a $\beta$-plane
+where $f = f_0 + \beta y$.
+This pattern is called \textit{Rossby waves}\index{Rossby waves} (also called
+\textit{planetary waves}\index{Planetary waves}) and is among the most important
+class of motions in both the ocean and the atmosphere.
+
+To derive the solution for Rossby waves, we start from the shallow-water potential
+vorticity conservation equation:
+
+\begin{equation}
+  \frac{d}{dt} \left( \frac{\zeta + f}{h} \right) = 0
+\end{equation}
+To simplify the derivation, we will assume a flat bottom so that
+
+\begin{equation}
+  \frac{d(\zeta + f)}{dt} = 0
+\end{equation}
+Expand the Lagrangian derivative to get:
+
+\begin{equation}
+  \frac{\partial \zeta}{\partial t} + \left(\mathbf{u} \cdot \nabla \right) \zeta + v \beta = 0
+  \label{eq:swe_potential_vorticity_beta}
+\end{equation}
+which is the potential vorticity conservation equation on a $\beta$-plane.
+
+We still have only one equation with two unknowns (relative vorticity $\zeta$
+and velocity $\mathbf{u}$), so we somehow need to reduce them to one unknown
+variable.
+One approach is to introduce a streamfunction $\psi$ such that:
+
+\begin{equation}
+  (u, v) = \left( - \frac{\partial \psi}{\partial y}, \frac{\partial \psi}{\partial x} \right)
+  \label{eq:swe_streamfunction}
+\end{equation}
+We can then express the relative vorticity as:
+
+\begin{equation}
+  \zeta = \frac{\partial v}{\partial x} - \frac{\partial u}{\partial y} =
+  \frac{\partial^2 \psi}{\partial x^2} + \frac{\partial^2 \psi}{\partial y^2}
+  = \nabla^2 \psi
+  \label{eq:swe_relative_vorticity}
+\end{equation}
+Insert Eqs. \ref{eq:swe_streamfunction} and \ref{eq:swe_relative_vorticity}
+into Eq. \ref{eq:swe_potential_vorticity_beta} to get:
+
+\begin{equation}
+  \frac{\partial}{\partial t} \nabla^2 \psi + U \frac{\partial}{\partial x} \nabla^2 \psi + \beta \frac{\partial \psi}{\partial x} = 0
+  \label{eq:swe_streamfunction_beta}
+\end{equation}
+which is the potential vorticity equation on a $\beta$-plane in terms of the
+streamfunction.
+
+As before, assume a wave-like solution but this time for the streamfunction:
+
+\begin{equation}
+  \psi = \widehat{\psi} e^{i(kx - \omega t)}
+\end{equation}
+and insert it into Eq. \ref{eq:swe_streamfunction_beta} to get the dispersion
+relation for Rossby waves:
+
+\begin{equation}
+  \omega = U k - \frac{\beta}{k}
+  \label{eq:swe_rossby_wave_dispersion_1d}
+\end{equation}
+The phase speed of Rossby waves is:
+
+\begin{equation}
+  c = \frac{\omega}{k} = U - \frac{\beta}{k^2}
+  \label{eq:swe_rossby_wave_phase_speed_1d}
+\end{equation}
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=\textwidth]{assets/fig_rossby_wave.pdf}
+  \caption{
+    A two-dimensional (x-y) Rossby wave.
+    An initial disturbance displaces a material line at constant latitude
+    (the straight horizontal line) to the solid line marked $\eta(t=0)$.
+    Conservation of potential vorticity, $\zeta + \beta y$, leads to the
+    production of relative vorticity, $\zeta$, as shown.
+    The associated velocity field (arrows on the circles) then advects the
+    fluid parcels, and the material line evolves into the dashed line with
+    the phase propagating westward.
+    This is Fig. 6.3 in Vallis (EAOD).
+  }
+  \label{fig:swe_rossby_wave}
+\end{figure}
 
 \subsection{Exercises}
 
