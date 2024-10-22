@@ -6,6 +6,9 @@
 \usepackage{graphicx}
 \usepackage{hyperref}
 \usepackage{makeidx}
+\usepackage{listings}
+\usepackage{minted}
+\usemintedstyle{friendly}
 
 \setcounter{tocdepth}{2}
 
@@ -228,6 +231,47 @@ magnitudes.
 It can be useful to think of a dot product as collapsing the two vectors into a
 single number contains contributions from each of their components.
 
+The following listing shows how to compute the dot product of two vectors
+in Python using the built-in arithmetic operators.
+
+\begin{listing}[h]
+\begin{minted}[numbersep=5pt, frame=lines, framesep=2mm]{python}
+import numpy as np
+
+# initialize two vectors; specific values are arbitrary.
+a = np.array([1, 2, 3])
+b = np.array([4, 5, 6])
+
+c = 0  # initialize the result variable
+for i in range(a.size):  # loop over indices of the vector
+    c += a[i] * b[i]  # multiply elements and add to the result
+\end{minted}
+\label{lst:dot_product_arithmetic}
+\end{listing}
+The NumPy library, however, allows element-wise multiplication of vectors,
+which is both more efficient and more concise:
+
+\begin{listing}[h]
+\begin{minted}[numbersep=5pt, frame=lines, framesep=2mm]{python}
+c = np.sum(a * b)  # multiply element-wise and sum up the components
+\end{minted}
+\label{lst:dot_product_numpy}
+\end{listing}
+Even though the dot product is simple to implement, as we did above, NumPy
+provides a function that is even more concise, and likely the most efficient
+way to compute the dot product:
+
+\begin{listing}[h]
+\begin{minted}[numbersep=5pt, frame=lines, framesep=2mm]{python}
+c = np.dot(a, b)
+\end{minted}
+\label{lst:dot_product_numpy_dot}
+\end{listing}
+Although it's important to understand how to implement the fundamental vector
+operations by hand, and do it yourself at least once, in practice it's best to
+use established libraries such as NumPy, as they are well tested and optimized
+for computational efficiency.
+
 \subsubsection{Cross product}
 
 The cross product\index{Product!cross} of two vectors $\mathbf{a}$ and
@@ -236,9 +280,9 @@ $\mathbf{b}$ is defined as:
 \begin{equation}
   \mathbf{a} \times \mathbf{b} =
   det \begin{bmatrix}
+    \mathbf{i} & \mathbf{j} & \mathbf{k} \\
     a_x & a_y & a_z \\
-    b_x & b_y & b_z \\
-    \mathbf{i} & \mathbf{j} & \mathbf{k}
+    b_x & b_y & b_z
   \end{bmatrix}
 \end{equation}
 where $det(\mathbf{M})$ means the \textit{determinant of matrix $\mathbf{M}$}.
