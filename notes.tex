@@ -586,14 +586,6 @@ follows in the remainder of this course.
   Print the values to the screen.
   Is there a difference in how you define them in your program?
 
-  \item Write a program that calculates the dot product of two vectors.
-  Please implement your solution using the basic arithmetic operations such as
-  addition and multiplication.
-  Then, see if your programming language or one of its software libraries
-  provides a function to do this.
-  Can you verify your implementation by comparing its output to that of the
-  library function?
-
   \item What is the dot product of two orthogonal vectors?
   How about the dot product of a vector with itself?
   Please write out the solution step by step.
@@ -3569,8 +3561,85 @@ The phase speed of Rossby waves is:
 \subsection*{Further reading}
 
 \begin{itemize}
-  \item Chapter 4 of EAOD by Vallis.
+  \item Chapter 4 (Shallow water systems) of EAOD by Vallis.
+  \item Section 6.3 (Rossby wave essentials) of EAOD by Vallis.
 \end{itemize}
+
+\newpage
+\section{Turbulence}
+\label{sec:turbulence}
+
+\subsection{Reynolds decomposition}
+\label{sec:reynolds_decomposition}
+
+\begin{equation}
+  \mathbf{u}(x, t) = \overline{\mathbf{u}}(x) + \mathbf{u}'(x, t)
+\end{equation}
+If we take the time average of the above equation, we get:
+
+\begin{equation}
+  \overline{\mathbf{u}(x, t)} = \overline{\overline{\mathbf{u}}(x) + \mathbf{u}'(x, t)}
+\end{equation}
+which leads to:
+
+\begin{equation}
+  \overline{\mathbf{u}'(x, t)} = 0
+\end{equation}
+Although here we have defined the Reynolds decomposition using the velocity
+field, it can be applied to any field variable, vector or scalar alike.
+
+If the flow is incompressible ($\nabla \cdot \mathbf{u} = 0$), then the mean
+flow is incompressible as well:
+
+\begin{equation}
+  \nabla \cdot \overline{\mathbf{u}} = 0
+\end{equation}
+and by definition the fluctuating field must also be divergence-free:
+
+\begin{equation}
+  \nabla \cdot \mathbf{u} = \nabla \cdot (\overline{\mathbf{u}} + \mathbf{u}') =
+  \nabla \cdot \overline{\mathbf{u}} + \nabla \cdot \mathbf{u}' = 0
+\end{equation}
+
+\begin{equation}
+  \nabla \cdot \mathbf{u}' = 0
+\end{equation}
+
+We seek the governing equations for the mean flow that include the effects of
+the fluctuating field (turbulence).
+To do that, let's apply the Reynolds decomposition to the Navier-Stokes equation
+and take the time average of the resulting equation.
+We begin by writing out Eq. (\ref{eq:momentum_navier_stokes}) without the
+body forces, for simplicity (as the body forces won't be affected by the
+Reynolds decomposition):
+
+\begin{equation}
+  \frac{\partial \mathbf{u}}{\partial t} + (\mathbf{u} \cdot \nabla) \mathbf{u} =
+  - \frac{1}{\rho} \nabla p + \nu \nabla^2 \mathbf{u}
+\end{equation}
+The Reynolds decomposition of the advection term is:
+
+\begin{equation}
+  (\mathbf{u} \cdot \nabla) \mathbf{u} =
+  (\overline{\mathbf{u}} \cdot \nabla) \overline{\mathbf{u}} +
+  (\mathbf{u}' \cdot \nabla) \overline{\mathbf{u}} +
+  (\overline{\mathbf{u}} \cdot \nabla) \mathbf{u}' +
+  (\mathbf{u}' \cdot \nabla) \mathbf{u}'
+\end{equation}
+and its time average is:
+
+\begin{equation}
+  \overline{(\mathbf{u} \cdot \nabla) \mathbf{u}} = 
+  (\overline{\mathbf{u}} \cdot \nabla) \overline{\mathbf{u}} +
+  \overline{(\mathbf{u}' \cdot \nabla) \mathbf{u}'}
+\end{equation}
+
+
+\newpage
+\section{Boundary layers}
+
+\newpage
+\section{Surface gravity waves}
 
 \newpage
 \appendix
