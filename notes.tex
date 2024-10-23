@@ -3569,8 +3569,31 @@ The phase speed of Rossby waves is:
 \section{Turbulence}
 \label{sec:turbulence}
 
+Turbulence is the nonlinear and chaotic fluid motion that occurs when a fluid
+is driven by sufficiently strong forces.
+It is characterized by large fluctuations in time and space and over a broad
+range of scales.
+Fluid elements with high vorticity of either sign move and interact with each
+other, transferring energy and vorticity across scales.
+In this chapter, we investigate turbulence from the point of view of the
+governing equations of fluid motion.
+To do that, we begin by introducing the Reynolds decomposition, a fundamental
+tool in the study of turbulence.
+By applying it to the Navier-Stokes equation, we will derive the Reynolds-averaged
+Navier-Stokes (RANS) equation, which describes and predicts the evolution of the
+mean flow while accounting for the effects of turbulence.
+We will discuss the so-called closure problem of turbulence, which is the
+challenge of representing the effects of the smallest scales on the larger scales.
+Using the RANS equation, we will derive the turbulent kinetic energy budget
+equation, and investigate the turbulent cascade in both 2D and 3D flows.
+The new understanding from this chapter will allow us to study the boundary
+layers in the atmosphere and the ocean alike.
+
 \subsection{Reynolds decomposition}
 \label{sec:reynolds_decomposition}
+
+We begin by introducing the decomposition of a field (in this case velocity
+$\mathbf{u}$, a vector field) into the mean and fluctuating parts:
 
 \begin{equation}
   \mathbf{u}(x, t) = \overline{\mathbf{u}}(x) + \mathbf{u}'(x, t)
@@ -3584,6 +3607,20 @@ which leads to:
 
 \begin{equation}
   \overline{\mathbf{u}'(x, t)} = 0
+\end{equation}
+The averaging operation is commutative with respect to derivatives and integrals,
+over space or time alike:
+
+\begin{equation}
+  \overline{\frac{\partial \mathbf{u}}{\partial t}} = \frac{\partial \overline{\mathbf{u}}}{\partial t}
+\end{equation}
+
+\begin{equation}
+  \overline{\nabla \cdot \mathbf{u}} = \nabla \cdot \overline{\mathbf{u}}
+\end{equation}
+
+\begin{equation}
+  \overline{\int \mathbf{u} dt} = \int \overline{\mathbf{u}} dt
 \end{equation}
 Although here we have defined the Reynolds decomposition using the velocity
 field, it can be applied to any field variable, vector or scalar alike.
@@ -3616,24 +3653,108 @@ Reynolds decomposition):
 \begin{equation}
   \frac{\partial \mathbf{u}}{\partial t} + (\mathbf{u} \cdot \nabla) \mathbf{u} =
   - \frac{1}{\rho} \nabla p + \nu \nabla^2 \mathbf{u}
+  \label{eq:ns_reynolds1}
 \end{equation}
-The Reynolds decomposition of the advection term is:
+It's at this time useful to re-cast this equation in the momentum-conservative
+form that is prognostic for the momentum $\rho \mathbf{u}$ rather than just the
+velocity $\mathbf{u}$.
+To do that, multiply Eq. \ref{eq:ns_reynolds1} by $\rho$ to get:
 
 \begin{equation}
-  (\mathbf{u} \cdot \nabla) \mathbf{u} =
-  (\overline{\mathbf{u}} \cdot \nabla) \overline{\mathbf{u}} +
-  (\mathbf{u}' \cdot \nabla) \overline{\mathbf{u}} +
-  (\overline{\mathbf{u}} \cdot \nabla) \mathbf{u}' +
-  (\mathbf{u}' \cdot \nabla) \mathbf{u}'
+  \rho \frac{\partial \mathbf{u}}{\partial t} + (\rho \mathbf{u} \cdot \nabla) \mathbf{u} =
+  - \nabla p + \mu \nabla^2 \mathbf{u}
+  \label{eq:ns_reynolds2}
 \end{equation}
-and its time average is:
+while recalling that the kinematic viscosity $\nu$ is defined as
+$\nu = \mu / \rho$.
+Now, we will use the Eulerian form of the continuity equation
+(Eq. \ref{eq:continuity_eulerian}) to reframe the left-hand side of Eq.
+\ref{eq:ns_reynolds2} in terms of the momentum $\rho \mathbf{u}$:
 
 \begin{equation}
-  \overline{(\mathbf{u} \cdot \nabla) \mathbf{u}} = 
-  (\overline{\mathbf{u}} \cdot \nabla) \overline{\mathbf{u}} +
-  \overline{(\mathbf{u}' \cdot \nabla) \mathbf{u}'}
+\begin{split}
+  \rho \frac{\partial \mathbf{u}}{\partial t} + (\rho \mathbf{u} \cdot \nabla) \mathbf{u} \\
+  = \frac{\partial (\rho \mathbf{u})}{\partial t} - \mathbf{u} \frac{\partial \rho}{\partial t} + (\rho \mathbf{u} \cdot \nabla) \mathbf{u} \\
+  = \frac{\partial (\rho \mathbf{u})}{\partial t} + \mathbf{u} \nabla \cdot (\rho \mathbf{u}) + (\rho \mathbf{u} \cdot \nabla) \mathbf{u} \\
+  = \frac{\partial (\rho \mathbf{u})}{\partial t} + \nabla \cdot (\rho \mathbf{u} \mathbf{u})
+\end{split}
+\end{equation}
+Our momentum equation (Eq. \ref{eq:ns_reynolds2}) can then be written as:
+
+\begin{equation}
+  \frac{\partial (\rho \mathbf{u})}{\partial t} +
+  \nabla \cdot (\rho \mathbf{u} \mathbf{u}) =
+  - \nabla p + \mu \nabla^2 \mathbf{u}
+\end{equation}
+and in case of incompressible flows ($\nabla \cdot \mathbf{u} = 0$):
+
+\begin{equation}
+  \frac{\partial \mathbf{u}}{\partial t} +
+  \nabla \cdot (\mathbf{u} \mathbf{u}) =
+  - \frac{1}{\rho} \nabla p + \nu \nabla^2 \mathbf{u}
+  \label{eq:ns_reynolds3}
+\end{equation}
+We are still describing the full flow with all it turbulent fluctuations.
+Remember that we are interested in the solution for the mean flow that accounts
+for the effects of turbulence, so we need apply the Reynolds decomposition to
+$\mathbf{u}$ and $p$, time average the resulting equation, and notice that
+$\overline{\mathbf{u}'}$ and $\overline{p'}$ are both zero:
+
+\begin{equation}
+  \frac{\partial \overline{\mathbf{u}}}{\partial t} +
+  \nabla \cdot (\overline{\mathbf{u}} \overline{\mathbf{u}}) =
+  - \frac{1}{\rho} \nabla \overline{p} + \nu \nabla^2 \overline{\mathbf{u}}
+\end{equation}
+Let's expand the advective term:
+
+\begin{equation}
+   \nabla \cdot (\overline{\mathbf{u} {\mathbf{u}}}) =
+   \nabla \cdot [\overline{(\overline{\mathbf{u}} + \mathbf{u}')(\overline{\mathbf{u}} + \mathbf{u}')}] =
+   \nabla \cdot (\overline{\overline{\mathbf{u}}\, \overline{\mathbf{u}}} + \overline{\mathbf{u}' \overline{\mathbf{u}}} + \overline{\overline{\mathbf{u}} \mathbf{u}'} + \overline{\mathbf{u}' \mathbf{u}'})
+\end{equation}
+which reduces to:
+
+\begin{equation}
+  \nabla \cdot (\overline{\mathbf{u} \mathbf{u}}) =
+  \nabla \cdot (\overline{\mathbf{u}}\, \overline{\mathbf{u}}) + \nabla \cdot (\overline{\mathbf{u}' \mathbf{u}'})
+  \label{eq:reynolds_advection_expanded}
+\end{equation}
+Insert Eq. (\ref{eq:reynolds_advection_expanded}) into Eq. (\ref{eq:ns_reynolds3}) to get:
+
+\begin{equation}
+  \frac{\partial (\rho \overline{\mathbf{u}})}{\partial t} +
+  \nabla \cdot (\overline{\mathbf{u}}\, \overline{\mathbf{u}}) =
+  - \frac{1}{\rho} \nabla \overline{p} +
+  \nu \nabla^2 \overline{\mathbf{u}} +
+  \nabla \cdot (\overline{\mathbf{u}' \mathbf{u}'})
+  \label{eq:ns_reynolds4}
+\end{equation}
+which is the \textit{Reynolds-averaged Navier-Stokes equation}
+\index{Reynolds!averaged Navier-Stokes equation}, the term
+$\overline{\mathbf{u}' \mathbf{u}'}$ is called the \textit{Reynolds stress tensor}
+\index{Reynolds!stress tensor},
+and $\nabla \cdot (\overline{\mathbf{u}' \mathbf{u}'})$ is the
+\textit{Reynolds stress divergence}\index{Reynolds!stress divergence}.
+
+The Reynolds-averaged continuity equation is much simpler to derive and is
+just:
+
+\begin{equation}
+  \nabla \cdot \overline{\mathbf{u}} = 0
+  \label{eq:continuity_reynolds}
 \end{equation}
 
+Between Eqs. (\ref{eq:ns_reynolds4}) and (\ref{eq:continuity_reynolds}) we have
+two equations with three unknowns: $\overline{\mathbf{u}}$, $\overline{p}$, and
+$\overline{\mathbf{u}' \mathbf{u}'}$.
+To close the system, we need to find an equation for the Reynolds stress tensor,
+which brings us to the closure problem of turbulence.
+
+\subsection{Closure problem}
+
+\subsection{Turbulent kinetic energy budget}
+
+\subsection{Turbulent cascade}
 
 \newpage
 \section{Boundary layers}
@@ -4037,6 +4158,28 @@ This section serves a quick reference for the key equations used in this book.\\
 
 \begin{equation}
   c = U - \frac{\beta}{k^2}
+\end{equation}
+
+\textbf{Reynolds decomposition:}
+
+\begin{equation}
+  \mathbf{u} = \overline{\mathbf{u}} + \mathbf{u}'
+\end{equation}
+
+\textbf{Reynolds-averaged Navier-Stokes equation:}
+
+\begin{equation}
+  \frac{\partial \overline{\mathbf{u}}}{\partial t} +
+  \nabla \cdot \left( \overline{\mathbf{u}}\, \overline{\mathbf{u}} \right) =
+  - \frac{1}{\rho} \nabla \overline{p} +
+  \nu \nabla^2 \overline{\mathbf{u}} +
+  \nabla \cdot \left( \overline{\mathbf{u}' \mathbf{u}'} \right)
+\end{equation}
+
+\textbf{Reynolds-averaged continuity equation:}
+
+\begin{equation}
+  \nabla \cdot \overline{\mathbf{u}} = 0
 \end{equation}
 
 \printindex
