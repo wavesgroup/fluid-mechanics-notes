@@ -818,6 +818,7 @@ continuity and motion.
 
 \newpage
 \section{Conservation of mass and momentum}
+\label{sec:continuity_momentum}
 
 In this chapter we will derive the fundamental equations for fluid flows:
 continuity, momentum, and energy.
@@ -1136,6 +1137,7 @@ the momentum equation:
 \begin{equation}
   \frac{\partial \mathbf{u}}{\partial t} + (\mathbf{u} \cdot \nabla) \mathbf{u} =
   \frac{1}{\rho} \nabla \cdot \boldsymbol{\sigma} + \frac{\mathbf{F}_b}{\rho}
+  \label{eq:momentum_cauchy}
 \end{equation}
 This form of the momentum equation is often called the
 \textit{Cauchy momentum equation}\index{Momentum equation!Cauchy}.
@@ -1220,6 +1222,7 @@ This form of the momentum equation is often called the \textit{Euler equation}.
 \index{Momentum equation!Euler}
 
 \subsubsection{Viscous forces}
+\label{sec:viscous_forces}
 
 Now, let's look at the shear stress tensor divergence $\nabla \cdot \boldsymbol{\tau}$.
 Written out explicitly as a matrix of all its components, $\boldsymbol{\tau}$ is:
@@ -3722,14 +3725,14 @@ which reduces to:
 Insert Eq. (\ref{eq:reynolds_advection_expanded}) into Eq. (\ref{eq:ns_reynolds3}) to get:
 
 \begin{equation}
-  \frac{\partial (\rho \overline{\mathbf{u}})}{\partial t} +
+  \frac{\partial \overline{\mathbf{u}}}{\partial t} +
   \nabla \cdot (\overline{\mathbf{u}}\, \overline{\mathbf{u}}) =
   - \frac{1}{\rho} \nabla \overline{p} +
-  \nu \nabla^2 \overline{\mathbf{u}} +
-  \nabla \cdot (\overline{\mathbf{u}' \mathbf{u}'})
-  \label{eq:ns_reynolds4}
+  \nu \nabla^2 \overline{\mathbf{u}}
+  - \nabla \cdot (\overline{\mathbf{u}' \mathbf{u}'})
+  \label{eq:rans}
 \end{equation}
-which is the \textit{Reynolds-averaged Navier-Stokes equation}
+which is the \textit{Reynolds-Averaged Navier-Stokes (RANS) equation}
 \index{Reynolds!averaged Navier-Stokes equation}, the term
 $\overline{\mathbf{u}' \mathbf{u}'}$ is called the \textit{Reynolds stress tensor}
 \index{Reynolds!stress tensor},
@@ -3744,13 +3747,182 @@ just:
   \label{eq:continuity_reynolds}
 \end{equation}
 
-Between Eqs. (\ref{eq:ns_reynolds4}) and (\ref{eq:continuity_reynolds}) we have
+Between Eqs. (\ref{eq:rans}) and (\ref{eq:continuity_reynolds}) we have
 two equations with three unknowns: $\overline{\mathbf{u}}$, $\overline{p}$, and
 $\overline{\mathbf{u}' \mathbf{u}'}$.
 To close the system, we need to find an equation for the Reynolds stress tensor,
 which brings us to the closure problem of turbulence.
 
 \subsection{Closure problem}
+
+To illustrate the closure problem of turbulence, let's try to derive the
+equation for the evolution of the Reynolds stress $\overline{\mathbf{u}' \mathbf{u}'}$.
+Suppose that the Reynolds stress evolves according to the yet to be determined
+sources and sinks of the Reynolds stress:
+
+\begin{equation}
+  \frac{d \left( \mathbf{u}' \mathbf{u}' \right)}{dt} =
+  \text{sources} - \text{sinks}
+  \label{eq:reynolds_stress_evolution}
+\end{equation}
+Expanding the time derivative in a momentum-conservative form and time averaging
+yields similar to Eq. (\ref{eq:reynolds_advection_expanded}):
+
+\begin{equation}
+  \frac{d \left( \overline{\mathbf{u}' \mathbf{u}'} \right)}{dt} =
+  \frac{\partial \left( \overline{\mathbf{u}' \mathbf{u}'} \right)}{\partial t} +
+  \nabla \cdot \left( \overline{\mathbf{u}} \overline{\mathbf{u}' \mathbf{u}'} \right) +
+  \nabla \cdot \left( \overline{\mathbf{u}' \mathbf{u}' \mathbf{u}'} \right)
+\end{equation}
+See, if we try to seek the equation for the evolution of the Reynolds stress,
+we end up with the flux of the flux itself as a new unknown.
+Further, if we tried to seek the equation for this new cubic term, we would
+end up with an equation that includes a quartic term of $\mathbf{u}'$:
+
+
+\begin{equation}
+  \frac{d \left( \overline{\mathbf{u}' \mathbf{u}' \mathbf{u}'} \right)}{dt} =
+  \frac{\partial \left( \overline{\mathbf{u}' \mathbf{u}' \mathbf{u}'} \right)}{\partial t} +
+  \nabla \cdot \left( \overline{\mathbf{u}} \overline{\mathbf{u}' \mathbf{u}' \mathbf{u}'} \right) +
+  \nabla \cdot \left( \overline{\mathbf{u}' \mathbf{u}' \mathbf{u}' \mathbf{u}'} \right)
+\end{equation}
+The fact that we cannot close the RANS equations unless we somehow approximate
+the Reynolds stress tensor is known as the closure problem of turbulence.
+On one hand, it's relieving that we don't have to figure out the sources and
+sinks for the Reynolds stress tensor in Eq. (\ref{eq:reynolds_stress_evolution}).
+On the other hand, we still need to come up with some model or approximation
+for the Reynolds stress tensor to solve the RANS equations.
+
+\subsection{Reynolds stress}
+
+Recall from Chapter \ref{sec:continuity_momentum} where we first derived the
+Cauchy momentum equation (Eq. \ref{eq:momentum_cauchy}), ignoring the body forces
+for brevity:
+
+\begin{equation}
+  \frac{\partial \mathbf{u}}{\partial t} + (\mathbf{u} \cdot \nabla) \mathbf{u} =
+  \frac{1}{\rho} \nabla \cdot \boldsymbol{\sigma} + \frac{\mathbf{F}_b}{\rho}
+\end{equation}
+and the associated stress tensor (Eq. \ref{eq:stress_tensor_decomposition}):
+
+\begin{equation}
+  \boldsymbol{\sigma} = -p \mathbf{I} + \boldsymbol{\tau}
+\end{equation}
+where we had described the stress tensor $\boldsymbol{\sigma}$ as a combination
+of the normal stresses (pressure) on the diagonal and the deviatoric stresses
+off the diagonal:
+
+\begin{equation}
+  \begin{bmatrix}
+    -p + \tau_{xx} & \tau_{xy} & \tau_{xz} \\
+    \tau_{yx} & -p + \tau_{yy} & \tau_{yz} \\
+    \tau_{zx} & \tau_{zy} & -p + \tau_{zz}
+  \end{bmatrix}
+\end{equation}
+Then, in Section \ref{sec:viscous_forces}, we stated that for a Newtonian fluid
+the deviatoric stresses can be approximated with the velocity gradients, an
+approximation that was established in the laboratory:
+
+\begin{equation}
+  \nabla \cdot \boldsymbol{\tau} = \nu \nabla^2 \mathbf{u}
+\end{equation}
+Now, in addition to the viscous stresses, we have the turbulent Reynolds stresses
+introduced in Eq. (\ref{eq:rans}).
+The turbulent Reynolds stresses arise due to the scale separation between the
+large-scale mean flow and the turbulent fluctuations, which we introduced when
+we applied the Reynolds decomposition to the velocity field.
+
+Eq. (\ref{eq:rans}) can be rewritten more concisely by applying the divergence
+operator to the pressure and Reynolds and viscous stresses as a whole:
+
+\begin{equation}
+  \frac{\partial \overline{\mathbf{u}}}{\partial t} +
+  \nabla \cdot (\overline{\mathbf{u}}\, \overline{\mathbf{u}}) =
+  \frac{1}{\rho} \nabla \cdot \left( \mu \nabla \cdot \overline{\mathbf{u}} - p - \rho \overline{\mathbf{u}' \mathbf{u}'} \right)
+  \label{eq:rans_expanded}
+\end{equation}
+If it's not obvious already, notice that $\rho \overline{\mathbf{u}' \mathbf{u}'}$
+is the only term that makes Eq. (\ref{eq:rans_expanded}) different from the
+original Navier-Stokes equation (Eq. \ref{eq:ns_reynolds3}).
+Thus, if we apply a scale separation (\textit{i.e.} the Reynolds decomposition)
+to the velocity field such that we distinguish between the mean flow and the
+fluctuations, the equation for the mean flow contains an additional term that
+quantifies the contribution of the turbulent fluctuations to the mean.
+Note that, strictly speaking, $\rho \overline{\mathbf{u}' \mathbf{u}'}$ is a
+stress (as in, momentum flux), however it's common to refer to
+$\overline{\mathbf{u}' \mathbf{u}'}$ as the Reynolds stress as well, even when
+the density is omitted.
+
+Let's look at this Reynolds stress tensor in more detail.
+Using our usual notation for the velocity vector to be $\mathbf{u} = (u, v, w)$,
+the components of the Reynolds stress tensor are:
+
+\begin{equation}
+  \overline{u'u'} = \begin{bmatrix}
+    \overline{u'u'} & \overline{u'v'} & \overline{u'w'} \\
+    \overline{v'u'} & \overline{v'v'} & \overline{v'w'} \\
+    \overline{w'u'} & \overline{w'v'} & \overline{w'w'}
+  \end{bmatrix}
+\end{equation}
+The diagonal components of this tensor ($\overline{u'u'}$, $\overline{v'v'}$, and
+$\overline{w'w'}$) are called the \textit{normal stresses}, and the off-diagonal
+components ($\overline{u'v'}$, $\overline{u'w'}$, $\overline{v'w'}$) are called
+the \textit{shear stresses}.
+The Reynolds stress tensor is symmetric, which means that
+$\overline{u'v'} = \overline{v'u'}$, $\overline{u'w'} = \overline{w'u'}$, and
+$\overline{v'w'} = \overline{w'v'}$.
+It is only the shear stresses that contribute to the turbulent transport of
+momentum.
+An important property of boundary layer physics, the
+\textit{Turbulent Kinetic Energy}\index{Turbulent kinetic energy} (TKE) is half
+the sum of the diagonal components of the Reynolds stress tensor:
+
+\begin{equation}
+  k = \frac{1}{2} \left( \overline{u'u'} + \overline{v'v'} + \overline{w'w'} \right)
+\end{equation}
+TKE plays an important role in parameterizing the subgrid-scale turbulent
+processes in the boundary layer components of weather and ocean prediction
+models.
+$\overline{u'w'}$ and $\overline{v'w'}$ are also very important quantities in
+the study of air-sea interaction, as they govern the momentum exchange between
+the atmospheric surface layer, the ocean surface waves, and the upper-ocean
+boundary layer.
+
+In numerical models, the vector equations must be written out explicitly in
+scalar component form.
+It's thus a useful exercise to write out the RANS equation
+(Eq. \ref{eq:rans_expanded}) as a system of scalar equations, one for each
+component of the mean velocity vector:
+
+\begin{equation}
+  \frac{\partial \overline{u}}{\partial t} + 
+  \overline{u} \frac{\partial \overline{u}}{\partial x} +
+  \overline{v} \frac{\partial \overline{u}}{\partial y} +
+  \overline{w} \frac{\partial \overline{u}}{\partial z} =
+  - \frac{1}{\rho} \frac{\partial \overline{p}}{\partial x}
+  - \frac{\partial \overline{u'u'}}{\partial x} - \frac{\partial \overline{v'u'}}{\partial y} - \frac{\partial \overline{w'u'}}{\partial z}
+  + \nu \left( \frac{\partial^2 \overline{u}}{\partial x^2} + \frac{\partial^2 \overline{u}}{\partial y^2} + \frac{\partial^2 \overline{u}}{\partial z^2} \right)
+\end{equation}
+
+\begin{equation}
+  \frac{\partial \overline{v}}{\partial t} + 
+  \overline{u} \frac{\partial \overline{v}}{\partial x} +
+  \overline{v} \frac{\partial \overline{v}}{\partial y} +
+  \overline{w} \frac{\partial \overline{v}}{\partial z} =
+  - \frac{1}{\rho} \frac{\partial \overline{p}}{\partial y}
+  - \frac{\partial \overline{u'v'}}{\partial x} - \frac{\partial \overline{v'v'}}{\partial y} - \frac{\partial \overline{w'v'}}{\partial z}
+  + \nu \left( \frac{\partial^2 \overline{u}}{\partial x^2} + \frac{\partial^2 \overline{u}}{\partial y^2} + \frac{\partial^2 \overline{u}}{\partial z^2} \right)
+\end{equation}
+
+\begin{equation}
+  \frac{\partial \overline{w}}{\partial t} + 
+  \overline{u} \frac{\partial \overline{w}}{\partial x} +
+  \overline{v} \frac{\partial \overline{w}}{\partial y} +
+  \overline{w} \frac{\partial \overline{w}}{\partial z} =
+  - \frac{1}{\rho} \frac{\partial \overline{p}}{\partial z}
+  - \frac{\partial \overline{u'w'}}{\partial x} - \frac{\partial \overline{v'w'}}{\partial y} - \frac{\partial \overline{w'w'}}{\partial z}
+  + \nu \left( \frac{\partial^2 \overline{u}}{\partial x^2} + \frac{\partial^2 \overline{u}}{\partial y^2} + \frac{\partial^2 \overline{u}}{\partial z^2} \right)
+\end{equation}
 
 \subsection{Turbulent kinetic energy budget}
 
