@@ -3896,32 +3896,41 @@ component of the mean velocity vector:
 
 \begin{equation}
   \frac{\partial \overline{u}}{\partial t} + 
-  \overline{u} \frac{\partial \overline{u}}{\partial x} +
-  \overline{v} \frac{\partial \overline{u}}{\partial y} +
-  \overline{w} \frac{\partial \overline{u}}{\partial z} =
+  \frac{\partial \overline{u} \overline{u}}{\partial x} +
+  \frac{\partial \overline{v} \overline{u}}{\partial y} +
+  \frac{\partial \overline{w} \overline{u}}{\partial z} =
   - \frac{1}{\rho} \frac{\partial \overline{p}}{\partial x}
   - \frac{\partial \overline{u'u'}}{\partial x} - \frac{\partial \overline{v'u'}}{\partial y} - \frac{\partial \overline{w'u'}}{\partial z}
-  + \nu \left( \frac{\partial^2 \overline{u}}{\partial x^2} + \frac{\partial^2 \overline{u}}{\partial y^2} + \frac{\partial^2 \overline{u}}{\partial z^2} \right)
+  + \nu \left( \frac{\partial^2 \overline{u}}{\partial x^2} + 
+               \frac{\partial^2 \overline{u}}{\partial y^2} +
+               \frac{\partial^2 \overline{u}}{\partial z^2}
+        \right)
 \end{equation}
 
 \begin{equation}
   \frac{\partial \overline{v}}{\partial t} + 
-  \overline{u} \frac{\partial \overline{v}}{\partial x} +
-  \overline{v} \frac{\partial \overline{v}}{\partial y} +
-  \overline{w} \frac{\partial \overline{v}}{\partial z} =
+  \frac{\partial \overline{u} \overline{v}}{\partial x} +
+  \frac{\partial \overline{v} \overline{v}}{\partial y} +
+  \frac{\partial \overline{w} \overline{v}}{\partial z} =
   - \frac{1}{\rho} \frac{\partial \overline{p}}{\partial y}
   - \frac{\partial \overline{u'v'}}{\partial x} - \frac{\partial \overline{v'v'}}{\partial y} - \frac{\partial \overline{w'v'}}{\partial z}
-  + \nu \left( \frac{\partial^2 \overline{u}}{\partial x^2} + \frac{\partial^2 \overline{u}}{\partial y^2} + \frac{\partial^2 \overline{u}}{\partial z^2} \right)
+  + \nu \left( \frac{\partial^2 \overline{v}}{\partial x^2} + 
+               \frac{\partial^2 \overline{v}}{\partial y^2} +
+               \frac{\partial^2 \overline{v}}{\partial z^2}
+        \right)
 \end{equation}
 
 \begin{equation}
   \frac{\partial \overline{w}}{\partial t} + 
-  \overline{u} \frac{\partial \overline{w}}{\partial x} +
-  \overline{v} \frac{\partial \overline{w}}{\partial y} +
-  \overline{w} \frac{\partial \overline{w}}{\partial z} =
+  \frac{\partial \overline{u} \overline{w}}{\partial x} +
+  \frac{\partial \overline{v} \overline{w}}{\partial y} +
+  \frac{\partial \overline{w} \overline{w}}{\partial z} =
   - \frac{1}{\rho} \frac{\partial \overline{p}}{\partial z}
   - \frac{\partial \overline{u'w'}}{\partial x} - \frac{\partial \overline{v'w'}}{\partial y} - \frac{\partial \overline{w'w'}}{\partial z}
-  + \nu \left( \frac{\partial^2 \overline{u}}{\partial x^2} + \frac{\partial^2 \overline{u}}{\partial y^2} + \frac{\partial^2 \overline{u}}{\partial z^2} \right)
+  + \nu \left( \frac{\partial^2 \overline{w}}{\partial x^2} + 
+               \frac{\partial^2 \overline{w}}{\partial y^2} +
+               \frac{\partial^2 \overline{w}}{\partial z^2}
+        \right)
 \end{equation}
 
 \subsection{Turbulent kinetic energy budget}
