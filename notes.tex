@@ -3801,7 +3801,7 @@ for brevity:
 
 \begin{equation}
   \frac{\partial \mathbf{u}}{\partial t} + (\mathbf{u} \cdot \nabla) \mathbf{u} =
-  \frac{1}{\rho} \nabla \cdot \boldsymbol{\sigma} + \frac{\mathbf{F}_b}{\rho}
+  \frac{1}{\rho} \nabla \cdot \boldsymbol{\sigma}
 \end{equation}
 and the associated stress tensor (Eq. \ref{eq:stress_tensor_decomposition}):
 
@@ -3880,6 +3880,8 @@ the sum of the diagonal components of the Reynolds stress tensor:
 \begin{equation}
   k = \frac{1}{2} \left( \overline{u'u'} + \overline{v'v'} + \overline{w'w'} \right)
 \end{equation}
+From the point of view of the Reynolds decomposition into the mean and
+fluctuations from the mean, TKE is the sum of velocity variances.
 TKE plays an important role in parameterizing the subgrid-scale turbulent
 processes in the boundary layer components of weather and ocean prediction
 models.
@@ -3934,6 +3936,176 @@ component of the mean velocity vector:
 \end{equation}
 
 \subsection{Turbulent kinetic energy budget}
+
+Turbulent kinetic energy (TKE) is a fundamental quantity in the study of
+turbulence.
+It's a prognostic variable in many subgrid-scale parametric models of
+atmospheric and oceanic boundary layers.
+Here we derive the prognostic equation for TKE from the fundamental equations
+with Reynolds decomposition, often referred to as the TKE budget equation.
+
+The derivation of the TKE budget equation involves the following steps:
+
+\begin{enumerate}
+  \item Start from the Navier-Stokes equation (Eq. \ref{eq:ns_reynolds1})
+  and apply the Reynolds decomposition to the velocity field.
+  \item Subtract the RANS equation from the original Navier-Stokes equation
+  with Reynolds decomposition to obtain the equation for the velocity
+  fluctuations.
+  \item Multiply the equation for the velocity fluctuations by the fluctuating
+  velocity components and time-average to obtain the equation for the TKE.
+\end{enumerate}
+
+For completeness, we will also consider the buoyancy term that we derived in
+the Boussinesq approximation, as it will turn out that this term plays a role
+in the TKE budget.
+We start from the Navier-Stokes equation but in the advective (non-conservative)
+form, rather than the flux (conservative) form, as the advective form makes the
+TKE budget derivation more straightforward (they are equivalent for
+incompressible flows, $\nabla \cdot \mathbf{u} = 0$).
+
+\begin{equation}
+  \frac{\partial \mathbf{u}}{\partial t} + 
+  (\mathbf{u} \cdot \nabla) \mathbf{u} =
+  - \frac{1}{\rho} \nabla p
+  + \frac{\delta \rho}{\rho} \mathbf{g}
+  + \nu \nabla^2 \mathbf{u}
+\end{equation}
+Apply the Reynolds decomposition to $\mathbf{u}$, $p$, and $\delta \rho$ to get:
+
+\begin{equation}
+  \begin{split}
+  \frac{\partial \overline{\mathbf{u}}}{\partial t} + \frac{\partial \mathbf{u}'}{\partial t} +
+  (\overline{\mathbf{u}} \cdot \nabla) \overline{\mathbf{u}} +
+  (\mathbf{u}' \cdot \nabla) \overline{\mathbf{u}} +
+  (\overline{\mathbf{u}} \cdot \nabla) \mathbf{u}' +
+  (\mathbf{u}' \cdot \nabla) \mathbf{u}' = \\
+  - \frac{1}{\rho} \nabla \overline{p}
+  - \frac{1}{\rho} \nabla p'
+  + \frac{\overline{\delta \rho}}{\rho} \mathbf{g}
+  + \frac{\delta \rho'}{\rho} \mathbf{g}'
+  + \nu \nabla^2 \overline{\mathbf{u}}
+  + \nu \nabla^2 \mathbf{u}'
+  \end{split}
+  \label{eq:tke_budget_ns}
+\end{equation}
+The RANS equation in the advective form is:
+
+\begin{equation}
+  \frac{\partial \overline{\mathbf{u}}}{\partial t} +
+  (\overline{\mathbf{u}} \cdot \nabla) \overline{\mathbf{u}} +
+  \overline{(\mathbf{u}' \cdot \nabla) \mathbf{u}'} = \\
+  - \frac{1}{\rho} \nabla \overline{p}
+  + \frac{\overline{\delta \rho}}{\rho} \mathbf{g}
+  + \nu \nabla^2 \overline{\mathbf{u}}
+  \label{eq:tke_budget_rans}
+\end{equation}
+Subtract Eq. (\ref{eq:tke_budget_rans}) from Eq. (\ref{eq:tke_budget_ns}) to
+obtain the equation for the velocity fluctuations:
+
+\begin{equation}
+  \frac{\partial \mathbf{u}'}{\partial t} +
+  (\mathbf{u}' \cdot \nabla) \overline{\mathbf{u}} +
+  (\overline{\mathbf{u}} \cdot \nabla) \mathbf{u}' +
+  (\mathbf{u}' \cdot \nabla) \mathbf{u}' -
+  \overline{(\mathbf{u}' \cdot \nabla) \mathbf{u}'} = \\
+  - \frac{1}{\rho} \nabla p'
+  + \frac{\delta \rho'}{\rho} \mathbf{g}
+  + \nu \nabla^2 \mathbf{u}'
+\end{equation}
+Multiply by $\mathbf{u}'$ to get:
+
+\begin{equation}
+  \mathbf{u}'\frac{\partial \mathbf{u}'}{\partial t} +
+  \mathbf{u}' (\mathbf{u}' \cdot \nabla) \overline{\mathbf{u}} +
+  \mathbf{u}' (\overline{\mathbf{u}} \cdot \nabla) \mathbf{u}' +
+  \mathbf{u}' (\mathbf{u}' \cdot \nabla) \mathbf{u}' -
+  \mathbf{u}' \overline{(\mathbf{u}' \cdot \nabla) \mathbf{u}'} = \\
+  - \frac{1}{\rho} \mathbf{u}' \nabla p'
+  + \frac{\delta \rho'}{\rho} \mathbf{u}' \mathbf{g}
+  + \nu \mathbf{u}' \nabla^2 \mathbf{u}'
+\end{equation}
+Rearrange the terms:
+
+\begin{equation}
+  \begin{split}
+  \frac{\partial}{\partial t} \left( \frac{\mathbf{u}'^2}{2} \right) +
+  (\overline{\mathbf{u}} \cdot \nabla) \left( \frac{\mathbf{u}'^2}{2} \right) +
+  (\mathbf{u}' \mathbf{u}' \cdot \nabla) \overline{\mathbf{u}} +
+  \frac{1}{2} \nabla \cdot (\mathbf{u}' \mathbf{u}' \mathbf{u}') -
+  \mathbf{u}' \overline{(\mathbf{u}' \cdot \nabla) \mathbf{u}'} = \\
+  - \frac{1}{\rho} \mathbf{u}' \nabla p'
+  + \frac{\delta \rho'}{\rho} \mathbf{u}' \cdot \mathbf{g}
+  + \nu \mathbf{u}' \nabla^2 \mathbf{u}'
+  \end{split}
+\end{equation}
+Finally, time-average to get the TKE budget equation, noting that the last term
+on the left-hand side drops out due to time-averaging, and that
+$k \equiv \frac{1}{2} \overline{\mathbf{u}'^2}$:
+
+\begin{equation}
+  \frac{\partial k}{\partial t} + \overline{\mathbf{u}} \cdot \nabla k =
+  - \frac{1}{2} \nabla \cdot (\overline{\mathbf{u}' \mathbf{u}' \mathbf{u}'})
+  - (\mathbf{u}' \mathbf{u}' \cdot \nabla) \overline{\mathbf{u}}
+  - \frac{1}{\rho} \overline{\mathbf{u}' \nabla p'}
+  + \overline{\frac{\delta \rho'}{\rho} \mathbf{u}' \cdot \mathbf{g}}
+  + \nu \overline{\mathbf{u}' \nabla^2 \mathbf{u}'}
+  \label{eq:tke_budget_near_final}
+\end{equation}
+So far we broke down the advective term from the original Navier-Stokes equation
+to produce three new terms.
+We're still left with the viscous term, which can be rearranged into two terms
+for a more intuitive physical interpretation.
+Here we'll use the following identity to expand the Laplacian:
+
+\begin{equation}
+  \overline{\nu \mathbf{u}' \nabla^2 \mathbf{u}'} =
+  \nu \nabla \cdot (\overline{\mathbf{u}' \nabla \mathbf{u}'}) -
+  \nu \overline{\nabla \mathbf{u}' \cdot \nabla \mathbf{u}'} =
+  \nu \nabla^2 k - \nu \overline{(\nabla \mathbf{u}' \cdot \nabla \mathbf{u}')}
+  \label{eq:tke_budget_viscous}
+\end{equation}
+Inserting Eq. (\ref{eq:tke_budget_viscous}) into Eq. (\ref{eq:tke_budget_near_final})
+gives us our final form of the TKE budget equation:
+
+\begin{equation}
+  \frac{\partial k}{\partial t} + \overline{\mathbf{u}} \cdot \nabla k =
+  - \frac{1}{2} \nabla \cdot (\overline{\mathbf{u}' \mathbf{u}' \mathbf{u}'})
+  - (\mathbf{u}' \mathbf{u}' \cdot \nabla) \overline{\mathbf{u}}
+  - \frac{1}{\rho} \overline{\mathbf{u}' \nabla p'}
+  + \overline{\frac{\delta \rho'}{\rho} \mathbf{u}' \cdot \mathbf{g}}
+  + \nu \nabla^2 k
+  - \nu \overline{\nabla \mathbf{u}' \cdot \nabla \mathbf{u}'}
+  \label{eq:tke_budget_final}
+\end{equation}
+Let's look at each term in Eq. (\ref{eq:tke_budget_final}) and discuss its
+physical meaning:
+
+\begin{itemize}
+  \item $\frac{\partial k}{\partial t}$: Eulerian rate of change of TKE in
+  a fixed point in space.
+  \item $\overline{\mathbf{u}} \cdot \nabla k$: Advection of TKE by the mean
+  flow. Like any other fluid property, TKE as well is subject to advection by
+  the mean flow, \textit{i.e.} $dk/dt = \partial k/\partial t + \overline{\mathbf{u}} \cdot \nabla k$.
+  \item $-\frac{1}{2} \nabla \cdot (\overline{\mathbf{u}' \mathbf{u}' \mathbf{u}'})$
+  is the turbulent transport of TKE. In other words, this term quantifies how
+  much turbulent eddies are transported by the turbulent eddies themselves.
+  \item $-(\mathbf{u}' \mathbf{u}' \cdot \nabla) \overline{\mathbf{u}}$ is the
+  production of TKE by the mean flow.
+  \item $-\frac{1}{\rho} \overline{\mathbf{u}' \nabla p'}$ is the
+  production of TKE by the turbulent fluctuations of the pressure gradient.
+  \item $\overline{\frac{\delta \rho'}{\rho} \mathbf{u}' \cdot \mathbf{g}}$
+  is the production of TKE by buoyancy. Notice the dot product between the
+  velocity vector and the gravitational acceleration, which means that the
+  buoyancy production occurs only by the vertical velocity component, and is
+  scaled by the buoyancy anomaly $\delta \rho'$. The stronger the stratification
+  of the fluid, the larger the buoyancy production of TKE.
+  \item $\nu \nabla^2 k$ is the dissipation of TKE by molecular diffusion.
+  \item $-\nu \overline{\nabla \mathbf{u}' \cdot \nabla \mathbf{u}'}$ is the 
+  turbulent eddy dissipation of TKE. Note that $\nabla \mathbf{u}'$ are rank-2
+  tensors, so the inner product $\nabla \mathbf{u}' \cdot \nabla \mathbf{u}'$
+  is a rank-4 tensor, which is averaged to get a scalar.
+\end{itemize}
 
 \subsection{Turbulent cascade}
 
