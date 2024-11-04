@@ -62,11 +62,10 @@ and geophysical fluid dynamics.
 These lecture notes are based on the following textbooks:
 
 \begin{enumerate}
-  \item \textit{Fluid Mechanics}, 6th Ed., by Kundu, Cohen, and Dowling
-  \item \textit{Essentials of Atmospheric and Oceanic Dynamics} (EAOD) by Geoffrey Vallis
-  \item \textit{Atmospheric and Oceanic Fluid Dynamics} (AOFD) by Geoffrey Vallis.
-  This is the longer and more in-depth variant of EAOD.
-  Many figures in the notes are adapted from AOFD.
+  \item \textit{Fluid Mechanics}, 6th Ed., by Kundu, Cohen, and Dowling (Elsevier);
+  \item \textit{Atmospheric and Oceanic Fluid Dynamics} (AOFD) by Geoffrey Vallis (Cambridge University Press);
+  \item \textit{Turbulent Flows} by Stephen Pope (Cambridge University Press);
+  \item \textit{Water Wave Mechanics for Engineers and Scientists} by Dean and Dalrymple (World Scientific).
 \end{enumerate}
 
 While the notes contain the distilled and required information for you to
@@ -3874,7 +3873,7 @@ $\overline{v'w'} = \overline{w'v'}$.
 It is only the shear stresses that contribute to the turbulent transport of
 momentum.
 An important property of boundary layer physics, the
-\textit{Turbulent Kinetic Energy}\index{Turbulent kinetic energy} (TKE) is half
+\textit{Turbulent Kinetic Energy}\index{Turbulent!Kinetic energy} (TKE) is half
 the sum of the diagonal components of the Reynolds stress tensor:
 
 \begin{equation}
@@ -4071,7 +4070,7 @@ gives us our final form of the TKE budget equation:
 \begin{equation}
   \frac{\partial k}{\partial t} + \overline{\mathbf{u}} \cdot \nabla k =
   - \frac{1}{2} \nabla \cdot (\overline{\mathbf{u}' \mathbf{u}' \mathbf{u}'})
-  - (\mathbf{u}' \mathbf{u}' \cdot \nabla) \overline{\mathbf{u}}
+  - (\overline{\mathbf{u}' \mathbf{u}'} \cdot \nabla) \overline{\mathbf{u}}
   - \frac{1}{\rho} \overline{\mathbf{u}' \nabla p'}
   + \overline{\frac{\delta \rho'}{\rho} \mathbf{u}' \cdot \mathbf{g}}
   + \nu \nabla^2 k
@@ -4084,30 +4083,224 @@ physical meaning:
 \begin{itemize}
   \item $\frac{\partial k}{\partial t}$: Eulerian rate of change of TKE in
   a fixed point in space.
+
   \item $\overline{\mathbf{u}} \cdot \nabla k$: Advection of TKE by the mean
   flow. Like any other fluid property, TKE as well is subject to advection by
   the mean flow, \textit{i.e.} $dk/dt = \partial k/\partial t + \overline{\mathbf{u}} \cdot \nabla k$.
+
   \item $-\frac{1}{2} \nabla \cdot (\overline{\mathbf{u}' \mathbf{u}' \mathbf{u}'})$
   is the turbulent transport of TKE. In other words, this term quantifies how
   much turbulent eddies are transported by the turbulent eddies themselves.
-  \item $-(\mathbf{u}' \mathbf{u}' \cdot \nabla) \overline{\mathbf{u}}$ is the
-  production of TKE by the mean flow.
+
+  \item $-(\overline{\mathbf{u}' \mathbf{u}'} \cdot \nabla) \overline{\mathbf{u}}$ is the
+  production of TKE by the mean flow, also known as the shear production.
+
   \item $-\frac{1}{\rho} \overline{\mathbf{u}' \nabla p'}$ is the
-  production of TKE by the turbulent fluctuations of the pressure gradient.
+  production of TKE by the turbulent fluctuations of the pressure gradient,
+  also known as pressure diffusion.
+
   \item $\overline{\frac{\delta \rho'}{\rho} \mathbf{u}' \cdot \mathbf{g}}$
   is the production of TKE by buoyancy. Notice the dot product between the
   velocity vector and the gravitational acceleration, which means that the
   buoyancy production occurs only by the vertical velocity component, and is
   scaled by the buoyancy anomaly $\delta \rho'$. The stronger the stratification
-  of the fluid, the larger the buoyancy production of TKE.
+  of the fluid, the larger the buoyancy production (or dissipation, depending on
+  the sign of stratification) of TKE.
+
   \item $\nu \nabla^2 k$ is the dissipation of TKE by molecular diffusion.
+
   \item $-\nu \overline{\nabla \mathbf{u}' \cdot \nabla \mathbf{u}'}$ is the 
   turbulent eddy dissipation of TKE. Note that $\nabla \mathbf{u}'$ are rank-2
   tensors, so the inner product $\nabla \mathbf{u}' \cdot \nabla \mathbf{u}'$
   is a rank-4 tensor, which is averaged to get a scalar.
 \end{itemize}
 
+Given Eq. (\ref{eq:tke_budget_final}) and the interpretation of its terms,
+we can proceed to apply dimensional analysis in an attempt to learn the
+distribution and transfer of turbulence across spatial scales.
+
 \subsection{Turbulent cascade}
+
+The two most common sources of turbulence are shear (mechanical) and buoyancy
+(thermodynamic).
+As such, the turbulent energy is predominantly generated at the larger scales,
+where the largest coherent eddies tend to be of the same scale as the flow
+itself.
+For example, the largest eddies that the Gulf Stream sheds are of similar
+diameter as the width of the Gulf Stream itself.
+Similarly, the largest eddies in a coffee cup are of similar size as the spoon
+that does the stirring.
+An example of buoyancy generation of turbulence is the convection in the 
+atmospheric boundary layer due to cool air over warm land or ocean surface.
+So, most turbulence tends to be produced at the scales many orders of magnitude
+that of the viscous scales.
+At the smallest scales, we know that viscosity does the work to dissipate
+mechanical energy into heat.
+What happens between the largest and the smallest scales is less clear and is
+the subject of this section.
+A concept of \textit{turbulent energy cascade}\index{Turbulent!Energy cascade},
+first introduced by Richardson (1922)\index{Richardson},
+suggests that the energy is transferred from the large to the small scales,
+and that this transfer is a cascade.
+He put it succinctly as:
+
+\begin{quote}
+  \textit{
+    \noindent Big whirls have little whirls,\\
+    Which feed on their velocity;\\
+    And little whirls have lesser whirls,\\
+    And so on to viscosity.
+  }
+\end{quote}
+
+To answer how the velocity statistics are distributed from the largest to the
+smallest scales, we evaluate the TKE budget equation for a very turbulent flow
+in which $Re = UL/\nu$ is very large.
+The turbulent cascade is illustrated in Fig. \ref{fig:turbulent_cascade}.
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.8\textwidth]{assets/fig_turbulent_energy_cascade.pdf}
+  \caption{
+    The passage of energy to smaller scales: eddies at large scale break up
+    into ones at smaller scale, thereby transferring energy to smaller scales.
+    The eddies in reality are embedded within each other.
+    If the passage occurs between eddies of similar sizes (\textit{i.e.}, if
+    it is spectrally local), the transfer is said to be a cascade.
+    This is Figure 11.2 from Vallis (AOFD).
+  }
+  \label{fig:turbulent_cascade}
+\end{figure}
+
+We may first ask at what length scale does the viscosity become a dominant
+player.
+As useful tools we will recall dimensional analysis and the Reynolds number,
+which quantified the relative importance of inertial over viscous forces.
+
+\begin{equation}
+  Re = \frac{UL}{\nu}
+\end{equation}
+If we know that at the largest (think, geophysical) scales the viscosity is
+negligible (large $Re$), we could say that the viscosity becomes more important
+than turbulent motion at the scale at which $Re \approx 1$.
+From there, we can define the viscous length scale as:
+
+\begin{equation}
+  L_\nu = \frac{\nu}{U}
+  \label{eq:viscous_length_scale}
+\end{equation}
+What are some characteristic values of $L_\nu$ in the ocean and in the atmosphere?
+An ocean flow with $U \approx 10^{-1}$ m/s and viscosity of $\nu \approx 10^{-6}$ m$^2$/s
+gives $L_\nu \approx 10^{-5}$ m, or, one hundredth of a millimeter.
+In the atmosphere with $U \approx 10$ m/s and viscosity of $\nu \approx 10^{-5}$ m$^2$/s,
+we get $L_\nu \approx 10^{-6}$ m, or, one micron.
+These are obviously very small scales.
+
+To answer what happens to the flow statistics between the largest scales at
+which the turbulence is generated and the smalles scales at which viscosity
+dissipates all mechanical energy into heat, Kolmogorov (1941) proposed a new
+Kolmogorov's three turbulence hypotheses are: 
+
+\begin{enumerate}
+  \item \textbf{Hypothesis of local isotropy:} At sufficiently high $Re$ and
+  sufficiently small $L$, the turbulence is \textit{locally isotropic},
+  \textit{i.e.} the flow statistics at a point are the same in all directions.
+  \item \textbf{First similarity hypothesis:} At sufficiently high $Re$ and
+  sufficiently small $L$, the flow statistics have a universal form
+  that is uniquely determined by the viscosity $\nu$ and the energy dissipation 
+  rate $\varepsilon$.
+  \item \textbf{Second similarity hypothesis:} At sufficiently high $Re$ and
+  and sufficiently large $L$, the flow statistics have a universal form
+  that is uniquely determined by the energy dissipation rate $\varepsilon$,
+  and that is independent of viscosity $\nu$.
+\end{enumerate}
+The energy dissipation rate $\varepsilon$ comes straight from the TKE budget
+equation (Eq. \ref{eq:tke_budget_final}) and is defined as:
+
+\begin{equation}
+  \varepsilon = \nu \overline{\nabla \mathbf{u}' \cdot \nabla \mathbf{u}'}
+\end{equation}
+
+In a nutshell, Kolmogorov's three hypotheses state that a turbulent flow at
+sufficiently small scales is the same looking in all directions, that
+statistically all such turbulent flows are the same, and that they are uniquely
+determined by either by energy dissipation rate alone, or by the energy
+dissipation rate and viscosity, depending on the scale.
+Through dimensional analysis, Kolmogorov also introduced the fundamental
+turbulent scales, now commonly known as Kolmogorov scales:
+
+\begin{itemize}
+  \item $\eta \equiv \left( \nu^3/\varepsilon \right)^{1/4}$, or,
+  Kolmogorov length scale, is the scale at which the energy dissipation by
+  molecular diffusion balances the energy input by the mean flow.
+  \item $u_\eta \equiv \left( \varepsilon \nu \right)^{1/4}$ is
+  the velocity at the Kolmogorov length scale.
+  \item $\tau_\eta \equiv \left( \nu/\varepsilon \right)^{1/2}$ is the
+  Kolmogorov time scale at which the smallest coherent eddy can exist.
+\end{itemize}
+Any flow feature at scales smaller than these is governed by viscous dissipation
+of kinetic energy into heat.
+
+Examining the Reynolds number using the Kolmogorov scales indeed shows that
+it reduces to unity, consistent with Eq. (\ref{eq:viscous_length_scale}):
+
+\begin{equation}
+  Re_\eta = \frac{u_\eta \eta}{\nu} = \frac{\left( \varepsilon \nu \right)^{1/4} \left( \nu^3/\varepsilon \right)^{1/4}}{\nu} = 1
+\end{equation}
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.8\textwidth]{assets/fig_turbulent_spectrum_3d.pdf}
+  \caption{
+    The energy spectrum in three-dimensional turbulence, in the theory of
+    Kolmogorov (1941). Energy is supplied at some rate $\varepsilon$;
+    it is cascaded to small scales, where it is ultimately dissipated by
+    viscosity.
+    There is no systematic energy transfer to scales larger than the forcing
+    scale, so here the energy falls off.
+    This is Figure 11.3 from Vallis (AOFD).
+  }
+  \label{fig:turbulent_spectrum_3d}
+\end{figure}
+
+Now, we may ask, how is the turbulent energy distributed across the scales?
+Define the energy spectrum $E(k)$ as the energy per unit mass per unit wavenumber:
+
+\begin{equation}
+  E = \frac{1}{2} \int \mathbf{u}'^2(k)\ dk = \int E(k)\ dk
+\end{equation}
+
+What is the form of the energy spectrum $E(k)$?
+Kolmogorov's second similarity hypothesis states that the energy spectrum is
+universal and uniquely determined by the energy dissipation rate $\varepsilon$.
+If that is true, then it must be some function of $\varepsilon$ and $k$:
+
+\begin{equation}
+  E(k) = F(\varepsilon, k)
+\end{equation}
+The dimensions of $E(k)$ are $L^3 T^{-2}$.
+Since the wavenumber $k$ has dimensions of $L^{-1}$ and thus no temporal
+dependence, the only way it can match the dimensions of $E(k)$ is if the
+energy spectrum scales with $\varepsilon^{2/3}$:
+
+\begin{equation}
+  E(k) = \varepsilon^{2/3} G(k)
+\end{equation}
+
+\begin{equation}
+  \frac{L^3}{T^2} \sim \frac{L^{4/3}}{T^2} G(k)
+\end{equation}
+where $G(k)$ is some yet to be determined function of $k$.
+Then, by dimensional analysis, $g(k)$ must have dimensions of $L^{5/3}$,
+making the energy spectrum:
+
+\begin{equation}
+  E(k) = \mathcal{K} \varepsilon^{2/3} k^{-5/3}
+\end{equation}
+where $\mathcal{K}$ is a constant not determined by Kolmogorov's theory.
+The functional form of $E(k)$ is known as the Kolmogorov 5/3 law and is
+illustrated in Figure \ref{fig:turbulent_spectrum_3d}.
+
 
 \newpage
 \section{Boundary layers}
@@ -4533,6 +4726,30 @@ This section serves a quick reference for the key equations used in this book.\\
 
 \begin{equation}
   \nabla \cdot \overline{\mathbf{u}} = 0
+\end{equation}
+
+\textbf{Turbulent Kinetic Energy:}
+
+\begin{equation}
+  k = \frac{1}{2} \overline{\mathbf{u}'^2}
+\end{equation}
+
+\textbf{Turbulent Kinetic Energy budget:}
+
+\begin{equation}
+  \frac{\partial k}{\partial t} + \overline{\mathbf{u}} \cdot \nabla k =
+  - \frac{1}{2} \nabla \cdot (\overline{\mathbf{u}' \mathbf{u}' \mathbf{u}'})
+  - (\overline{\mathbf{u}' \mathbf{u}'} \cdot \nabla) \overline{\mathbf{u}}
+  - \frac{1}{\rho} \overline{\mathbf{u}' \nabla p'}
+  + \overline{\frac{\delta \rho'}{\rho} \mathbf{u}' \cdot \mathbf{g}}
+  + \nu \nabla^2 k
+  - \nu \overline{\nabla \mathbf{u}' \cdot \nabla \mathbf{u}'}
+\end{equation}
+
+\textbf{Kolmogorov's turbulence spectrum:}
+
+\begin{equation}
+  E(k) = \mathcal{K} \varepsilon^{2/3} \left( \frac{k}{\varepsilon} \right)^{5/3}
 \end{equation}
 
 \printindex
