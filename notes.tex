@@ -4301,9 +4301,172 @@ where $\mathcal{K}$ is a constant not determined by Kolmogorov's theory.
 The functional form of $E(k)$ is known as the Kolmogorov 5/3 law and is
 illustrated in Figure \ref{fig:turbulent_spectrum_3d}.
 
-
 \newpage
 \section{Boundary layers}
+
+\subsection{Channel flow}
+
+\subsubsection{Governing equations and boundary conditions}
+
+Let's examine a flow in a channel between two flat plates, spaced apart by a
+a distance $h = 2\delta$, such that $\delta$ represents the centerline distance
+between the plates.
+The channel is long ($L \gg \delta$) and wide ($W \gg \delta$), so there is no
+variability in the $x$ and $y$ directions.
+The mean flow is predominantly in the $x$ direction, so if the velocity is
+defined as having components $u$, $v$, and $w$ in the streamwise, spanwise,
+and vertical directions, respectively, then:
+
+\begin{equation}
+  \overline{u}(z) > 0
+\end{equation}
+
+\begin{equation}
+  \overline{v} = 0
+\end{equation}
+
+For simplicity, we won't consider what happens at the very entrance into the
+channel where the flow develops, and we'll only consider the fully developed
+flow well into the channel such that $\partial \overline{u}/\partial x = 0$.
+Thus, from a statistical point of view, this is a stationary, one-dimensional
+flow that varies only in the $z$ direction.
+
+The flow can be characterized using two different Reynolds numbers:
+
+\begin{equation}
+  Re \equiv \frac{\left<\overline{u}\right> 2 \delta}{\nu}
+\end{equation}
+where $\left<\overline{u}\right>$ is the mean velocity in the channel (often also called
+\textit{bulk velocity}):
+
+\begin{equation}
+  \left< \overline{u}\right> = \frac{1}{\delta} \int_0^{\delta} \overline{u}(z)\ dz
+  \label{eq:bulk_velocity}
+\end{equation}
+Another useful Reynolds number is the one based on the centerline distance
+between the plates:
+
+\begin{equation}
+  Re_0 \equiv \frac{u_0 \delta}{\nu}
+\end{equation}
+where $u_0$ is the centerline velocity $u(z=\delta)$.
+Based on laboratory experiments, we know that the channel flow is laminar
+for $Re < 1350$ and turbulent for $Re > 1800$, with transitional effects
+observable up to $Re \approx 3000$.
+
+Start from the Reynolds-averaged Navier-Stokes equation for $\overline{u}$:
+
+\begin{equation}
+  \frac{\partial \overline{u}}{\partial t} + 
+  \overline{u} \frac{\partial \overline{u}}{\partial x} + 
+  \overline{v} \frac{\partial \overline{u}}{\partial y} + 
+  \overline{w} \frac{\partial \overline{u}}{\partial z} =
+  - \frac{1}{\rho} \frac{\partial \overline{p}}{\partial x} +
+  \nu \left( \frac{\partial^2 \overline{u}}{\partial x^2} +
+  \frac{\partial^2 \overline{u}}{\partial y^2} +
+  \frac{\partial^2 \overline{u}}{\partial z^2} \right)
+  - \frac{\partial}{\partial x}\overline{u'u'}
+  - \frac{\partial}{\partial y}\overline{u'v'}
+  - \frac{\partial}{\partial z}\overline{u'w'}
+  \label{eq:channel_ns_u1}
+\end{equation}
+
+For an incompressible flow, the continuity is $\nabla \cdot \overline{\mathbf{u}} = 0$,
+which is effectively $\partial \overline{w}/\partial z = 0$ since the flow
+doesn't vary in the $x$ and $y$ directions.
+$\overline{w}$ must be zero as we can't have any flow through the walls of the channel,
+and so continuity requires that $\overline{w}$ is zero everywhere.
+Accounting for stationarity ($\partial \overline{u}/\partial t = 0$),
+homogeneity in the $x$ and $y$ directions
+($\partial \overline{u}/\partial x = \partial \overline{u}/\partial y = 0$),
+and the fact that $\overline{w} = 0$, Eq. (\ref{eq:channel_ns_u1}) greatly
+simplifies to:
+
+\begin{equation}
+  \frac{\partial \overline{p}}{\partial x} =
+  \rho \nu \frac{\partial^2 \overline{u}}{\partial z^2} -
+  \rho \frac{\partial}{\partial z}\overline{u'w'}
+\end{equation}
+This stationary, one-dimensional flow is thus driven by the streamwise pressure
+gradient that is balanced by the normal viscous stress and the cross-stream
+Reynolds stress.
+The above can be further simplified to:
+
+\begin{equation}
+  \frac{\partial \overline{p}}{\partial x} =
+  \frac{\partial \tau}{\partial z}
+\end{equation}
+where stress $\tau$ is the sum of the viscous and the turbulent Reynolds
+stresses:
+
+\begin{equation}
+  \tau = \rho \left( \nu \frac{\partial \overline{u}}{\partial z} - \overline{u'w'} \right)
+  \label{eq:channel_tau}
+\end{equation}
+
+Since the flow is stationary, the streamwise pressure gradient that drives it
+must be constant, and so does the vertical stress gradient as well:
+
+\begin{equation}
+  \frac{\partial \tau}{\partial z} = \text{constant}
+\end{equation}
+Assuming symmetry around the centerline of the channel requires that the stress
+there is zero (as there should not be any mean transport through the centerline).
+Integrating the above from $z=0$ to $z=\delta$ we get:
+
+\begin{equation}
+  \tau(z) = a z + b
+\end{equation}
+where $a$ and $b$ are constants.
+Use the boundary conditions $\tau(z=0) = \tau_w$ and $\tau(z=\delta) = 0$ to get:
+
+\begin{equation}
+  \tau(z) = \tau_w \left( 1 - \frac{z}{\delta} \right)
+  \label{eq:channel_tau_profile}
+\end{equation}
+where $\tau_w$ is the so-called wall stress whose value is yet to be determined.
+The stress thus decreases linearly from $\tau_w$ at the bottom wall to zero at
+the centerline, reaching $-\tau_w$ at the top wall.
+
+\subsubsection{Laminar flow}
+
+What does the velocity profile look like in the case of laminar flow?
+We can drop the Reynolds stress term in Eq. (\ref{eq:channel_tau}) and combine
+it with Eq. (\ref{eq:channel_tau_profile}) to get:
+
+\begin{equation}
+  \frac{\partial \overline{u}}{\partial z} = \frac{\tau_w}{\rho \nu} \left(1 - \frac{z}{\delta}\right)
+\end{equation}
+Integrate the above with respect to $z$ to get:
+
+\begin{equation}
+  \overline{u}(z) = \frac{\tau_w z}{\rho \nu} \left(1 - \frac{z}{2\delta} \right)
+\end{equation}
+The velocity profile thus has a quadratic form that reaches zero at either wall,
+and that has a centerline value of:
+
+\begin{equation}
+  u_0 = \overline{u}(z=\delta) = \frac{\tau_w \delta}{2 \rho \nu}
+\end{equation}
+
+\subsection{Flow over a flat plate}
+
+\subsection{Planetary boundary layers}
+
+\subsection{Exercises}
+
+\begin{enumerate}
+  \item Find the expression for the bulk velocity (see Eq. \ref{eq:bulk_velocity})
+  of a laminar channel flow. How large is it compared to the centerline velocity
+  $u_0$? How about the bulk Reynolds number relative to the centerline Reynolds
+  number $Re_0$?
+\end{enumerate}
+
+\subsection*{Further reading}
+
+\begin{itemize}
+  \item Chapter 7 of Turbulent Flows by Stephen Pope.
+\end{itemize}
 
 \newpage
 \section{Surface gravity waves}
