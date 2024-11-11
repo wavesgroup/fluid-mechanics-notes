@@ -4304,13 +4304,44 @@ illustrated in Figure \ref{fig:turbulent_spectrum_3d}.
 \newpage
 \section{Boundary layers}
 
+\noindent
+\textbf{
+  Caution: I use some figures from Pope's Turbulent Flows (Chapter 7).
+  Some of the mathematical notation, such as the
+  vertical and cross-stream coordinates, and the averaging operators
+  (angle brackets and overlines) are reverse from the convention that we use
+  in the main text.
+  Be aware of this until I implement my own figures.
+}
+
 \subsection{Channel flow}
+
+A channel flow is a classic problem in fluid mechanics that is both relevant to
+engineering applications, and analogous to larger-scale geophysical flows.
+We begin by setting up the problem and establishing the governing equations
+and the notation that we will use.
+Then, we explore some analytical and numerical solutions for the time-mean
+flow structure within the channel.
 
 \subsubsection{Governing equations and boundary conditions}
 
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.8\textwidth]{assets/fig_channel_flow.png}
+  \caption{
+    Sketch of a channel flow.
+    The height of the channel is $h$ and the flow is in the $x$ direction.
+    Although the vertical and the cross-stream coordinates are denoted as $y$
+    and $z$ here, respectively, we will be using the opposite notation with $z$
+    being the vertical coordinate and $y$ the cross-stream coordinate.
+    This is Figure 7.1a from Turbulent Flows by Pope.
+  }
+  \label{fig:channel_flow}
+\end{figure}
+
 Let's examine a flow in a channel between two flat plates, spaced apart by a
 a distance $h = 2\delta$, such that $\delta$ represents the centerline distance
-between the plates.
+between the plates (Fig. \ref{fig:channel_flow}).
 The channel is long ($L \gg \delta$) and wide ($W \gg \delta$), so there is no
 variability in the $x$ and $y$ directions.
 The mean flow is predominantly in the $x$ direction, so if the velocity is
@@ -4449,7 +4480,198 @@ and that has a centerline value of:
   u_0 = \overline{u}(z=\delta) = \frac{\tau_w \delta}{2 \rho \nu}
 \end{equation}
 
+The preceding equations determine the stress and velocity profiles strictly in
+laminar flows, \textit{i.e.} for relatively small Reynolds numbers.
+Let's see what the profiles may look like in turbulent flows.
+
+\subsubsection{Turbulent flow}
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.6\textwidth]{assets/fig_channel_flow_turbulent_u.png}
+  \caption{
+    Mean velocity profile normalized by the bulk velocity in a fully developed
+    turbulent channel flow, from the DNS of Kim et al. (1987).
+    Dashed and solid lines are for $Re = 5,600$ and $Re = 13,750$, respectively.
+    Note that in the axis labels, $y$ is the vertical coordinate and the
+    angle brackets and overline denote averaging in the opposite sense from
+    our notation in the main text.
+    This is Figure 7.2 from Turbulent Flows by Pope.
+  }
+  \label{fig:channel_flow_turbulent_u}
+\end{figure}
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=\textwidth]{assets/fig_channel_flow_stress_profiles.png}
+  \caption{
+    As in Fig. \ref{fig:channel_flow_turbulent_u}, but for the vertical profiles
+    of the viscous and turbulent Reynolds stresses.
+    This is Figure 7.3 from Turbulent Flows by Pope.
+  }
+  \label{fig:channel_flow_stress_profiles}
+\end{figure}
+In the laminar case, we were able to analytically derive the velocity and stress
+profiles.
+However, in the turbulent case, the problem is much more complex and analytical
+solutions are not feasible due to the presence of the turbulent Reynolds stress
+term.
+Direct Numerical Simulations (DNS) reveal what a turbulent velocity profile
+in a channel may look like (Fig. \ref{fig:channel_flow_turbulent_u}).
+
+At the boundaries, we can't have any flow through the walls of the channel,
+the velocity and thus the turbulent Reynolds stresses must be zero, and so the
+wall shear stress must be entirely due to the viscosity:
+
+\begin{equation}
+  \tau_w = \rho \nu \left( \frac{\partial \overline{u}}{\partial z} \right)_{z=0}
+\end{equation}
+Recall from Eq. (\ref{eq:channel_tau}) that the stress $\tau$ is always composed
+of the viscous and turbulent parts.
+However, in turbulent flows, the relative contributions of the viscous and
+turbulent parts vary greatly as we move away from the wall.
+Fig. \ref{fig:channel_flow_turbulent_u} shows how, in a well developed turbulent
+flow, the mean velocity increases as we move further away from the wall.
+At about 0.4 of the way toward the centerline, the time-mean velocity
+approximately equals the bulk velocity, and exceeds it as we approach the
+centerline.
+The profiles are also somewhat different depending on the Reynolds number, with
+the velocity profile being gentler for a smaller Reynolds number flow.
+This is somewhat intuitive, as we know that the turbulent Reynolds stresses
+are much more effective at mixing than the molecular viscosity.
+A somewhat less turbulent flow is thus expected to have a gentler velocity,
+as its momentum is being mixed more by viscosity and less by turbulence.
+
+What is the vertical structure of the viscous and turbulent Reynolds stresses
+then?
+We don't have an analytical solution for the stress profiles, like we did in the
+laminar case, but we can look at the DNS data to see what the profiles look like.
+Fig. \ref{fig:channel_flow_stress_profiles} shows the vertical profiles of the
+viscous and turbulent Reynolds stresses based on the DNS data of Kim et al.
+(1987).
+Consistent with Eq. (\ref{eq:channel_tau_profile}), the total stress decreases
+linearly from $\tau_w$ at the wall to zero at the centerline.
+However, the stress components vary differently between one another.
+The viscous stress makes up all of the stress at the very wall, and rapidly
+decreases as we move away from the wall.
+The turbulent stress, on the other hand, is zero at the wall, and rapidly
+increases as we move away from the wall.
+At a lower Reynolds number, the turbulent stress reaches a lower peak value,
+with the peak being further away from the wall, compared to the higher
+Reynolds number case.
+
+It is clear from Figs. \ref{fig:channel_flow_turbulent_u} and
+\ref{fig:channel_flow_stress_profiles} that viscosity (via the Reynolds number)
+and the wall stress $\tau_w$ are important parameters for the vertical structure
+of the flow.
+These quantities, alongside the fluid density $\rho$, allow us to define the
+\textit{viscous scales} (length and velocity) that govern the the flow near the
+wall.
+These are the \textit{friction velocity}\index{Friction velocity}:
+
+\begin{equation}
+  u_* \equiv \sqrt{\tau_w/\rho}
+\end{equation}
+and the \textit{viscous length scale}\index{Viscous length scale}:
+
+\begin{equation}
+  \delta_\nu \equiv \nu/u_*
+\end{equation}
+The viscous length scale, also known as the \textit{wall unit}, quantifies the
+distance from the wall at which the smallest turbulent motions are felt, and
+within which all dissipation of kinetic energy is done by viscosity.
+
+It's useful to also distinguish between the viscous Reynolds number:
+
+\begin{equation}
+  Re_\nu \equiv \frac{u_* \delta_\nu}{\nu}
+\end{equation}
+which, as we saw before, is identically unity,
+and the \textit{friction Reynolds number}, defined as:
+
+\begin{equation}
+  Re_\tau \equiv \frac{u_* \delta}{\nu}
+\end{equation}
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.6\textwidth]{assets/fig_channel_flow_stress_fractions.png}
+  \caption{
+    Profiles of the fractional contributions of the viscous and turbulent
+    Reynolds stresses to the total stress, based on the DNS data of Kim et al.
+    (1987), as in Figs. \ref{fig:channel_flow_turbulent_u} and
+    \ref{fig:channel_flow_stress_profiles}.
+    This is Figure 7.4 from Turbulent Flows by Pope.
+  }
+  \label{fig:channel_flow_stress_fractions}
+\end{figure}
+
+Based on the viscous length scale, we define a new non-dimensional coordinate
+$z^+$ as:
+
+\begin{equation}
+  z^+ \equiv \frac{z}{\delta_\nu} = \frac{u_* z}{\nu}
+\end{equation}
+which is the physical vertical distance normalized by the viscous length scale.
+This quantity thus allows us to see how the flow properties vary with the 
+distance expressed as a number of wall units.
+One example of that is the fractional contribution of the viscous and turbulent
+stresses to the total stress, shown in Fig. \ref{fig:channel_flow_stress_fractions}.
+The fact that the stress contribution profiles between the lower and higher
+Reynolds number cases almost collapse on one another when plotted against $z^+$
+(compare with the two cases in Fig. \ref{fig:channel_flow_stress_profiles})
+provides a hint into the usefulness of this non-dimensionalization.
+It demonstrates the universality of the turbulent flow structure, and allows us
+to make some general statements about the flow structure that are independent of
+the Reynolds number.
+This figure shows that the viscous and turbulent stresses become approximately
+equal at about $z^+ \approx 12$.
+Some useful criteria for $z^+$ in characterizing the flow regimes are:
+
+\begin{equation}
+  z^+ \lesssim 5 \quad \text{(viscous sublayer)}
+\end{equation}
+
+\begin{equation}
+  5 \lesssim z^+ \lesssim 50 \quad \text{(viscous wall region)}
+\end{equation}
+
+\begin{equation}
+  z^+ \gtrsim 50 \quad \text{(outer region)}
+\end{equation}
+
+\subsubsection{Velocity structure in various wall regions}
+
+Now, let's look at the time-mean velocity profiles in the turbulent channel flow,
+and in various regions near and away from the wall.
+When fully developed, such flow is completely determined by the fluid density
+$\rho$, the kinematic viscosity $\nu$, the channel half-height $\delta$, and
+the friction velocity $u_*$, because:
+
+\begin{equation}
+  u_* = \sqrt{- \frac{\delta}{\rho} \frac{\partial \overline{p}}{\partial x}}
+\end{equation}
+Between these parameters, there are only two independent non-dimensional groups
+that can be formed: $z/\delta$ and $Re_\tau = u_* \delta / \nu$.
+It should then be possible to express the velocity profile as a function of
+these parameters:
+
+\begin{equation}
+  \overline{u}(z) = u_* F\left(\frac{z}{\delta}, Re_\tau\right)
+\end{equation}
+
+Next up: the viscous sublayer, law of the wall, and the outer region.
+
 \subsection{Flow over a flat plate}
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.8\textwidth]{assets/fig_wall_flow.png}
+  \caption{
+    This is Figure 7.1c from Turbulent Flows by Pope.
+  }
+  \label{fig:wall_flow}
+\end{figure}
 
 \subsection{Planetary boundary layers}
 
