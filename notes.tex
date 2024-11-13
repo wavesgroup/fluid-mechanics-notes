@@ -4525,6 +4525,7 @@ wall shear stress must be entirely due to the viscosity:
 
 \begin{equation}
   \tau_w = \rho \nu \left( \frac{\partial \overline{u}}{\partial z} \right)_{z=0}
+  \label{eq:wall_stress}
 \end{equation}
 Recall from Eq. (\ref{eq:channel_tau}) that the stress $\tau$ is always composed
 of the viscous and turbulent parts.
@@ -4580,6 +4581,11 @@ and the \textit{viscous length scale}\index{Viscous length scale}:
 The viscous length scale, also known as the \textit{wall unit}, quantifies the
 distance from the wall at which the smallest turbulent motions are felt, and
 within which all dissipation of kinetic energy is done by viscosity.
+On the other hand, the friction velocity $u_*$ is not a physical velocity of the
+flow at any single location, but rather a scaling parameter with the units of
+velocity that characterizes the flow near the wall.
+Mathematically, you can think of it as the wall shear stress expressed in units
+of velocity.
 
 It's useful to also distinguish between the viscous Reynolds number:
 
@@ -4640,6 +4646,9 @@ Some useful criteria for $z^+$ in characterizing the flow regimes are:
   z^+ \gtrsim 50 \quad \text{(outer region)}
 \end{equation}
 
+Let's now examine in more detail each of these regions and see if flow structure
+varies significantly between them.
+
 \subsubsection{Velocity structure in various wall regions}
 
 Now, let's look at the time-mean velocity profiles in the turbulent channel flow,
@@ -4659,21 +4668,179 @@ these parameters:
 \begin{equation}
   \overline{u}(z) = u_* F\left(\frac{z}{\delta}, Re_\tau\right)
 \end{equation}
+where $F$ is some yet-to-be-determined non-dimensional function.
+However, since both the viscous stress and the turbulent production are determined
+by the mean shear $\partial \overline{u}/\partial z$, it may be more useful to
+seek the form of the velocity profile in terms of the mean shear:
 
-Next up: the viscous sublayer, law of the wall, and the outer region.
+\begin{equation}
+  \frac{\partial \overline{u}}{\partial z} = \frac{u_*}{z} \Phi\left(\frac{z}{\delta}, \frac{z}{\delta_\nu}\right)
+  \label{eq:law_of_wall1}
+\end{equation}
+where $\Phi$ is, like $F$ before, some yet-to-be-determined non-dimensional
+function, and the proportionality to $u_*/z$ is proposed on dimensional grounds.
+Notice that the second argument of $G$, $z/\delta_\nu$ (which we also defined
+earlier as $z^+$), is equivalent to $Re_\tau z/\delta$, so it is useful to see
+$G$ as a function of two non-dimensional heights, one characteristic of the
+boundary layer and another of the viscous sublayer.
 
-\subsection{Flow over a flat plate}
+Let's focus for now on the region closest to the wall, which may include the
+viscous sublayer and extend somewhat beyond it.
+Prandtl (1925) hypothesized that at high Reynolds numbers, there is a region
+very near the wall ($z \ll \delta$), called the \textit{inner layer}, in which
+the mean velocity profile is entirely governed by viscosity, and is independent
+of the boundary layer size $\delta$ and the centerline velocity $u_0$.
+Thus, as $z/\delta \to 0$, $\Phi(z/\delta, z/\delta_\nu) \to \Phi_I(z/\delta_\nu)$,
+so in this region Eq. (\ref{eq:law_of_wall1}) reduces to:
+
+\begin{equation}
+  \frac{\partial \overline{u}}{\partial z} =
+  \frac{u_*}{z} \Phi_I\left(\frac{z}{\delta_\nu}\right) =
+  \frac{u_*}{z} \Phi_I\left(z^+\right)
+  \label{eq:law_of_wall2}
+\end{equation}
+Since $\Phi_I$ is a function of $z^+$ and it's the function that we want to
+determine, let's express the other variables in Eq. (\ref{eq:law_of_wall2}) in
+terms of $z^+$ as well.
+To do that, we introduce the non-dimensional velocity which is the velocity
+normalized by the friction velocity:
+
+\begin{equation}
+  u^+ \equiv \frac{\overline{u}}{u_*}
+\end{equation}
+Recalling that $u_* = \nu/\delta_\nu$ and that $z^+ = z/\delta_\nu$, we can
+express Eq. (\ref{eq:law_of_wall2}) as:
+
+\begin{equation}
+  \frac{\partial u^+}{\partial z^+} = \frac{1}{z^+} \Phi_I\left(z^+\right)
+  \label{eq:law_of_wall3}
+\end{equation}
+The non-dimensional velocity $u^+$ is thus a function of $z^+$ alone:
+
+\begin{equation}
+  u^+ = f_w(z^+)
+  \label{eq:law_of_wall4}
+\end{equation}
+where $f_w$ is the \textit{wall function}\index{Wall!Function}, expressed in
+terms of $z^+$ as:
+
+\begin{equation}
+  f_w(z^+) = \int_0^{z^+} \Phi_I(z) dz
+  \label{eq:law_of_wall5}
+\end{equation}
+Equations (\ref{eq:law_of_wall4})-(\ref{eq:law_of_wall5}) make the so-called
+\textit{law of the wall}\index{Wall!Law of the}.
+There is copious experimental and DNS evidence that $f_w(z^+)$ is a universal
+function for boundary layers in general.
+Let's find the form of this function for small and large values of $z^+$.
+
+In the viscous sublayer, we can establish from Eq. (\ref{eq:wall_stress}) and
+the no slip boundary condition that:
+
+\begin{equation}
+  f_w(0) = 0
+\end{equation}
+
+\begin{equation}
+  f'_w(0) = 1
+\end{equation}
+which implies that for very small values of $z^+$, the wall function is:
+
+\begin{equation}
+  f_w(z^+) \approx z^+
+  \label{eq:law_of_wall6}
+\end{equation}
+
+The validity of the linear scaling of the velocity with $z^+$ in the inner layer
+is shown based on DNS data in Fig. \ref{fig:law_of_the_wall_viscous_sublayer}.
+Up to about $z^+ \approx 5$, the velocity scales linearly with $z^+$, as expected
+from the viscous sublayer.
+However, beyond $z^+ \approx 5$, the velocity scales differently and we need
+to seek a different functional form for $f_w(z^+)$.
+Based on the data, it seems like the function may have a logarithmic dependence
+on $z^+$.
 
 \begin{figure}[h]
   \centering
-  \includegraphics[width=0.8\textwidth]{assets/fig_wall_flow.png}
+  \includegraphics[width=0.6\textwidth]{assets/fig_law_of_the_wall_viscous_sublayer.png}
   \caption{
-    This is Figure 7.1c from Turbulent Flows by Pope.
+    Near-wall profiles of mean velocity from the DNS data of Kim et al. (1987):
+    dashed line, $Re = 5,600$; solid line, $Re = 13,750$; dot-dashed line,
+    $u^+ = z^+$.
+    This is Figure 7.5 from Turbulent Flows by Pope.
   }
-  \label{fig:wall_flow}
+  \label{fig:law_of_the_wall_viscous_sublayer}
 \end{figure}
 
-\subsection{Planetary boundary layers}
+Away from the wall, we can suppose that the viscosity plays smaller role, and
+thus $\Phi_I(z^+)$ reduces to a constant, experimentally determined to be
+$1/\kappa$, where $\kappa$ is the von Kármán constant and approximately equal to
+$0.41$:
+
+\begin{equation}
+  \Phi_I(z^+) = \frac{1}{\kappa}, \quad \text{for } \frac{z}{\delta} \ll 50   \text{ and } z^+ \gg 1
+\end{equation}
+In this region, the velocity shear is then:
+
+\begin{equation}
+  \frac{\partial u^+}{\partial z^+} = \frac{1}{\kappa z^+}
+\end{equation}
+which integrates to:
+
+\begin{equation}
+  u^+ = \frac{1}{\kappa} \ln(z^+) + C
+  \label{eq:law_of_the_wall_loglaw}
+\end{equation}
+where $C$ is an integration constant, experimentally determined to be about $5.2$.
+Returning back to our dimensional variables, we can express the velocity profile
+as:
+
+\begin{equation}
+  \overline{u}(z) = u_* \left[ \frac{1}{\kappa} \ln\left(\frac{z}{\delta_\nu}\right) + 5.2 \right]
+  \label{eq:law_of_the_wall_loglaw_dim}
+\end{equation}
+
+The log-law is demonstrated based on DNS data in Fig. \ref{fig:law_of_the_wall_loglaw},
+and its universality (\textit{i.e.} independence of the Reynolds number) is
+demonstrated based on experimental data in Fig. \ref{fig:law_of_the_wall_measurements}.
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.6\textwidth]{assets/fig_law_of_the_wall_loglaw.png}
+  \caption{
+    Near-wall profiles of mean velocity:
+    Solid line, DNS data of Kim et al. (1987), $Re = 13,750$;
+    dot-dashed line, $u^+ = z^+$; dashed line, the log-law.
+    This is Figure 7.6 from Turbulent Flows by Pope.
+  }
+  \label{fig:law_of_the_wall_loglaw}
+\end{figure}
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.6\textwidth]{assets/fig_law_of_the_wall_measurements.png}
+  \caption{
+    Mean velocity profiles in fully developed turbulent channel flow measured by
+    Wei and Willmarth (1989):
+    Circles, $Re_0 = 2,970$; squares, $Re_0 = 14,914$; upward triangles, $Re_0 = 22,776$;
+    downward triangles, $Re_0 = 39,582$; line, the log-law.
+    This is Figure 7.7 from Turbulent Flows by Pope.
+  }
+  \label{fig:law_of_the_wall_measurements}
+\end{figure}
+
+%\begin{figure}[h]
+%  \centering
+%  \includegraphics[width=0.8\textwidth]{assets/fig_wall_flow.png}
+%  \caption{
+%    Flow over a flat plate, with the mean flow velocity $U_0$ at the top of the
+%    boundary layer.
+%    Note the notation reversal from the main text, where $z$ is the vertical
+%    coordinate.
+%    This is Figure 7.1c from Turbulent Flows by Pope.
+%  }
+%  \label{fig:wall_flow}
+%\end{figure}
 
 \subsection{Exercises}
 
@@ -4682,6 +4849,12 @@ Next up: the viscous sublayer, law of the wall, and the outer region.
   of a laminar channel flow. How large is it compared to the centerline velocity
   $u_0$? How about the bulk Reynolds number relative to the centerline Reynolds
   number $Re_0$?
+  \item Consider a fully developed turbulent channel flow at $Re = 10^5$.
+  The fluid is water with $\rho = 10^3$ kg/m$^3$ and viscosity $\nu = 10^{-6}$ m$^2$/s.
+  The channel half-height is $\delta = 0.1$ m,
+  and the skin-friction coefficient is $C_f = u_*^2 / U_0^2 = 4 \times 10^{-3}$.
+  Find the bulk velocity $\left< u \right>$, the friction velocity $u_*$,
+  the friction Reynolds number $Re_\tau$, and the viscous length scale $\delta_\nu$.
 \end{enumerate}
 
 \subsection*{Further reading}
