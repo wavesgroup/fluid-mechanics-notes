@@ -769,19 +769,23 @@ Our total derivative becomes:
 The Lagrangian derivative of a volume will come in handy when we derive the
 continuity equation in the next chapter.
 
-%\subsection{Velocity potential}
+\subsection{Velocity potential}
 
-%Velocity potential is defined as a scalar field $\phi$ such that the velocity
-%field $\mathbf{u}$ is the gradient of $\phi$:
+Velocity potential is defined as a scalar field $\phi$ such that the velocity
+field $\mathbf{u}$ is the gradient of $\phi$:
 
-%\begin{equation}
-%  \mathbf{u} = \nabla \phi =
-%  \begin{bmatrix}
-%    \frac{\partial \phi}{\partial x} \\
-%    \frac{\partial \phi}{\partial y} \\
-%    \frac{\partial \phi}{\partial z}
-%  \end{bmatrix}
-%\end{equation}
+\begin{equation}
+  \mathbf{u} = \nabla \phi =
+  \begin{bmatrix}
+    \frac{\partial \phi}{\partial x} \\
+    \frac{\partial \phi}{\partial y} \\
+    \frac{\partial \phi}{\partial z}
+  \end{bmatrix}
+\end{equation}
+The concept of the velocity potential is useful in fluid mechanics because it is
+often easier to work with a scalar field than a vector field.
+We will revisit it later in Chapter \ref{sec:surface_gravity_waves} when we
+derive the equations of surface gravity waves.
 
 %\subsection{Stream function}
 
@@ -980,6 +984,7 @@ Although as simple as it gets, Eq. \ref{eq:continuity_incompressible} is
 extremely important in fluid dynamics.
 
 \subsection{Conservation of momentum}
+\label{sec:momentum}
 
 Like the conservation of mass, the conservation of momentum is a fundamental
 concept in fluid mechanics.
@@ -4866,6 +4871,148 @@ demonstrated based on experimental data in Fig. \ref{fig:law_of_the_wall_measure
 
 \newpage
 \section{Surface gravity waves}
+\label{sec:surface_gravity_waves}
+
+In this chapter, we examine in detail the boundary between the atmosphere and
+the ocean, that is, the surface waves.
+The key restoring force for the surface waves, as we will soon see, is gravity,
+and so these waves are often called \textit{gravity waves}\index{Gravity waves},
+much like the waves we explored as a solution of the shallow water equations in
+Chapter \ref{sec:shallow_water_systems}.
+
+\subsection{Governing equations}
+
+\subsubsection{Velocity potential}
+
+Key assumptions are that the fluid is incompressible
+($\nabla \cdot \mathbf{u} = 0$), inviscid ($\nu \nabla^2 \mathbf{u} = 0$),
+and irrotational ($\nabla \times \mathbf{u} = 0$).
+Velocity $\mathbf{u}$ then has a scalar potential $\phi$ such that:
+
+\begin{equation}
+  \mathbf{u} = \nabla \phi =
+  \frac{\partial \phi}{\partial x} \mathbf{i} +
+  \frac{\partial \phi}{\partial y} \mathbf{j} +
+  \frac{\partial \phi}{\partial z} \mathbf{k}
+\end{equation}
+Incompressibility then dictates that:
+
+\begin{equation}
+  \nabla \cdot \nabla \phi = \nabla^2 \phi = 0
+  \label{eq:laplace}
+\end{equation}
+This is called the Laplace equation, and it holds throughout the fluid.
+In two dimensions, horizontal and vertical, Eq. (\ref{eq:laplace}) is:
+
+\begin{equation}
+  \frac{\partial^2 \phi}{\partial x^2} + \frac{\partial^2 \phi}{\partial z^2} = 0
+  \label{eq:laplace_2d}
+\end{equation}
+which is sufficient if we consider surface waves that propagate in the
+$x$-direction and that are otherwise uniform in the $y$-direction.
+Although $\phi$ is allowed to vary in both space and time, the Laplace equation
+states that at any given time, $\phi$ anywhere in the interior of the fluid is
+determined by its values at the boundary (\textit{i.e.} the boundary conditions).
+
+\subsubsection{The Bernoulli equation}
+\label{sec:bernoulli}
+
+Although the Laplace equation governs the spatial distribution of the velocity
+potential depending on its values at the boundaries, it does not determine how
+it evolves in time.
+To do that, we can integrate the Euler equations of motion (introduced back in
+Section \ref{sec:momentum}, see Eq. \ref{eq:momentum_euler}) to obtain a
+steady-state relationship between the pressure and the velocity of the fluid.
+The Euler equations in $x$-$z$ plane are:
+
+\begin{equation}
+  \frac{\partial u}{\partial t} +
+  u \frac{\partial u}{\partial x} +
+  w \frac{\partial u}{\partial z} =
+  - \frac{1}{\rho} \frac{\partial p}{\partial x}
+  \label{eq:euler_x}
+\end{equation}
+
+\begin{equation}
+  \frac{\partial w}{\partial t} +
+  u \frac{\partial w}{\partial x} +
+  w \frac{\partial w}{\partial z} =
+  - \frac{1}{\rho} \frac{\partial p}{\partial z}
+  - g
+  \label{eq:euler_z}
+\end{equation}
+Now, recall that we require the flow to be irrotational, so:
+
+\begin{equation}
+  \omega = \frac{\partial w}{\partial x} - \frac{\partial u}{\partial z} = 0
+\end{equation}
+which leads to:
+
+\begin{equation}
+  \frac{\partial w}{\partial x} = \frac{\partial u}{\partial z}
+\end{equation}
+We can use this to rewrite Eqs. (\ref{eq:euler_x})-(\ref{eq:euler_z}) as:
+
+\begin{equation}
+  \frac{\partial u}{\partial t} +
+  \frac{1}{2} \left( \frac{\partial u^2}{\partial x} + \frac{\partial w^2}{\partial x} \right) =
+  - \frac{1}{\rho} \frac{\partial p}{\partial x}
+\end{equation}
+
+\begin{equation}
+  \frac{\partial w}{\partial t} +
+  \frac{1}{2} \left( \frac{\partial u^2}{\partial z} + \frac{\partial w^2}{\partial z} \right) =
+  - \frac{1}{\rho} \frac{\partial p}{\partial z} - g
+\end{equation}
+Now, express the velocity components in the time derivatives as gradients of the
+velocity potential:
+
+\begin{equation}
+  \frac{\partial}{\partial x} \left[
+    \frac{\partial \phi}{\partial t} +
+    \frac{1}{2} \left(u^2 + w^2\right) +
+    \frac{p}{\rho}
+  \right] = 0
+\end{equation}
+
+\begin{equation}
+  \frac{\partial}{\partial z} \left[
+    \frac{\partial \phi}{\partial t} +
+    \frac{1}{2} \left(u^2 + w^2\right) +
+    \frac{p}{\rho}
+  \right] = -g
+\end{equation}
+Integrating these equations with respect to $x$ and $z$ respectively, we obtain:
+
+\begin{equation}
+  \frac{\partial \phi}{\partial t} +
+  \frac{1}{2} \left(u^2 + w^2\right) +
+  \frac{p}{\rho} = C'(z, t)
+\end{equation}
+
+\begin{equation}
+  \frac{\partial \phi}{\partial t} +
+  \frac{1}{2} \left(u^2 + w^2\right) +
+  \frac{p}{\rho} = C(x, t) - gz
+\end{equation}
+where $C(x, t)$ and $C'(z, t)$ are integration constants that can vary in
+dimensions other than their respective dimension of integration.
+Since these equations have the same left-hand sides, their right-hand sides must
+be equal:
+
+\begin{equation}
+  C(x, t) = C'(z, t) + gz
+\end{equation}
+$C(x, t)$ thus can only depend on time, and we get our final equation form
+called the \textit{Bernoulli equation}\index{Bernoulli equation}:
+
+\begin{equation}
+  \frac{\partial \phi}{\partial t} +
+  \frac{1}{2} \left(u^2 + w^2\right) +
+  \frac{p}{\rho} + gz= C(t)
+\end{equation}
+The Bernoulli equation will serve as a dynamic free surface boundary condition
+as we proceed to derive the solutions for the surface gravity waves.
 
 \newpage
 \appendix
@@ -4914,6 +5061,12 @@ This section serves a quick reference for the key equations used in this book.\\
  
 \begin{equation}
   \frac{d}{dt} = \frac{\partial}{\partial t} + (\mathbf{u} \cdot \nabla)
+\end{equation}
+
+\textbf{Velocity as a gradient of a scalar potential:}
+
+\begin{equation}
+  \mathbf{u} = \nabla \phi
 \end{equation}
 
 \textbf{Continuity, Eulerian form:}
