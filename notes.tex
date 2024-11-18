@@ -4309,15 +4309,22 @@ illustrated in Figure \ref{fig:turbulent_spectrum_3d}.
 \newpage
 \section{Boundary layers}
 
-\noindent
-\textbf{
-  Caution: I use some figures from Pope's Turbulent Flows (Chapter 7).
-  Some of the mathematical notation, such as the
-  vertical and cross-stream coordinates, and the averaging operators
-  (angle brackets and overlines) are reverse from the convention that we use
-  in the main text.
-  Be aware of this until I implement my own figures.
-}
+Boundary layers occur when a fluid flows over some kind of boundary, whether
+rigid or free, stationary or moving.
+They are both interesting and convenient because they constrain the flow near
+the boundary and thus allow simplifications that may lead to analytical solutions.
+They are important because they are often the dominant flow structure in geophysical
+flows.
+For example, a planetary boundary layer separates the atmosphere from the surface
+of the Earth.
+The surface beneath the planetary boundary layer may be rigid (land or sea ice)
+or free (ocean), and its roughness and thermodynamic properties may vary greatly
+from place to place.
+In this chapter, we start from the simplest boundary layer, a channel flow, and
+derive the stress and mean velocity profiles in laminar flows.
+Then, we zoom into the vertical structure of the boundary layer in turbulent
+flows, and examine different regimes that occur depending on the distance from
+the boundary.
 
 \subsection{Channel flow}
 
@@ -4465,7 +4472,7 @@ where $\tau_w$ is the so-called wall stress whose value is yet to be determined.
 The stress thus decreases linearly from $\tau_w$ at the bottom wall to zero at
 the centerline, reaching $-\tau_w$ at the top wall.
 
-\subsubsection{Laminar flow}
+\subsection{Laminar flow}
 
 What does the velocity profile look like in the case of laminar flow?
 We can drop the Reynolds stress term in Eq. (\ref{eq:channel_tau}) and combine
@@ -4490,7 +4497,7 @@ The preceding equations determine the stress and velocity profiles strictly in
 laminar flows, \textit{i.e.} for relatively small Reynolds numbers.
 Let's see what the profiles may look like in turbulent flows.
 
-\subsubsection{Turbulent flow}
+\subsection{Turbulent flow}
 
 \begin{figure}[h]
   \centering
@@ -4655,7 +4662,7 @@ Some useful criteria for $z^+$ in characterizing the flow regimes are:
 Let's now examine in more detail each of these regions and see if flow structure
 varies significantly between them.
 
-\subsubsection{Velocity structure in various wall regions}
+\subsection{Velocity structure in various wall regions}
 
 Now, let's look at the time-mean velocity profiles in the turbulent channel flow,
 and in various regions near and away from the wall.
@@ -4879,11 +4886,24 @@ The key restoring force for the surface waves, as we will soon see, is gravity,
 and so these waves are often called \textit{gravity waves}\index{Gravity waves},
 much like the waves we explored as a solution of the shallow water equations in
 Chapter \ref{sec:shallow_water_systems}.
+In the first part of this chapter, we derive the solution for the
+small-amplitude (also often called linear) waves, which are valid when the
+wave amplitude is much smaller than the wavelength and the water depth.
+This assumption allows for a relatively straightforward solution of the flow
+anywhere below the free wavy surface.
+Although simplistic in its approximations, the linear wave theory has been
+surprisingly successful in predicting the behavior of the waves even when the
+assumptions behind it are clearly violated.
+The linear wave theory remains the basis of modern wave prediction models that
+are used in operational weather and ocean forecasting.
+After deriving the linear wave solutions, we will explore their properties
+and derive some second-order quantities with implication on mean ocean
+circulation.
 
-\subsection{Governing equations}
+\subsection{Small-amplitude wave derivation}
 
-\subsubsection{Velocity potential}
-
+\subsubsection{Governing equations}
+\label{sec:governing_equations}
 Key assumptions are that the fluid is incompressible
 ($\nabla \cdot \mathbf{u} = 0$), inviscid ($\nu \nabla^2 \mathbf{u} = 0$),
 and irrotational ($\nabla \times \mathbf{u} = 0$).
@@ -4913,13 +4933,7 @@ $x$-direction and that are otherwise uniform in the $y$-direction.
 Although $\phi$ is allowed to vary in both space and time, the Laplace equation
 states that at any given time, $\phi$ anywhere in the interior of the fluid is
 determined by its values at the boundary (\textit{i.e.} the boundary conditions).
-
-\subsubsection{The Bernoulli equation}
-\label{sec:bernoulli}
-
-Although the Laplace equation governs the spatial distribution of the velocity
-potential depending on its values at the boundaries, it does not determine how
-it evolves in time.
+It does not, however, determine how $\phi$ evolves in time.
 To do that, we can integrate the Euler equations of motion (introduced back in
 Section \ref{sec:momentum}, see Eq. \ref{eq:momentum_euler}) to obtain a
 steady-state relationship between the pressure and the velocity of the fluid.
@@ -5010,9 +5024,157 @@ called the \textit{Bernoulli equation}\index{Bernoulli equation}:
   \frac{\partial \phi}{\partial t} +
   \frac{1}{2} \left(u^2 + w^2\right) +
   \frac{p}{\rho} + gz= C(t)
+  \label{eq:bernoulli}
 \end{equation}
 The Bernoulli equation will serve as a dynamic free surface boundary condition
 as we proceed to derive the solutions for the surface gravity waves.
+
+\subsubsection{Boundary conditions}
+\label{sec:boundary_conditions}
+
+Now that we established the governing equations to solve, we need to specify the
+boundary conditions to determine the velocity potential in the interior.
+We will rely on a total of four boundary conditions:
+
+\begin{enumerate}
+  \item \textbf{Kinematic free surface boundary condition}:
+  This boundary condition determines the vertical velocity at the free surface
+  $\eta(x, t)$ by exploiting the fact that the Lagrangian (material) change of
+  the vertical position is the vertical velocity itself:
+  \begin{equation}
+    w = \frac{dz}{dt}\Big|_{z=\eta} = \frac{\partial \eta}{\partial t} + u \frac{\partial \eta}{\partial x}
+  \end{equation}
+  Expressed in terms of the velocity potential, this boundary condition becomes:
+  \begin{equation}
+    \frac{\partial \phi}{\partial z} =
+    \frac{\partial \eta}{\partial t} +
+    \frac{\partial \phi}{\partial x} \frac{\partial \eta}{\partial x}, \text{ at } z=\eta(x, t)
+  \end{equation}
+  \item \textbf{Dynamic free surface boundary condition}:
+  We leverage the Bernoulli equation (Eq. \ref{eq:bernoulli}) at the free surface
+  ($z = \eta$) and set the surface pressure to be zero:
+  \begin{equation}
+    \frac{\partial \phi}{\partial t} + \frac{1}{2} \left(u^2 + w^2\right) + g\eta = C(t), \text{ at } z=\eta(x, t)
+  \end{equation}
+  \item \textbf{Bottom boundary condition}:
+  The bottom is rigid and impermeable, so the vertical velocity is zero at the
+  bottom:
+  \begin{equation}
+    w = 0, \text{ at } z = -h
+  \end{equation}
+  where $h$ is the mean depth of the fluid.
+  \item \textbf{Lateral boundary condition}:
+  At the lateral boundaries, since we're seeking a wave solution, we know that
+  the velocity potential must be periodic in the horizontal space as well as
+  time:
+  \begin{equation}
+    \phi(x, t) = \phi(x+L, t)
+  \end{equation}
+  \begin{equation}
+    \phi(x, t) = \phi(x, t+T)
+  \end{equation}
+  where $L$ is the wavelength and $T$ is the period.
+\end{enumerate}
+With these four boundary conditions, we are now equipped to solve for the velocity
+potential in the interior of the fluid.
+
+\subsubsection{Solution}
+
+Our key equation to solve is the Laplace equation (Eq. \ref{eq:laplace})
+for the velocity potential $\phi$ that varies in the horizontal and vertical
+direction $x$ and $z$ respectively, as well as time $t$:
+
+\begin{equation}
+  \nabla^2 \phi(x, z, t) = 0
+  \label{eq:laplace2}
+\end{equation}
+To solve this equation, we will rely on the method of separation of variables,
+where we assume that the solution can be written as a product of functions that
+depend on each coordinate separately:
+
+\begin{equation}
+  \phi(x, z, t) = \phi_x(x) \phi_z(z) \phi_t(t)
+\end{equation}
+We can start from the time-dependent part $\phi_t(t)$ and recall the lateral
+boundary condition which states that the velocity potential must be periodic
+in time, which is true for sines and cosines (and some combinations of them).
+For a sine function of a phase $\varphi$, this is true:
+
+\begin{equation}
+  \sin(\varphi) = \sin(\varphi + 2\pi)
+\end{equation}
+And expressing it as a function of time:
+
+\begin{equation}
+  \sin(\omega t) = \sin(\omega t + 2\pi)
+\end{equation}
+where $\omega$ is the angular frequency in units of radians per second, so that
+the phase $\varphi$ has angle units (radians).
+We can then write the velocity potential as:
+
+\begin{equation}
+  \phi(x, z, t) = \phi_x(x) \phi_z(z) \sin(\omega t)
+  \label{eq:phi1}
+\end{equation}
+Insert this into Eq. (\ref{eq:laplace2}) to get:
+
+\begin{equation}
+  \frac{\partial^2 \phi_x}{\partial x^2} \phi_z \sin(\omega t) +
+  \phi_x \frac{\partial^2 \phi_z}{\partial z^2} \sin(\omega t) = 0
+\end{equation}
+Divide by $\phi_x \phi_z \sin(\omega t)$ to get:
+
+\begin{equation}
+  \frac{1}{\phi_x} \frac{\partial^2 \phi_x}{\partial x^2} +
+  \frac{1}{\phi_z} \frac{\partial^2 \phi_z}{\partial z^2} = 0
+  \label{eq:phi2}
+\end{equation}
+Can we separate this even further?
+Recall that $\phi_x$ and $\phi_z$ are functions of $x$ and $z$ respectively.
+If, for example, we hold $x$ constant and consider variations in $z$, the
+first term would remain constant but the second term would not!
+You can arrive to the same conclusion by holding $z$ constant and varying $x$.
+This would clearly violate Eq. (\ref{eq:phi2}), and so the only way that
+equation can hold is if both $\phi_x$ and $\phi_z$ are equal to the same
+constant but with opposite signs:
+
+\begin{equation}
+  \frac{1}{\phi_x} \frac{\partial^2 \phi_x}{\partial x^2} = -k^2
+  \label{eq:phi3}
+\end{equation}
+
+\begin{equation}
+  \frac{1}{\phi_z} \frac{\partial^2 \phi_z}{\partial z^2} = k^2
+  \label{eq:phi4}
+\end{equation}
+where $k$ is the separation constant.
+These can also be written as:
+
+\begin{equation}
+  \frac{\partial^2 \phi_x}{\partial x^2} + k^2 \phi_x = 0
+  \label{eq:phi5}
+\end{equation}
+
+\begin{equation}
+  \frac{\partial^2 \phi_z}{\partial z^2} - k^2 \phi_z = 0
+  \label{eq:phi6}
+\end{equation}
+For real values of $k$, the solutions to these equations are:
+
+\begin{equation}
+  \phi_x(x) = A \sin(kx) + B \cos(kx)
+\end{equation}
+
+\begin{equation}
+  \phi_z(z) = C e^{kz} + D e^{-kz}
+\end{equation}
+where $A$, $B$, $C$, and $D$ are constants that are yet to be determined.
+We now write our intermediate solution for the velocity potential as:
+
+\begin{equation}
+  \phi(x, z, t) = \left[ A \sin(kx) + B \cos(kx) \right] \left[ C e^{kz} + D e^{-kz} \right] \sin(\omega t)
+  \label{eq:phi_inter}
+\end{equation}
 
 \newpage
 \appendix
