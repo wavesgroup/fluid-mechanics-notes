@@ -4697,6 +4697,18 @@ earlier as $z^+$), is equivalent to $Re_\tau z/\delta$, so it is useful to see
 $G$ as a function of two non-dimensional heights, one characteristic of the
 boundary layer and another of the viscous sublayer.
 
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.6\textwidth]{assets/fig_law_of_the_wall_viscous_sublayer.png}
+  \caption{
+    Near-wall profiles of mean velocity from the DNS data of Kim et al. (1987):
+    dashed line, $Re = 5,600$; solid line, $Re = 13,750$; dot-dashed line,
+    $u^+ = z^+$.
+    This is Figure 7.5 from Turbulent Flows by Pope.
+  }
+  \label{fig:law_of_the_wall_viscous_sublayer}
+\end{figure}
+
 Let's focus for now on the region closest to the wall, which may include the
 viscous sublayer and extend somewhat beyond it.
 Prandtl (1925) hypothesized that at high Reynolds numbers, there is a region
@@ -4775,14 +4787,14 @@ on $z^+$.
 
 \begin{figure}[h]
   \centering
-  \includegraphics[width=0.6\textwidth]{assets/fig_law_of_the_wall_viscous_sublayer.png}
+  \includegraphics[width=0.6\textwidth]{assets/fig_law_of_the_wall_loglaw.png}
   \caption{
-    Near-wall profiles of mean velocity from the DNS data of Kim et al. (1987):
-    dashed line, $Re = 5,600$; solid line, $Re = 13,750$; dot-dashed line,
-    $u^+ = z^+$.
-    This is Figure 7.5 from Turbulent Flows by Pope.
+    Near-wall profiles of mean velocity:
+    Solid line, DNS data of Kim et al. (1987), $Re = 13,750$;
+    dot-dashed line, $u^+ = z^+$; dashed line, the log-law.
+    This is Figure 7.6 from Turbulent Flows by Pope.
   }
-  \label{fig:law_of_the_wall_viscous_sublayer}
+  \label{fig:law_of_the_wall_loglaw}
 \end{figure}
 
 Away from the wall, we can suppose that the viscosity plays smaller role, and
@@ -4816,18 +4828,6 @@ as:
 The log-law is demonstrated based on DNS data in Fig. \ref{fig:law_of_the_wall_loglaw},
 and its universality (\textit{i.e.} independence of the Reynolds number) is
 demonstrated based on experimental data in Fig. \ref{fig:law_of_the_wall_measurements}.
-
-\begin{figure}[h]
-  \centering
-  \includegraphics[width=0.6\textwidth]{assets/fig_law_of_the_wall_loglaw.png}
-  \caption{
-    Near-wall profiles of mean velocity:
-    Solid line, DNS data of Kim et al. (1987), $Re = 13,750$;
-    dot-dashed line, $u^+ = z^+$; dashed line, the log-law.
-    This is Figure 7.6 from Turbulent Flows by Pope.
-  }
-  \label{fig:law_of_the_wall_loglaw}
-\end{figure}
 
 \begin{figure}[h]
   \centering
@@ -4930,13 +4930,24 @@ In two dimensions, horizontal and vertical, Eq. (\ref{eq:laplace}) is:
 \end{equation}
 which is sufficient if we consider surface waves that propagate in the
 $x$-direction and that are otherwise uniform in the $y$-direction.
+
 Although $\phi$ is allowed to vary in both space and time, the Laplace equation
 states that at any given time, $\phi$ anywhere in the interior of the fluid is
 determined by its values at the boundary (\textit{i.e.} the boundary conditions).
 It does not, however, determine how $\phi$ evolves in time.
-To do that, we can integrate the Euler equations of motion (introduced back in
-Section \ref{sec:momentum}, see Eq. \ref{eq:momentum_euler}) to obtain a
-steady-state relationship between the pressure and the velocity of the fluid.
+One important property of the velocity potential is that it is not unique,
+\textit{i.e.} there are infinitely many functions that satisfy the Laplace
+equation.
+For example, if $\phi$ is a velocity potential, then so is $\phi + C$, where $C$
+is a scalar constant, and so is $\phi + f(t)$, where $f(t)$ is an arbitrary
+function of time.
+Another one is that a sum of any number of velocity potentials is also a
+velocity potential.
+
+Now, to determine the time dependence of $\phi$, we can integrate the Euler
+equations of motion (introduced back in Section \ref{sec:momentum}, see
+Eq. \ref{eq:momentum_euler}) to obtain a steady-state relationship between the
+pressure and the velocity of the fluid.
 The Euler equations in $x$-$z$ plane are:
 
 \begin{equation}
@@ -5110,7 +5121,10 @@ And expressing it as a function of time:
 \end{equation}
 where $\omega$ is the angular frequency in units of radians per second, so that
 the phase $\varphi$ has angle units (radians).
-We can then write the velocity potential as:
+Notice that we could have picked (and soon, we will) a cosine function instead of
+a sine function, and the solution would be still be valid.
+With the choice of a sine for the time-dependent part of the potential, we write
+the full velocity potential as:
 
 \begin{equation}
   \phi(x, z, t) = \phi_x(x) \phi_z(z) \sin(\omega t)
@@ -5167,6 +5181,7 @@ For real values of $k$, the solutions to these equations are:
 
 \begin{equation}
   \phi_z(z) = C e^{kz} + D e^{-kz}
+  \label{eq:phi_z}
 \end{equation}
 where $A$, $B$, $C$, and $D$ are constants that are yet to be determined.
 We now write our intermediate solution for the velocity potential as:
@@ -5175,6 +5190,164 @@ We now write our intermediate solution for the velocity potential as:
   \phi(x, z, t) = \left[ A \sin(kx) + B \cos(kx) \right] \left[ C e^{kz} + D e^{-kz} \right] \sin(\omega t)
   \label{eq:phi_inter}
 \end{equation}
+
+Next, let's attempt to constrain the $z$-dependent part of the potential,
+$\phi_z(z) = C e^{kz} + D e^{-kz}$.
+Recall the bottom boundary condition which for a flat bottom requires $w = 0$
+at $z = -h$.
+Then:
+
+\begin{equation}
+  w = \frac{\partial \phi_z}{\partial z} = k \left( C e^{kz} - D e^{-kz} \right) = 0
+\end{equation}
+which implies $C = D e^{2kh}$.
+Insert this back into Eq. (\ref{eq:phi_z}) to get:
+
+\begin{equation}
+  \begin{split}
+    \phi_z(z) &=
+    D \left( e^{2kh} e^{kz} + e^{-kz} \right) \\
+    &=
+    2 D e^{kh} \left( e^{k(z+h)} + e^{-k(z+h)} \right) \\
+    &=
+    2 D e^{kh} \cosh\left( k(z+h) \right)
+  \end{split}
+\end{equation}
+Inserting this back into Eq. (\ref{eq:phi_inter}) we get:
+
+\begin{equation}
+  \phi(x, z, t) = \left[ A \sin(kx) + B \cos(kx) \right] 2 D e^{kh} \cosh\left( k(z+h) \right) \sin(\omega t)
+  \label{eq:phi_inter2}
+\end{equation}
+
+Now, how about the free surface boundary condition?
+Recall the Bernoulli equation at $z = \eta$ with $p = 0$:
+
+\begin{equation}
+  \frac{\partial \phi}{\partial t} + \frac{1}{2} \left(u^2 + w^2\right) + g\eta = C(t), \text{ at } z=\eta(x, t)
+  \label{eq:bernoulli_free_surface}
+\end{equation}
+If we denote this equation as BE, we could evaluate it at the free surface
+$z = \eta$ using a Taylor expansion around $z = 0$:
+
+\begin{equation}
+  BE_{z=\eta} = BE_{z=0} +
+  \eta \frac{\partial{BE}}{\partial z} +
+  \frac{1}{2} \eta^2 \frac{\partial^2{BE}}{\partial z^2} + \cdots
+\end{equation}
+To greatly simplify the algebra, this is where we invoke the small-amplitude
+approximation, which effectively states that if $\eta \ll 1$, then 
+$\eta^2 \ll \eta$, $\eta \ll u \eta$, $u \ll u^2$, and so on.
+This is where the \textit{linearization} of the wave solution occurs, and it's
+where it is possible to find wave solutions to a higher-order, such as those
+of the Stokes wave theory.
+For brevity, we keep only the first-order terms being the largest and write:
+
+\begin{equation}
+  \left( \frac{\partial \phi}{\partial t} + g\eta \right)_{z=0} = C(t)
+\end{equation}
+and from here we have the expression for the free surface elevation as function
+of the potential and time:
+
+\begin{equation}
+  \eta = - \frac{1}{g} \left. \frac{\partial \phi}{\partial t} \right|_{z=0} + \frac{C(t)}{g}
+\end{equation}
+As by definition $\eta$ is a periodic displacement around the mean water level,
+its spatial and temporal average is zero, so $C(t)$ must be zero as well.
+The surface elevation is then:
+
+\begin{equation}
+  \eta = - 2 D \frac{\omega}{g}e^{kh} \cosh{kh} \left[ A \cos(kx) + B \sin{kx} \right] \cos(\omega t)
+  \label{eq:eta}
+\end{equation}
+and so the constant $D$ must be such that the wave amplitude is:
+
+\begin{equation}
+  a = - 2 D \frac{\omega}{g}e^{kh} \cosh{kh}
+\end{equation}
+and the constant $D$ is:
+
+\begin{equation}
+  D = - \frac{a g}{2 \omega e^{kh} \cosh{kh}}
+\end{equation}
+Insert this back to our intermediate solution for the velocity potential
+(Eq. \ref{eq:phi_inter2}) and moving the minus sign into the $z$-dependent part
+of the potential, we get:
+
+\begin{equation}
+  \phi(x, z, t) = \frac{a g}{\omega} \frac{\cosh[k(h+z)]}{\cosh(kh)} \left[ A \sin(kx) + B \cos(kx) \right] \sin(- \omega t)
+\end{equation}
+which is our new intermediate solution for $\phi$.
+
+Let's revisit again the lateral boundary conditions and recognize that
+$\phi_x = A \cos(kx) + B \sin(kx)$, $\phi_x = A \cos(kx)$ and $\phi_x = B \sin(kx)$
+are all valid solutions to the Laplace equation, which means that any combination
+of them is a valid wave solution.
+Same is true for $\phi_z$ where we chose a sine form, but we could have chosen
+a cosine form instead, or some combination of the two.
+This property of the velocity potential allows us to describe both standing
+and progressive waves with the same functional form for $\phi$.
+Specifically:
+
+\begin{equation}
+  \phi(x, z, t) = \frac{a g}{\omega} \frac{\cosh[k(h+z)]}{\cosh(kh)} \cos(kx) \sin(- \omega t)
+\end{equation}
+is a valid velocity potential that belongs to a \textit{standing wave} with
+amplitude $a$, and
+
+\begin{equation}
+  \phi(x, z, t) = \frac{a g}{\omega} \frac{\cosh[k(h+z)]}{\cosh(kh)} \sin(kx - \omega t)
+\end{equation}
+is a valid velocity potential that belongs to a \textit{progressive wave} with
+amplitude $a$.
+The latter form of the velocity potential we arrive to by recognizing that
+both the sines and cosines are valid forms for the $x$- and $z$- dependent parts
+of the velocity potential, and we can thus linearly combine them to obtain a
+valid velocity potential that belongs to a progressive wave, specifically:
+
+\begin{equation}
+  \sin(kx) \cos(-\omega t) - \cos(kx) \sin(-\omega t) = \sin(kx - \omega t)
+\end{equation}
+The elevation that corresponds to this velocity potential is:
+
+\begin{equation}
+  \eta = a \cos(kx - \omega t)
+\end{equation}
+
+And finally, for the kinematic free surface boundary condition, where, to the
+first order (recall our small-amplitude approximation), we have:
+
+\begin{equation}
+  w = \frac{\partial \phi}{\partial z}\Big|_{z=0} = \frac{\partial \eta}{\partial t}\Big|_{z=0}
+\end{equation}
+which leads to:
+
+\begin{equation}
+  \frac{a g k}{\omega} \frac{\sinh(kh)}{\cosh(kh)} \sin(kx - \omega t) =
+  a \omega \sin(kx - \omega t)
+\end{equation}
+Simplifying on both sides, we arrive to:
+
+\begin{equation}
+  \omega^2 = g k \tanh(kh)
+\end{equation}
+which is the \textit{dispersion relationship} for surface gravity waves.
+
+Let's now evaluate this dispersion relationship in the limits of shallow and
+deep water.
+In deep water, $kh \to \infty$ and so $\tanh(kh) \to 1$.
+Then:
+
+\begin{equation}
+  \omega^2 = g k \tanh(kh) \to g k
+\end{equation}
+In contrast, in shallow water, $kh \to 0$ and so $\tanh(kh) \to kh$.
+Then:
+
+\begin{equation}
+  \omega^2 = g k \tanh(kh) \to g k^2 h
+\end{equation}
+
 
 \newpage
 \appendix
