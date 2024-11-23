@@ -5054,6 +5054,7 @@ We will rely on a total of four boundary conditions:
   the vertical position is the vertical velocity itself:
   \begin{equation}
     w = \frac{dz}{dt}\Big|_{z=\eta} = \frac{\partial \eta}{\partial t} + u \frac{\partial \eta}{\partial x}
+    \label{eq:kfsbc}
   \end{equation}
   Expressed in terms of the velocity potential, this boundary condition becomes:
   \begin{equation}
@@ -5293,29 +5294,52 @@ Specifically:
   \phi(x, z, t) = \frac{a g}{\omega} \frac{\cosh[k(h+z)]}{\cosh(kh)} \cos(kx) \sin(- \omega t)
 \end{equation}
 is a valid velocity potential that belongs to a \textit{standing wave} with
-amplitude $a$, and
-
-\begin{equation}
-  \phi(x, z, t) = \frac{a g}{\omega} \frac{\cosh[k(h+z)]}{\cosh(kh)} \sin(kx - \omega t)
-\end{equation}
-is a valid velocity potential that belongs to a \textit{progressive wave} with
 amplitude $a$.
-The latter form of the velocity potential we arrive to by recognizing that
-both the sines and cosines are valid forms for the $x$- and $z$- dependent parts
-of the velocity potential, and we can thus linearly combine them to obtain a
-valid velocity potential that belongs to a progressive wave, specifically:
+Recognizing that both the sines and cosines are valid forms for the $x$- and
+$t$-dependent parts of the velocity potential, and we can thus linearly combine
+them to obtain a valid velocity potential that belongs to a progressive wave,
+specifically:
 
 \begin{equation}
   \sin(kx) \cos(-\omega t) - \cos(kx) \sin(-\omega t) = \sin(kx - \omega t)
+\end{equation}
+A valid velocity potential that belongs to a \textit{progressive wave} with
+amplitude $a$ is then:
+
+\begin{equation}
+  \phi(x, z, t) = \frac{a g}{\omega} \frac{\cosh[k(h+z)]}{\cosh(kh)} \sin(kx - \omega t)
+  \label{eq:wave_potential}
 \end{equation}
 The elevation that corresponds to this velocity potential is:
 
 \begin{equation}
   \eta = a \cos(kx - \omega t)
+  \label{eq:wave_elevation}
 \end{equation}
+Equations (\ref{eq:wave_potential}) and (\ref{eq:wave_elevation}) fully describe
+the spatial and temporal evolution of a wave with amplitude $a$ and wavenumber
+$k$ over mean water depth $h$.
 
-And finally, for the kinematic free surface boundary condition, where, to the
-first order (recall our small-amplitude approximation), we have:
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=\textwidth]{assets/fig_wave_potential.png}
+  \caption{
+    Wave elevation (black line) and velocity potential (color) for a linear
+    wave with amplitude $a = 0.1$ m and wavenumber $k = 1$ rad m$^{-1}$,
+    in deep water ($h = 100$ m).
+  }
+  \label{fig:wave_potential}
+\end{figure}
+
+\subsection{Dispersion of gravity waves}
+
+An important property of gravity waves is that they disperse, meaning that
+waves of different wavenumbers travel at different speeds.
+A dispersion relationship describes how the wavenumber changes as a function
+of the frequency.
+To derive it, we leverage the kinematic free surface boundary condition
+(Eq. \ref{eq:kfsbc}), where, to the first order (recall our small-amplitude
+approximation), we have:
 
 \begin{equation}
   w = \frac{\partial \phi}{\partial z}\Big|_{z=0} = \frac{\partial \eta}{\partial t}\Big|_{z=0}
@@ -5341,13 +5365,33 @@ Then:
 \begin{equation}
   \omega^2 = g k \tanh(kh) \to g k
 \end{equation}
+So, in deep water, the frequency is not dependend on water depth, which we
+expected--the rigid bottom is so far away from the free surface that the waves
+don't feel it at all.
+The frequency is dependent on the wavenumber and gravity only.
 In contrast, in shallow water, $kh \to 0$ and so $\tanh(kh) \to kh$.
 Then:
 
 \begin{equation}
-  \omega^2 = g k \tanh(kh) \to g k^2 h
+  \omega^2 = g k \tanh(kh) \to g k^2 h = \sqrt{g h} k
 \end{equation}
+Here, the frequency depends on both the wavenumber and the water depth.
+So, as waves enter progressively shallower water, their frequency decreases.
+However, unlike in deep water where the frequency is nonlinearly dependent on
+wavenumber, in shallow water they are linearly correlated by $\sqrt{g h}$.
 
+\subsection{Wave kinematics}
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=\textwidth]{assets/fig_wave_velocities.png}
+  \caption{
+    Wave elevation (black line) and horizontal (top) and vertical (bottom)
+    velocities (color) for a linear wave with amplitude $a = 0.1$ m and
+    wavenumber $k = 1$ rad m$^{-1}$, in deep water ($h = 100$ m).
+  }
+  \label{fig:wave_velocities}
+\end{figure}
 
 \newpage
 \appendix
@@ -5797,6 +5841,53 @@ This section serves a quick reference for the key equations used in this book.\\
 
 \begin{equation}
   E(k) = \mathcal{K} \varepsilon^{2/3} \left( \frac{k}{\varepsilon} \right)^{5/3}
+\end{equation}
+
+\textbf{Wave phase:}
+
+\begin{equation}
+  \psi = kx - \omega t
+\end{equation}
+
+\textbf{Wave elevation:}
+
+\begin{equation}
+  \eta = a \cos(\psi)
+\end{equation}
+
+\textbf{Wave velocity potential:}
+
+\begin{equation}
+  \phi = \frac{a g}{\omega} \frac{\cosh[k(z + h)]}{\cosh(kh)} \sin(\psi)
+\end{equation}
+
+
+\textbf{Wave orbital velocities:}
+
+\begin{equation}
+  u = \frac{\partial \phi}{\partial x} = - \frac{a \omega}{k} \frac{\cosh[k(z + h)]}{\cosh(kh)} \cos(\psi)
+\end{equation}
+
+\begin{equation}
+  w = \frac{\partial \phi}{\partial z} = \frac{a \omega}{k} \frac{\sinh[k(z + h)]}{\cosh(kh)} \sin(\psi)
+\end{equation}
+
+\textbf{Linear gravity wave dispersion:}
+
+\begin{equation}
+  \omega = \sqrt{g k \tanh(kh)}
+\end{equation}
+
+Deep water: $kh \to \infty$
+
+\begin{equation}
+  \omega = \sqrt{g k}
+\end{equation}
+
+Shallow water: $kh \to 0$
+
+\begin{equation}
+  \omega = \sqrt{gh} k
 \end{equation}
 
 \printindex
