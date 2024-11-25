@@ -4,9 +4,11 @@ import numpy as np
 
 plt.rcParams["font.size"] = 16
 
+
 # Angular frequency
 def ω(g, k, h):
     return np.sqrt(g * k * np.tanh(k * h))
+
 
 g = 9.8
 k = np.linspace(1e-2, 1e2, 1000)
