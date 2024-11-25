@@ -30,10 +30,55 @@
 \title{Fluid Mechanics for Ocean Scientists}
 \author{Milan Curcic}
 \date{}
-
 \maketitle
 
 \tableofcontents
+
+\newpage
+\begin{center}
+\vspace*{\fill}
+\large
+\textit{I dedicate this book to Chris Piasecki, who understood the word "ocean".}
+\vspace*{\fill}
+\end{center}
+
+\newpage
+\section*{Preface}
+
+This book grew out of lecture notes for a graduate-level fluid mechanics course
+that I teach at the University of Miami's Rosenstiel School of Marine,
+Atmospheric, and Earth Science. The course aims to provide ocean science
+students with a solid foundation in fluid mechanics concepts that are essential
+for understanding ocean physics.
+While there are many excellent fluid mechanics textbooks available, most are
+written for either for engineering students with a focus on industrial
+applications, or for students of meteorology and oceanography that need a
+strong focus on geophysical flows.
+Our students also tend to pursue research on topics related to turbulence,
+boundary layers, and ocean surface waves, and these topics are well covered by
+different books in these respective fields.
+This book aims to bridge that gap by presenting the governing equations of fluid
+mechanisc
+
+The material progresses from fundamental concepts to increasingly complex topics.
+We begin with a review of vector calculus before introducing core fluid
+mechanics principles. The effects of Earth's rotation and density stratification,
+which are crucial for ocean dynamics, are covered. We then explore simplified but
+powerful models like the shallow water equations. The final sections address
+turbulence, boundary layers, and surface gravity waves - phenomena that are
+ubiquitous in the ocean and that are becoming increasingly important in coupled
+weather-ocean prediction and climate projections.
+
+I have aimed to balance mathematical rigor with physical intuition throughout
+the text.
+Detailed derivations are provided, but equal emphasis is placed on
+understanding the underlying physics.
+Examples and figures help illustrate key concepts.
+
+These notes are a work in progress and will continue to evolve.
+I welcome feedback from students and colleagues on how they can be improved.
+My hope is that they will serve as a useful resource for students beginning
+their journey into ocean physics research.
 
 \newpage
 \section{Introduction}
@@ -3071,6 +3116,12 @@ Notice, however, that we don't require there to be no rotation at all to obtain
 the non-rotating gravity waves.
 Rather, we simply require that the waves are so short (high wavenumber) that the
 Coriolis force is negligible compared to the gravity force.
+The phase speed of these waves, that is, the speed at which they propagate, is:
+
+\begin{equation}
+  C_p = \frac{\omega}{k} = \sqrt{g h}
+  \label{eq:shallow_water_phase_speed}
+\end{equation}
 Real-life examples of this solution include tsunamis, wind-generated swell
 waves on the ocean surface, or small ripples that propagate radially outward
 when throwing a stone into a pond.
@@ -5319,6 +5370,13 @@ The elevation that corresponds to this velocity potential is:
 Equations (\ref{eq:wave_potential}) and (\ref{eq:wave_elevation}) fully describe
 the spatial and temporal evolution of a wave with amplitude $a$ and wavenumber
 $k$ over mean water depth $h$.
+The wave potential field for a linear, progressive gravity wave with $a = 0.1$ m
+and $k = 1$ rad/m, and its corresponding elevation, are shown in Fig.
+\ref{fig:wave_potential}.
+The velocity potential for this wave has a positive maximum at the surface on
+the front face of the wave and a negative minimum at the surface on the back face
+of the wave.
+The potential is largest at the surface and decays exponentially with depth.
 
 \begin{figure}[h]
   \centering
@@ -5327,9 +5385,19 @@ $k$ over mean water depth $h$.
     Wave elevation (black line) and velocity potential (color) for a linear
     wave with amplitude $a = 0.1$ m and wavenumber $k = 1$ rad m$^{-1}$,
     in deep water ($h = 100$ m).
+    The mean water level ($z = 0$) is indicated by the horizontal dashed line.
+    The wave is propagating from left to right.
   }
   \label{fig:wave_potential}
 \end{figure}
+
+In the deep water limit, the wave potential can be written more concisely as:
+
+\begin{equation}
+  \phi(x, z, t) = \frac{a g}{\omega} e^{kz} \sin(kx - \omega t)
+  \label{eq:deep_water_wave_potential}
+\end{equation}
+As we explore the wave kinematics, we will leverage this form for brevity.
 
 \subsection{Dispersion of gravity waves}
 
@@ -5356,6 +5424,19 @@ Simplifying on both sides, we arrive to:
   \omega^2 = g k \tanh(kh)
 \end{equation}
 which is the \textit{dispersion relationship} for surface gravity waves.
+Wavenumber as function of frequency is shown in Fig. \ref{fig:wave_dispersion}.
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.6\textwidth]{assets/fig_wave_dispersion.png}
+  \caption{
+    Wavenumber as function of frequency for the surface gravity waves in deep
+    ($h = 1000$ m) water.
+    The wavenumber range is from $k = 0.01$ to $k = 100$ rad/m.
+    The corresponding frequency range is from approximately $0.05$ to $5$ Hz.
+  }
+  \label{fig:wave_dispersion}
+\end{figure}
 
 Let's now evaluate this dispersion relationship in the limits of shallow and
 deep water.
@@ -5373,14 +5454,51 @@ In contrast, in shallow water, $kh \to 0$ and so $\tanh(kh) \to kh$.
 Then:
 
 \begin{equation}
-  \omega^2 = g k \tanh(kh) \to g k^2 h = \sqrt{g h} k
+  \omega^2 = g k \tanh(kh) \to g k^2 h
+\end{equation}
+or:
+
+\begin{equation}
+  \omega = \sqrt{g h} k
 \end{equation}
 Here, the frequency depends on both the wavenumber and the water depth.
 So, as waves enter progressively shallower water, their frequency decreases.
 However, unlike in deep water where the frequency is nonlinearly dependent on
 wavenumber, in shallow water they are linearly correlated by $\sqrt{g h}$.
 
+An important wave property that directly follows from the dispersion
+relationship is that for the \textit{wave celerity}\index{Wave celerity},
+or \textit{phase speed}, which is the speed at which the wave potential field
+and elevation propagate in the horizontal direction:
+
+\begin{equation}
+  C_p = \frac{\omega}{k} = \sqrt{\frac{g}{k} \tanh(kh)}
+\end{equation}
+Like the dispersion relationship itself, the expression for the phase speed
+simplifies as well in the limits of shallow and deep water.
+In deep water, $C_p = \sqrt{g/k}$, and in shallow water, $C_p = \sqrt{g h}$.
+It is no coincidence that this is the same expression that we found for the
+phase speed of Poincaré waves in the limit of negligible planetary rotation
+(Eq. \ref{eq:shallow_water_phase_speed}).
+
 \subsection{Wave kinematics}
+
+With the velocity potential well defined in Eq. \ref{eq:deep_water_wave_potential},
+the instantaneous wave-induced velocities can be readily obtained as:
+
+\begin{equation}
+  u = \frac{\partial \phi}{\partial x} = a \omega e^{kz} \cos(kx - \omega t)
+  \label{eq:wave_horizontal_velocity}
+\end{equation}
+
+\begin{equation}
+  w = \frac{\partial \phi}{\partial z} = a \omega e^{kz} \sin(kx - \omega t)
+  \label{eq:wave_vertical_velocity}
+\end{equation}
+
+The horizontal and vertical velocities for a linear wave with amplitude $a = 0.1$ m
+and wavenumber $k = 1$ rad m$^{-1}$, in deep water ($h = 100$ m), are shown in
+Fig. \ref{fig:wave_velocities}.
 
 \begin{figure}[h]
   \centering
@@ -5392,6 +5510,39 @@ wavenumber, in shallow water they are linearly correlated by $\sqrt{g h}$.
   }
   \label{fig:wave_velocities}
 \end{figure}
+
+Now that we have the velocities, it is instructive to look at how the water
+particles move in the wave field.
+The horizontal and vertical displacements can be obtained by integrating their
+respective velocities over time:
+
+\begin{equation}
+  \zeta = \int u\ dt = a e^{kz} \sin(kx - \omega t)
+  \label{eq:wave_horizontal_displacement}
+\end{equation}
+
+\begin{equation}
+  \xi = \int w\ dt = - a e^{kz} \cos(kx - \omega t)
+  \label{eq:wave_vertical_displacement}
+\end{equation}
+The displacements are thus closed orbits when evaluated at any fixed depth $z$.
+
+The wave-induced accelerations are also relevant because they govern the
+wave-induced forces on submerged bodies.
+
+\begin{equation}
+  a_x = \frac{\partial u}{\partial t} = a \omega^2 e^{kz} \sin(kx - \omega t)
+  \label{eq:wave_horizontal_acceleration}
+\end{equation}
+
+\begin{equation}
+  a_z = \frac{\partial w}{\partial t} = - a \omega^2 e^{kz} \cos(kx - \omega t)
+  \label{eq:wave_vertical_acceleration}
+\end{equation}
+
+\subsubsection{Mean Lagrangian velocity}
+
+It's clear that averaging the instantaneous orbital velocities.
 
 \newpage
 \appendix
@@ -5860,7 +6011,6 @@ This section serves a quick reference for the key equations used in this book.\\
 \begin{equation}
   \phi = \frac{a g}{\omega} \frac{\cosh[k(z + h)]}{\cosh(kh)} \sin(\psi)
 \end{equation}
-
 
 \textbf{Wave orbital velocities:}
 
