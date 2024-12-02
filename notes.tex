@@ -29,7 +29,7 @@
 
 \title{Fluid Mechanics for Ocean Scientists}
 \author{Milan Curcic}
-\date{}
+%\date{}
 \maketitle
 
 \tableofcontents
@@ -38,7 +38,7 @@
 \begin{center}
 \vspace*{\fill}
 \large
-\textit{I dedicate this book to Chris Piasecki, who understood the word "ocean".}
+\textit{For Chris Piasecki, who understood the word "ocean"}
 \vspace*{\fill}
 \end{center}
 
@@ -52,15 +52,15 @@ students with a solid foundation in fluid mechanics concepts that are essential
 for understanding ocean physics.
 While there are many excellent fluid mechanics textbooks available, most are
 written for either for engineering students with a focus on industrial
-applications, or for students of meteorology and oceanography that need a
-strong focus on geophysical flows.
+applications, or for students of meteorology and oceanography that focus on
+geophysical flows.
 Our students also tend to pursue research on topics related to turbulence,
 boundary layers, and ocean surface waves, and these topics are well covered by
 different books in these respective fields.
 This book aims to bridge that gap by presenting the governing equations of fluid
-mechanisc
+mechanics that are relevant to ocean physics research.
 
-The material progresses from fundamental concepts to increasingly complex topics.
+The book progresses from fundamental concepts to increasingly complex topics.
 We begin with a review of vector calculus before introducing core fluid
 mechanics principles. The effects of Earth's rotation and density stratification,
 which are crucial for ocean dynamics, are covered. We then explore simplified but
@@ -75,8 +75,12 @@ Detailed derivations are provided, but equal emphasis is placed on
 understanding the underlying physics.
 Examples and figures help illustrate key concepts.
 
-These notes are a work in progress and will continue to evolve.
+These notes are a work in progress and continue to evolve.
 I welcome feedback from students and colleagues on how they can be improved.
+The lecture notes have so far been improved thanks to valuable feedback from
+my students Susan Harrison, Jack Lee, Mia Vallee, and Jessie Yang.
+Special thanks to Prof. Mike Brown who previously taught this course and who
+gave me valuable advice on preparing for it.
 My hope is that they will serve as a useful resource for students beginning
 their journey into ocean physics research.
 
@@ -104,18 +108,22 @@ and geophysical fluid dynamics.
 
 \subsection{Reference textbooks}
 
+No single textbook out there covers all the topics that we need for this course.
+However, parts of this course are covered in detail by various textbooks.
 These lecture notes are based on the following textbooks:
 
 \begin{enumerate}
-  \item \textit{Fluid Mechanics}, 6th Ed., by Kundu, Cohen, and Dowling (Elsevier);
-  \item \textit{Atmospheric and Oceanic Fluid Dynamics} (AOFD) by Geoffrey Vallis (Cambridge University Press);
-  \item \textit{Turbulent Flows} by Stephen Pope (Cambridge University Press);
-  \item \textit{Water Wave Mechanics for Engineers and Scientists} by Dean and Dalrymple (World Scientific).
+  \item \textit{Fluid Mechanics}, 6th Ed., by Kundu, Cohen, and Dowling (Elsevier), for the classical;
+  \item \textit{Atmospheric and Oceanic Fluid Dynamics} (AOFD) by Geoffrey Vallis (Cambridge University Press), for the geophysical;
+  \item \textit{Turbulent Flows} by Stephen Pope (Cambridge University Press), for the turbulent;
+  \item \textit{Water Wave Mechanics for Engineers and Scientists} by Dean and Dalrymple (World Scientific), for the wavy.
 \end{enumerate}
 
 While the notes contain the distilled and required information for you to
 succeed in this course, please refer to these textbooks for more detailed
 explanations and examples.
+Over time, the lecture notes will evolve toward a unified, coherent, and
+self-contained book.
 
 \newpage
 \section{Review of vector calculus}
@@ -601,7 +609,7 @@ $\mathbf{u}$ over the boundary of $A$:
   \int_A (\nabla \times \mathbf{u}) \cdot d\mathbf{A} = \oint_{\partial A} \mathbf{u} \cdot d\mathbf{l}
 \end{equation}
 
-\subsection{Summary}
+\subsection*{Summary}
 
 In this chapter, we reviewed:
 
@@ -620,7 +628,7 @@ In this chapter, we reviewed:
 These concepts will serve as the basic building blocks for everything that
 follows in the remainder of this course.
 
-\subsection{Exercises}
+\subsection*{Exercises}
 
 \begin{enumerate}
   
@@ -841,7 +849,7 @@ derive the equations of surface gravity waves.
 %  \mathbf{u} = \nabla \times \psi
 %\end{equation}
 
-\subsection{Summary}
+\subsection*{Summary}
 
 In this chapter, we covered:
 
@@ -1680,7 +1688,7 @@ You see that the Reynolds number is proportional to the velocity and length
 scales each, and inversely proportional to the viscosity.
 A larger Reynolds number corresponds to a more turbulent flow.
 
-\subsection{Exercises}
+\subsection*{Exercises}
 
 \begin{enumerate}
   \item Derive the Lagrangian form of the continuity equation from
@@ -1725,6 +1733,22 @@ A larger Reynolds number corresponds to a more turbulent flow.
   Assume $\nu = 10^{-5} m^2 s^{-1}$ for air and $\nu = 10^{-6} m^2 s^{-1}$ for water.
 
 \end{enumerate}
+
+\subsection*{Summary}
+
+In this chapter, we covered:
+
+\begin{itemize}
+  \item Conservation of mass (continuity equation) from both Eulerian and
+  Lagrangian perspectives;
+  \item Conservation of momentum equations: Cauchy, Euler, and Navier-Stokes;
+  \item The Reynolds number as a measure of the relative importance of inertial
+  to viscous forces in a flow;
+  \item The equation of state for seawater, relating density to temperature,
+  salinity, and pressure;
+  \item Examples of flows with different Reynolds numbers, from laminar pipe
+  flow to turbulent geophysical flows.
+\end{itemize}
 
 \subsection*{Further reading}
 
@@ -2295,7 +2319,7 @@ to obtain displacements $x(t)$ and $y(t)$ and showing that the displacement
 radius $r = \sqrt{x^2 + y^2}$ is constant, which can only be true for a circular
 motion.
 
-\subsection{Exercises}
+\subsection*{Exercises}
 
 \begin{enumerate}
   \item Calculate the effective gravity at the Earth's Equator, poles, and 45 degrees
@@ -2306,6 +2330,21 @@ motion.
   \item Derive the Coriolis parameter $f$ on the $\beta$-plane assuming small
   variation in latitude $\theta$ around the constant $\theta_0$ at which $f = f_0$.
 \end{enumerate}
+
+\subsection*{Summary}
+
+In this chapter, we covered:
+
+\begin{itemize}
+  \item The effects of rotation on fluid motion, including centrifugal and Coriolis
+  forces;
+  \item Derivation of velocity and acceleration in a rotating reference frame;
+  \item The Coriolis parameter $f$ and its variation with latitude;
+  \item Inertial oscillations - circular motions that arise from the balance between
+  inertia and Coriolis force;
+  \item The solution for inertial oscillations showing circular motion with period
+  $2\pi/f$ and radius $r_0 = \sqrt{u_0^2 + v_0^2}/f$.
+\end{itemize}
 
 \subsection*{Further reading}
 
@@ -2668,14 +2707,36 @@ A parcel displaced from its equilibrium position will oscillate with angular
 frequency $N$ if $N^2 > 0$ (statically stable) and will freely accelerate
 upward if $N^2 < 0$ (statically unstable).
 
-\subsection{Exercises}
+\subsection*{Exercises}
 
 \begin{enumerate}
+
   \item Use the linear equation of state for seawater to demonstrate that the
   variations of density in the ocean are very small compared to the mean
   density. How large (in percent relative change) are these variations with
   respect to the changes in temperature, salinity, and pressure in the ocean?
+
+  \item Calculate the Brunt-Väisälä frequency for:
+  (a) a typical mid-latitude thermocline with temperature decreasing from 20°C
+  to 5°C over 500 m depth;
+  (b) the deep ocean where potential temperature decreases from 4°C to 2°C
+  over 2000 m depth.
+  Assume constant salinity of 35 g/kg.
+
 \end{enumerate}
+
+\subsection*{Summary}
+
+In this chapter, we covered:
+
+\begin{itemize}
+  \item The Boussinesq approximation, which assumes density variations are small
+  compared to the mean density;
+  \item Decomposition of density and pressure into mean and perturbation components;
+  \item Static stability and its relationship to the vertical density gradient;
+  \item The Brunt-Väisälä frequency as a measure of stratification strength and
+  the natural frequency of vertical oscillations in a stratified fluid.
+\end{itemize}
 
 \subsection*{Further reading}
 
@@ -3592,7 +3653,7 @@ The phase speed of Rossby waves is:
   \label{fig:swe_rossby_wave}
 \end{figure}
 
-\subsection{Exercises}
+\subsection*{Exercises}
 
 \begin{enumerate}
   \item Assuming shallow water approximation and mid-latitudes, quantify the
@@ -3615,6 +3676,18 @@ The phase speed of Rossby waves is:
   Assuming the potential vorticity of the eddy is conserved, calculate the its
   final relative vorticity.
 \end{enumerate}
+
+\subsection*{Summary}
+
+In this chapter, we covered:
+
+\begin{itemize}
+  \item The shallow water equations as a simplified model for large-scale ocean and atmospheric flows;
+  \item Key assumptions of the shallow water system: horizontal scales much larger than vertical scales, incompressible flow, and hydrostatic balance;
+  \item Rossby waves - westward propagating planetary waves that arise from the variation of the Coriolis parameter with latitude;
+  \item The dispersion relationship and phase speed of Rossby waves;
+  \item Conservation of potential vorticity and its role in generating relative vorticity as fluid parcels move meridionally.
+\end{itemize}
 
 \subsection*{Further reading}
 
@@ -4357,6 +4430,25 @@ where $\mathcal{K}$ is a constant not determined by Kolmogorov's theory.
 The functional form of $E(k)$ is known as the Kolmogorov 5/3 law and is
 illustrated in Figure \ref{fig:turbulent_spectrum_3d}.
 
+\subsection*{Summary}
+
+In this chapter, we covered:
+
+\begin{itemize}
+  \item Reynolds decomposition of turbulent flows into mean and fluctuating components;
+  \item The turbulent energy spectrum and its distribution across scales;
+  \item Kolmogorov's similarity hypotheses and dimensional analysis leading to the -5/3 law;
+  \item The turbulent energy cascade from large to small scales in 3D turbulence;
+  \item The role of energy dissipation rate $\varepsilon$ in determining the energy spectrum.
+\end{itemize}
+
+\subsection*{Further reading}
+
+\begin{itemize}
+  \item Chapter 11 of \textit{AOFD} by Vallis
+  \item Chapter 6 of \textit{Turbulent Flows} by Pope
+\end{itemize}
+
 \newpage
 \section{Boundary layers}
 
@@ -4906,7 +4998,7 @@ demonstrated based on experimental data in Fig. \ref{fig:law_of_the_wall_measure
 %  \label{fig:wall_flow}
 %\end{figure}
 
-\subsection{Exercises}
+\subsection*{Exercises}
 
 \begin{enumerate}
   \item Find the expression for the bulk velocity (see Eq. \ref{eq:bulk_velocity})
@@ -4920,6 +5012,19 @@ demonstrated based on experimental data in Fig. \ref{fig:law_of_the_wall_measure
   Find the bulk velocity $\left< \overline{u} \right>$, the friction velocity $u_*$,
   the friction Reynolds number $Re_\tau$, and the viscous length scale $\delta_\nu$.
 \end{enumerate}
+
+\subsection*{Summary}
+
+In this chapter, we covered:
+
+\begin{itemize}
+  \item The structure of turbulent boundary layers and channel flows;
+  \item The law of the wall and its different regimes (viscous sublayer, buffer layer, log-law region);
+  \item Non-dimensional velocity and length scales based on the friction velocity $u_*$;
+  \item The universality of the log-law across different Reynolds numbers;
+  \item The relationship between mean velocity profiles and wall stress through the friction coefficient $C_f$;
+  \item Experimental validation of boundary layer theory using DNS and laboratory measurements.
+\end{itemize}
 
 \subsection*{Further reading}
 
@@ -5541,7 +5646,7 @@ wave-induced forces on submerged bodies.
   \label{eq:wave_vertical_acceleration}
 \end{equation}
 
-\subsubsection{Mean Lagrangian velocity}
+\subsection{Mean Lagrangian velocity}
 
 It's clear that averaging the instantaneous orbital velocities at any given
 fixed depth $z$ over one or more period yields zero.
@@ -5577,7 +5682,7 @@ one period:
 It can be easily shown by following the same procedure for the vertical velocity
 that the vertical Stokes drift is zero.
 
-\subsubsection{Wave groups}
+\subsection{Wave groups}
 
 Waves if a given wavenumber and frequency are rarely alone and in reality the
 ocean surface is densely populated by a spectrum of waves with different
@@ -5644,11 +5749,28 @@ Group speed of gravity waves is important because it is the advective speed of
 wave energy as well:
 
 \begin{equation}
-  \frac{d E}{dt} = \frac{\partial E}{\partial t} + \nabla \cdot (E \mathbf{C}_g) = 0
+  \frac{d E}{dt} = \frac{\partial E}{\partial t} + \nabla \cdot (\mathbf{C}_g E) = 0
   \label{eq:wave_energy_advection}
 \end{equation}
 This equation is called the wave energy balance and it is the key governing
 equation in most ocean wave prediction models.
+
+\subsection*{Summary}
+
+In this chapter, we covered:
+
+\begin{itemize}
+  \item The derivation of small-amplitude (linear) wave theory;
+  \item The dispersion relationship for surface gravity waves;
+  \item The wave kinematics and mean Lagrangian (Stokes) drift;
+  \item Wave groups and wave energy balance.
+\end{itemize}
+
+\subsection*{Further reading}
+
+\begin{itemize}
+  \item Chapters 3 and 4 of \textit{Water wave mechanics} by Dean and Dalrymple
+\end{itemize}
 
 \newpage
 \appendix
@@ -6109,23 +6231,43 @@ This section serves a quick reference for the key equations used in this book.\\
 \textbf{Wave elevation:}
 
 \begin{equation}
-  \eta = a \cos(\psi)
+  \eta = a \cos\psi
 \end{equation}
 
 \textbf{Wave velocity potential:}
 
 \begin{equation}
-  \phi = \frac{a g}{\omega} \frac{\cosh[k(z + h)]}{\cosh(kh)} \sin(\psi)
+  \phi = \frac{a g}{\omega} \frac{\cosh[k(z + h)]}{\cosh(kh)} \sin\psi
 \end{equation}
 
 \textbf{Wave orbital velocities:}
 
 \begin{equation}
-  u = \frac{\partial \phi}{\partial x} = - \frac{a \omega}{k} \frac{\cosh[k(z + h)]}{\cosh(kh)} \cos(\psi)
+  u = \frac{\partial \phi}{\partial x} = - \frac{a \omega}{k} \frac{\cosh[k(z + h)]}{\cosh(kh)} \cos\psi
 \end{equation}
 
 \begin{equation}
-  w = \frac{\partial \phi}{\partial z} = \frac{a \omega}{k} \frac{\sinh[k(z + h)]}{\cosh(kh)} \sin(\psi)
+  w = \frac{\partial \phi}{\partial z} = \frac{a \omega}{k} \frac{\sinh[k(z + h)]}{\cosh(kh)} \sin\psi
+\end{equation}
+
+\textbf{Wave particle displacements:}
+
+\begin{equation}
+  \zeta = \int u\ dt = - a e^{kz} \sin\psi
+\end{equation}
+
+\begin{equation}
+  \xi = \int w\ dt = a e^{kz} \cos\psi
+\end{equation}
+
+\textbf{Wave orbital accelerations:}
+
+\begin{equation}
+  a_x = \frac{\partial u}{\partial t} = a \omega^2 e^{kz} \sin\psi
+\end{equation}
+
+\begin{equation}
+  a_z = \frac{\partial w}{\partial t} = - a \omega^2 e^{kz} \cos\psi
 \end{equation}
 
 \textbf{Linear gravity wave dispersion:}
@@ -6144,6 +6286,54 @@ Shallow water: $kh \to 0$
 
 \begin{equation}
   \omega = \sqrt{gh} k
+\end{equation}
+
+\textbf{Phase speed:}
+
+\begin{equation}
+  C_p = \frac{\omega}{k}
+\end{equation}
+
+Deep water: $kh \to \infty$
+
+\begin{equation}
+  C_p = \sqrt{\frac{g}{k}}
+\end{equation}
+
+Shallow water: $kh \to 0$
+
+\begin{equation}
+  C_p = \sqrt{gh}
+\end{equation}
+
+\textbf{Group speed:}
+
+\begin{equation}
+  C_g = \frac{\partial \omega}{\partial k}
+\end{equation}
+
+Deep water: $kh \to \infty$
+
+\begin{equation}
+  C_g = \frac{C_p}{2}
+\end{equation}
+
+Shallow water: $kh \to 0$
+
+\begin{equation}
+  C_g = C_p
+\end{equation}
+
+\textbf{Stokes drift (deep water):}
+
+\begin{equation}
+  u_{St} = a^2 \omega k e^{2kz}
+\end{equation}
+
+\textbf{Wave energy balance:}
+
+\begin{equation}
+  \frac{\partial E}{\partial t} + \nabla \cdot \left( \mathbf{C_g} E \right) = 0
 \end{equation}
 
 \printindex
