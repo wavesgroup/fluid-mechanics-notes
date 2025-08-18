@@ -1,8 +1,9 @@
 # fluid-mechanics-notes
 
-Notes for Fluid Mechanics (OCE 675) taught at the Rosenstiel School.
+Lecture notes for the Fluid Mechanics course (OCE 575/675) taught at the
+Rosenstiel School.
 
-See the [Syllabus](syllabus.md) for the Fall 2024 course information.
+See the [Syllabus](syllabus.md) for the Fall 2025 course information.
 
 These notes are a work in progress as the lectures progress during the semester.
 They will be near complete as we approach the final exam.
