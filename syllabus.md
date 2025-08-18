@@ -10,37 +10,31 @@
 This course provides an overview of fundamentals of fluid mechanics at the
 graduate level with emphasis on topics relevant to ocean physicists.
 Topics covered include:
-a review of relevant fundamentals including vector calculus and tensors;
-fluid kinematics;
-Eulerian and Lagrangian descriptions of fluid flows;
-the continuity (mass conservation) equation;
-momentum balances and the equations of Euler and Navier-Stokes;
-Bernoulli equations;
-vorticity dynamics;
-steady and nonsteady flows;
-incompressible flows;
-irrotational flows;
-laminar flows;
-turbulence;
-boundary layers;
-flow stability;
-rotating and stratified flows;
-waves (acoustic, surface-gravity and internal-gravity) in fluids.
+
+* **Fundamentals of classical fluid mechanics**: Vector calculus; fluid kinematics;
+Lagrangian and Eulerian descriptions of fluid flows; conservation of mass and momentum;
+* **Geophysical fluid mechanics**: Effects of rotation and stratification;
+shallow water systems; steady state solutions.
+* **Turbulence**: Reynolds decomposition; Reynolds-averaged Navier-Stokes equations;
+Reynolds stress; turbulent kinetic energy budget; turbulent cascade; boundary layers;
+channel flow; laminar vs. turbulent flows.
+* **Surface gravity waves**: Small-amplitude wave theory; dispersion relation;
+wave kinematics; wave-induced orbital velocities; Stokes drift.
 
 ## Prerequisites
 
-* Calculus
+* Vector calculus
 * Classical mechanics
 
 ## Textbooks
 
-Lecture notes will be available at
+Lecture notes are available at
 [https://github.com/wavesgroup/fluid-mechanics-notes](https://github.com/wavesgroup/fluid-mechanics-notes).
 
 Further, these textbooks will be used as useful reference material but are not a
 required course expense.
 
-* _Fluid Mechanics, 6th ed_ by Kundu, Cohen & Dowling
+* _Fluid Mechanics, 7th ed_ by Kundu, Cohen, Downling & Capecelatro
 * _Essentials of Atmospheric and Oceanic Dynamics_ by Geoffrey Vallis
 
 ## Learning outcomes
@@ -53,24 +47,24 @@ related mathematical tools to ocean physics research problems.
 
 ## Grading
 
-* Homework (40%); assignments will be given every Wednesday and due the following Monday.
+* Homework (40%); assignments will be given every Wednesday and will be due the following Monday.
+  Each assignment is graded on a scale of 0-3 (0: not submitted; 1: incomplete;
+  2: complete and partially correct; 3: complete and correct).
+  I use fractional scores where applicable, so, for example, a complete and mostly
+  correct assignment may give you a 2.5.
 * Final exam (60%); exam is open-book take-home exam, due in 48 hours.
 
 ## Approximate course schedule
 
 * Week 1: Review of vector calculus
-* Week 2: Fluid kinematics
-* Week 3: Velocity gradient, strain rate, rotation, stress
-* Week 4: Conservation of volume, mass, and momentum
-* Week 5: Stream function, velocity potential, and Bernoulli's principle
-* Week 6: Vorticity
-* Week 7: Boundary layers
-* Week 8: Turbulence
-* Week 9: Steady Navier-Stokes equations
-* Week 10: Flow instabilities
-* Week 11: Rotating and stratified flows
-* Week 12: Surface gravity waves
-* Week 13: Internal gravity waves
+* Week 2: Eulerian and Lagrangian descriptions of fluid flows
+* Week 3-4: Conservation of volume, mass, and momentum
+* Week 5: Rotating flows
+* Week 6: Stratified flows
+* Week 7-8: Shallow water systems
+* Week 9-10: Turbulence
+* Week 11-12: Boundary layers
+* Week 13: Surface gravity waves
 * Week 14: Review and discussion
 * Week 15: Final exam
 
@@ -79,6 +73,5 @@ related mathematical tools to ocean physics research problems.
 * In-person attendance is required except for medical reasons.
 * Homework assignments are due by the following Monday, except for medical reasons.
 * The instructor must be notified ahead of time in case of exceptions for medical reasons.
-* Homework and final exam assignments 
 * Honor Code: [https://doso.studentaffairs.miami.edu/honor-council/honor-code/index.html](https://doso.studentaffairs.miami.edu/honor-council/honor-code/index.html)
 * Exact timing and content may deviate from that specified in the syllabus.
