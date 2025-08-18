@@ -27,9 +27,13 @@
 
 \begin{document}
 
-\title{Fluid Mechanics for Ocean Scientists}
+\begin{titlepage}
+\thispagestyle{empty}
+\includegraphics[width=\textwidth,height=\textheight]{cover.png}
+\end{titlepage}
+
+\title{Fluid Mechanics for Atmosphere and Ocean Scientists}
 \author{Milan Curcic}
-%\date{}
 \maketitle
 
 \tableofcontents
@@ -47,42 +51,44 @@
 
 This book grew out of lecture notes for a graduate-level fluid mechanics course
 that I teach at the University of Miami's Rosenstiel School of Marine,
-Atmospheric, and Earth Science. The course aims to provide ocean science
+Atmospheric, and Earth Science.
+The course provides advanced undergraduate students or beginning graduate
 students with a solid foundation in fluid mechanics concepts that are essential
 for understanding ocean physics.
 While there are many excellent fluid mechanics textbooks available, most are
 written for either for engineering students with a focus on industrial
 applications, or for students of meteorology and oceanography that focus on
 geophysical flows.
-Our students also tend to pursue research on topics related to turbulence,
-boundary layers, and ocean surface waves, and these topics are well covered by
-different books in these respective fields.
-This book aims to bridge that gap by presenting the governing equations of fluid
-mechanics that are relevant to ocean physics research.
+Many of our students at Rosenstiel go on to pursue research topics related to
+turbulence, boundary layers, and ocean surface waves, and these topics are well
+covered by different textbooks in these respective subdisciplines.
+This book bridges that gap by presenting a concise yet comprehensive treatment
+of classical, geophysical, turbulent, and wavy fluid mechanics processes.
+that are relevant to atmospheric and ocean physics research.
 
 The book progresses from fundamental concepts to increasingly complex topics.
 We begin with a review of vector calculus before introducing core fluid
-mechanics principles. The effects of Earth's rotation and density stratification,
-which are crucial for ocean dynamics, are covered. We then explore simplified but
-powerful models like the shallow water equations. The final sections address
-turbulence, boundary layers, and surface gravity waves - phenomena that are
-ubiquitous in the ocean and that are becoming increasingly important in coupled
-weather-ocean prediction and climate projections.
+mechanics principles such as conservation of mass and momentum.
+The effects of Earth's rotation and density stratification,
+which are crucial for atmospheric and ocean dynamics, come next.
+We then explore simplified yet powerful models like the shallow water equations
+which allow an analytical examination of most common solutions.
+Later chapters cover turbulence, boundary layers, and surface gravity waves -
+phenomena that are ubiquitous in the ocean and that are becoming increasingly
+important in coupled weather-ocean prediction and climate projections.
 
-I have aimed to balance mathematical rigor with physical intuition throughout
-the text.
+I aim to balance mathematical rigor with physical intuition throughout the text.
 Detailed derivations are provided, but equal emphasis is placed on
 understanding the underlying physics.
 Examples and figures help illustrate key concepts.
-
-These notes are a work in progress and continue to evolve.
-I welcome feedback from students and colleagues on how they can be improved.
-The lecture notes have so far been improved thanks to valuable feedback from
-my students Susan Harrison, Jack Lee, Mia Vallee, and Jessie Yang.
+This textbook is a work in progress and continues to evolve.
+I welcome feedback from students and colleagues on how to best improve it.
+I thanks my students Susan Harrison, Jack Lee, Mia Vallee, and Jessie Yang for
+their contributions so far.
 Special thanks to Prof. Mike Brown who previously taught this course and who
 gave me valuable advice on preparing for it.
-My hope is that they will serve as a useful resource for students beginning
-their journey into ocean physics research.
+My hope is that this textbook will serve as a useful resource for students
+beginning their journey into atmospheric and/or ocean physics research.
 
 \newpage
 \section{Introduction}
@@ -104,7 +110,7 @@ course with the linear theory of surface gravity waves.
 By the end of the course, you will be proficient in applying fluid mechanical
 concepts and mathematical tools to solve many ocean physics research problems.
 It will also prepare you for more specialized courses on turbulence, waves,
-and geophysical fluid dynamics.
+and atmospheric and oceanic circulation.
 
 \subsection{Reference textbooks}
 
@@ -138,17 +144,17 @@ and the Gauss and Stokes theorems.
 
 \subsection{Scalars, vectors, and tensors}
 
-In this course we will mainly use three types of quantities to describe fluid
+In this book we will use three types of quantities to describe fluid
 properties: \textit{scalars}, \textit{vectors}, and \textit{tensors}.
 
 \textit{Scalars}\index{Scalar} are completely described by their magnitude.
 Examples of scalars are temperature, pressure, or density.
 A value of 290 K, for example, completely describes the temperature of a fluid
 at some point in space and time.
-We will write them in equations using italics, e.g. $T$, $p$, $\rho$.
+We will write them in equations using italics, \textit{e.g.} $T$, $p$, or $\rho$.
 
-\textit{Vectors}\index{Vector} have both magnitude and direction.
-Examples of vector are velocity, acceleration, or force.
+\textit{Vectors}\index{Vector} have a magnitude and a direction.
+Examples of vectors are velocity, acceleration, or force.
 In 3-dimensional Cartesian space with coordinates $(x, y, z)$, for example,
 vector $\mathbf{u}(x,y,z)$ can be described by its components
 
@@ -164,20 +170,25 @@ where $u_x$, $u_y$, and $u_z$ (each a scalar) are the components of $\mathbf{u}$
 in the $x$, $y$, and $z$ directions, respectively.
 This is the conventional notation, however, we will often write vectors
 inline as $\mathbf{u} = (u_x, u_y, u_z)$.
-We will write vectors in equations using boldface, e.g. $\mathbf{u}$,
+We will write vectors in equations using boldface, \textit{e.g.} $\mathbf{u}$,
 $\mathbf{a}$, or $\mathbf{F}$.
 
-The magnitude\index{Vector!magnitude}, or norm\index{Vector!norm}, of a 
-$\mathbf{u}$ is denoted by $||\mathbf{u}||$, and is calculated as
+The magnitude\index{Vector!magnitude}, or norm\index{Vector!norm}, of a vector 
+$\mathbf{u}$ is written as $||\mathbf{u}||$ and calculated as
 
 \begin{equation}
   ||\mathbf{u}|| = \sqrt{u_x^2 + u_y^2 + u_z^2}
 \end{equation}
+The most ubiquitous vector field in fluid mechanics is the velocity.
+In atmospheres and oceans, we will often refer to the velocity as wind and
+current, respectively.
+Wind speed is thus the magnitude (norm) of the wind vector, and likewise for
+the current speed.
 
-\textit{Tensors}\index{Tensor} have magnitude, direction, and orientation, such as stress or
-strain.
+\textit{Tensors}\index{Tensor} have magnitude, direction, and orientation.
 They are vectors that act on each respective surface orthogonal to the direction
 of the tensor.
+Arguably the most important tensor in fluid mechanics is the stress tensor.
 In 3-dimensional space, for example, a stress tensor can be described as:
 
 \begin{equation}
@@ -231,8 +242,9 @@ magnitude, i.e. $\mathbf{u}/||u||$.
 \subsection{Vector operations}
 
 Two vectors can be added, subtracted, or multiplied.
-Although vector addition and subtraction are straightforward, vector
-multiplication is more interesting.
+Although vector addition and subtraction are straightforward (simply add or
+subtract each of their respective scalar components), vector multiplication is
+more interesting.
 There are two types of vector multiplication: the \textit{dot product} and the
 \textit{cross product}.
 
@@ -257,14 +269,13 @@ $\mathbf{a}$ and $\mathbf{b}$ is an element-wise sum of their components
   \end{bmatrix}
   = a_1 b_1 + a_2 b_2 + a_3 b_3
 \end{equation}
-
 More generally, the dot product of two n-dimensional vectors $\mathbf{a}$ and
 $\mathbf{b}$ is
 
 \begin{equation}
   \mathbf{a} \cdot \mathbf{b} = \sum_{i=1}^{n} a_i b_i = a_1 b_1 + a_2 b_2 + \ldots + a_n b_n
+  \label{eq:dot_product_general}
 \end{equation}
-
 The dot product is commutative, meaning that
 $\mathbf{a} \cdot \mathbf{b} = \mathbf{b} \cdot \mathbf{a}$.
 
@@ -277,14 +288,14 @@ magnitudes and the cosine of the angle $\theta$ between them:
 To visualize this relationship, take one vector and project it onto the other.
 This projection is the magnitude of the vector times the cosine of the angle
 between them.
-Now one vector and the projection of the other onto the first vector are
+Now, one vector and the projection of the other onto the first vector are
 pointing in the same direction, so their dot product is the product of their
 magnitudes.
 It can be useful to think of a dot product as collapsing the two vectors into a
-single number contains contributions from each of their components.
+single scalar that contains contributions from each of their components.
 
-The following listing shows how to compute the dot product of two vectors
-in Python using the built-in arithmetic operators.
+The following listing shows how to manually compute the dot product of two
+vectors in Python using the built-in arithmetic operators:
 
 \begin{listing}[h]
 \begin{minted}[numbersep=5pt, frame=lines, framesep=2mm]{python}
@@ -300,8 +311,10 @@ for i in range(a.size):  # loop over indices of the vector
 \end{minted}
 \label{lst:dot_product_arithmetic}
 \end{listing}
+Notice that this an exact implementation of the right-hand side of Eq.
+(\ref{eq:dot_product_general}).
 The NumPy library, however, allows element-wise multiplication of vectors,
-which is both more efficient and more concise:
+which is both more computationally efficient and more concise:
 
 \begin{listing}[h]
 \begin{minted}[numbersep=5pt, frame=lines, framesep=2mm]{python}
@@ -309,6 +322,8 @@ c = np.sum(a * b)  # multiply element-wise and sum up the components
 \end{minted}
 \label{lst:dot_product_numpy}
 \end{listing}
+Notice that this is an exact implementation of the middle part of Eq.
+(\ref{eq:dot_product_general}).
 Even though the dot product is simple to implement, as we did above, NumPy
 provides a function that is even more concise, and likely the most efficient
 way to compute the dot product:
@@ -373,12 +388,12 @@ the two vectors times the sine of the angle between them:
 \end{equation}
 So, the magnitude of the cross product is largest when the two vectors are
 orthogonal.
-
 Unlike the dot product, the cross product is anticommutative, meaning that
 $\mathbf{a} \times \mathbf{b} = -\mathbf{b} \times \mathbf{a}$.
 
-In fluid mechanics a cross product will often come up when we are interested in
-the rotation of a vector field, such as vorticity.
+In fluid mechanics, a cross product will often come up when we are interested in
+the rotation of a vector field.
+For example, vorticity is the curl of the velocity field.
 
 \subsection{Matrix multiplication}
 
@@ -433,6 +448,8 @@ term-by-term the entries of the $i$-th row of $\mathbf{A}$ and the $j$-th column
 of $\mathbf{B}$, and summing these products.
 In other words, $c_{ij}$ is the dot product of the $i$-th row of $\mathbf{A}$
 and the $j$-th column of $\mathbf{B}$.
+Note that the matrices are not required to be square, but the number of columns
+of $\mathbf{A}$ must be equal to the number of rows of $\mathbf{B}$.
 
 \subsection{Total and partial derivatives}
 
@@ -445,7 +462,7 @@ A derivative of a vector is simply a vector of derivatives of its components:
 
 \begin{equation}
   \frac{d\mathbf{u}}{dt}
-    = (\frac{d u_x}{d t}, \frac{d u_y}{d t}, \frac{d u_z}{d t})
+    = \left(\frac{d u_x}{d t}, \frac{d u_y}{d t}, \frac{d u_z}{d t}\right)
     = \frac{du_x}{dt} \mathbf{i} + \frac{du_y}{dt} \mathbf{j} + \frac{du_z}{dt} \mathbf{k}
     = \begin{bmatrix}
         \frac{du_x}{dt} \\
@@ -456,7 +473,7 @@ A derivative of a vector is simply a vector of derivatives of its components:
 
 \begin{equation}
   \frac{\partial \mathbf{u}}{\partial t}
-    = (\frac{\partial u_x}{\partial t}, \frac{\partial u_y}{\partial t}, \frac{\partial u_z}{\partial t})
+    = \left(\frac{\partial u_x}{\partial t}, \frac{\partial u_y}{\partial t}, \frac{\partial u_z}{\partial t}\right)
     = \frac{\partial u_x}{\partial t} \mathbf{i} + \frac{\partial u_y}{\partial t} \mathbf{j} + \frac{\partial u_z}{\partial t} \mathbf{k}
     = \begin{bmatrix}
         \frac{\partial u_x}{\partial t} \\
@@ -469,7 +486,7 @@ and likewise for tensors.\\
 \subsection{Gradient, divergence, and curl}
 
 Now, we introduce another new operator that builds on top of previous
-concepts to describe how scalar and vector fields change in space.
+concepts to describe how scalar and vector fields vary in space.
 This operator is called \textit{del}\index{Del} and is denoted by the symbol
 $\nabla$\index{Nabla} (pronounced "nabla"):
 
@@ -479,7 +496,8 @@ $\nabla$\index{Nabla} (pronounced "nabla"):
     \frac{\partial}{\partial y} \mathbf{j} +
     \frac{\partial}{\partial z} \mathbf{k}
 \end{equation}
-
+Written as above, $\nabla$ cannot stand on its own but must be applied to
+something as an operator.
 A good way to think about $\nabla$ is as of a \textit{differential operator},
 which itself is a 3-dimensional vector that can operate on scalars or vectors.
 Specifically:
@@ -494,7 +512,8 @@ Specifically:
 \end{itemize}
 
 Although, strictly speaking, one is a symbol and the other is an operator,
-$\nabla$ ("nabla") and "del" are often used interchangeably.
+$\nabla$ ("nabla") and "del" are often used interchangeably when reading equations
+out loud.
 
 \subsubsection{Gradient}
 
@@ -510,8 +529,8 @@ It is denoted by $\nabla T$ and is defined as
 
 Gradient of a scalar field is a vector that points in the direction of the
 steepest increase of that field, and its magnitude is the rate of that increase.
-For example, imagine hiking up a hill; the gradient of the terrain is a vector
-that is pointing toward the steepest incline, and its magnitude is the slope
+Imagine hiking up a hill; the gradient of the terrain is a vector
+that is pointing toward the steepest incline, and its magnitude is the steepness
 of that incline.
 
 \subsubsection{Divergence}
@@ -528,7 +547,7 @@ It is denoted by $\nabla \cdot \mathbf{u}$ and is defined as
 
 Divergence of a vector field is a scalar that describes how much the vector
 field is expanding or contracting at a point.
-When divergence is negative, it is commonly referred to as convergence.
+Negative divergence is called convergence.
 
 \subsubsection{Curl}
 
@@ -579,9 +598,9 @@ The Gauss theorem relates a volume integral of a divergence of a vector field
 to a surface integral of that vector field.
 The Stokes theorem relates a surface integral of the curl of a vector field to
 a line integral of that vector field.
-Here, these are merely stated for reference.
-We will explore their meaning and application in more detail as we use them
-to derive the fundamental equations for fluid flows.
+Here, they are stated for reference, and we'll explore their meaning and
+application in more detail as we use them to derive the fundamental equations
+for fluid flows.
 
 \subsubsection{Gauss theorem}
 
@@ -593,7 +612,8 @@ surface integral of $\mathbf{u}$ over the surface $A$ that encloses $V$:
   \label{eq:divergence_theorem}
   \int_V \nabla \cdot \mathbf{u} dV = \oint_A \mathbf{u} \cdot d\mathbf{A}
 \end{equation}
-
+In other words, the rate of change of the fluid mass within a volume is equal to
+the flow normal through the surface that encloses that volume.
 This form of Gauss's theorem is also known as the
 \textit{divergence theorem}\index{Theorem!divergence}.
 It will come in handy when we derive the conservation of mass (continuity)
@@ -608,6 +628,8 @@ $\mathbf{u}$ over the boundary of $A$:
 \begin{equation}
   \int_A (\nabla \times \mathbf{u}) \cdot d\mathbf{A} = \oint_{\partial A} \mathbf{u} \cdot d\mathbf{l}
 \end{equation}
+In other words, the rotation rate of the fluid over a surface area is equal to
+the flow velocity integrated around the boundary of that surface.
 
 \subsection*{Summary}
 
@@ -664,12 +686,6 @@ follows in the remainder of this course.
   (b) divergent and irrotational, (c) non-divergent and rotational, and (d)
   divergent and rotational.
 \end{enumerate}
-
-\subsection*{Further reading}
-
-\begin{itemize}
-  \item Chapter 2 of \textit{Fluid Mechanics} by Kundu, Cohen, and Dowling
-\end{itemize}
 
 \newpage
 \section{Fluid kinematics}
