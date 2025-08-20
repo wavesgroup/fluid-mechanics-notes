@@ -63,7 +63,7 @@ Many of our students at Rosenstiel go on to pursue research topics related to
 turbulence, boundary layers, and ocean surface waves, and these topics are well
 covered by different textbooks in these respective subdisciplines.
 This book bridges that gap by presenting a concise yet comprehensive treatment
-of classical, geophysical, turbulent, and wavy fluid mechanics processes.
+of classical, geophysical, turbulent, and wavy fluid mechanics processes
 that are relevant to atmospheric and ocean physics research.
 
 The book progresses from fundamental concepts to increasingly complex topics.
@@ -119,7 +119,7 @@ However, parts of this course are covered in detail by various textbooks.
 These lecture notes are based on the following textbooks:
 
 \begin{enumerate}
-  \item \textit{Fluid Mechanics}, 6th Ed., by Kundu, Cohen, and Dowling (Elsevier), for the classical;
+  \item \textit{Fluid Mechanics}, 7$^{th}$ Ed., by Kundu, Cohen, Dowling, and Capecelatro (Elsevier), for the classical;
   \item \textit{Atmospheric and Oceanic Fluid Dynamics} (AOFD) by Geoffrey Vallis (Cambridge University Press), for the geophysical;
   \item \textit{Turbulent Flows} by Stephen Pope (Cambridge University Press), for the turbulent;
   \item \textit{Water Wave Mechanics for Engineers and Scientists} by Dean and Dalrymple (World Scientific), for the wavy.
@@ -151,7 +151,15 @@ properties: \textit{scalars}, \textit{vectors}, and \textit{tensors}.
 Examples of scalars are temperature, pressure, or density.
 A value of 290 K, for example, completely describes the temperature of a fluid
 at some point in space and time.
-We will write them in equations using italics, \textit{e.g.} $T$, $p$, or $\rho$.
+The fundamental scalar fields in fluid mechanics are the pressure, density,
+and in some derivations, the velocity potential.
+In the atmosphere, density is often represented with the air temperature and
+humidity scalars through the ideal gas law.
+In the ocean, density if typically represented with the water temperature and
+salinity scalars through the equation of state.
+The fundamental scalars for us are then, in this approximate order,
+pressure, density, temperature, water salinity, and air humidity.
+In equations, we will write scalars using italics, \textit{e.g.} $T$, $p$, or $\rho$.
 
 \textit{Vectors}\index{Vector} have a magnitude and a direction.
 Examples of vectors are velocity, acceleration, or force.
@@ -170,7 +178,10 @@ where $u_x$, $u_y$, and $u_z$ (each a scalar) are the components of $\mathbf{u}$
 in the $x$, $y$, and $z$ directions, respectively.
 This is the conventional notation, however, we will often write vectors
 inline as $\mathbf{u} = (u_x, u_y, u_z)$.
-We will write vectors in equations using boldface, \textit{e.g.} $\mathbf{u}$,
+The fundamental vector field of fluid mechanics is the velocity.
+Many other vector fields are derived from velocity, such as vorticity,
+acceleration, and force.
+In equations, we will write vectors using boldface, \textit{e.g.} $\mathbf{u}$,
 $\mathbf{a}$, or $\mathbf{F}$.
 
 The magnitude\index{Vector!magnitude}, or norm\index{Vector!norm}, of a vector 
@@ -236,7 +247,7 @@ So, a vector $\mathbf{u}$ can be written as
   \mathbf{u} = u_x \mathbf{i} + u_y \mathbf{j} + u_z \mathbf{k}
 \end{equation}
 
-Notice that you can get get the unit vector by dividing any vector by its
+Notice that you can get the unit vector by dividing any vector by its
 magnitude, i.e. $\mathbf{u}/||u||$.
 
 \subsection{Vector operations}
@@ -245,8 +256,8 @@ Two vectors can be added, subtracted, or multiplied.
 Although vector addition and subtraction are straightforward (simply add or
 subtract each of their respective scalar components), vector multiplication is
 more interesting.
-There are two types of vector multiplication: the \textit{dot product} and the
-\textit{cross product}.
+There are many ways to multiply two vectors, but the two most important ones for
+us are the \textit{dot product} and the \textit{cross product}.
 
 \subsubsection{Dot product}
 
@@ -448,7 +459,7 @@ term-by-term the entries of the $i$-th row of $\mathbf{A}$ and the $j$-th column
 of $\mathbf{B}$, and summing these products.
 In other words, $c_{ij}$ is the dot product of the $i$-th row of $\mathbf{A}$
 and the $j$-th column of $\mathbf{B}$.
-Note that the matrices are not required to be square, but the number of columns
+Although the matrices are not required to be square, the number of columns
 of $\mathbf{A}$ must be equal to the number of rows of $\mathbf{B}$.
 
 \subsection{Total and partial derivatives}
@@ -485,7 +496,7 @@ and likewise for tensors.\\
 
 \subsection{Gradient, divergence, and curl}
 
-Now, we introduce another new operator that builds on top of previous
+Now, we introduce another operator that builds on top of previous
 concepts to describe how scalar and vector fields vary in space.
 This operator is called \textit{del}\index{Del} and is denoted by the symbol
 $\nabla$\index{Nabla} (pronounced "nabla"):
@@ -496,8 +507,8 @@ $\nabla$\index{Nabla} (pronounced "nabla"):
     \frac{\partial}{\partial y} \mathbf{j} +
     \frac{\partial}{\partial z} \mathbf{k}
 \end{equation}
-Written as above, $\nabla$ cannot stand on its own but must be applied to
-something as an operator.
+Written as above, $\nabla$ cannot stand on its own but must be applied as an
+operator to a field.
 A good way to think about $\nabla$ is as of a \textit{differential operator},
 which itself is a 3-dimensional vector that can operate on scalars or vectors.
 Specifically:
