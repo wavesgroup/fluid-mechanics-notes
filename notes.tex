@@ -705,14 +705,24 @@ follows in the remainder of this course.
 \section{Fluid kinematics}
 
 Fluid kinematics describe the fluid motion without considering the forces that
-cause it.
+cause that motion.
 We will explore two main views of the flow: the \textit{Lagrangian}\index{Lagrangian}
 view, which follows individual fluid particles, and the \textit{Eulerian}\index{Eulerian}
 view, which observes the flow at fixed points in space.
-Although the Eulerian view is more commonly used in the theory and simulation
-of fluid flows, the Lagrangian view will be essential in deriving some of the
-fundamental equations, as well as for understanding where certain features of
-the flow come from.
+Although the Eulerian (fixed-point) view is more commonly used in the theory and simulation
+of fluid flows, the Lagrangian (particle-following) view will be essential when
+deriving some of the fundamental equations, as well as for understanding where
+certain features of the flow come from.
+Both approaches are often used together in numerical simulations.
+Flows are typically simulated in the Eulerian framework on a fixed
+grid, and for many applications the flow is analyzed \textit{a posteriori}
+and/or visualized in the Lagrangian framework.
+For example, picture a high-speed flow simulation around an aircraft
+that is modeled on a fixed grid, and particle-following trajectories drawn to
+visualize the turbulent wake behind the vessel.
+Another example is the Lagrangian evolution of an oil spill in the ocean or
+a volcanic plume in the atmosphere, derived from Eulerian simulation output.
+
 We will also introduce some useful concepts to describe the flow, namely
 the \textit{velocity potential} and the \textit{stream function}.
 These two scalar quantities are complementary to the vector field of velocity
@@ -720,14 +730,19 @@ and together provide a complete description of the flow.
 
 \subsection{Lagrangian and Eulerian derivatives of a fluid property}
 
-Consider a 3-dimensional quantity $\varphi$ that varies in space and time such that
-$\varphi = \varphi(x, y, z, t)$.
-Let's find the rate of change of $\varphi$.
+We will start by first drawing a distinction between the Lagrangian and Eulerian
+derivatives.
+Consider a 3-dimensional quantity $\varphi$ that varies in space and time such
+that $\varphi = \varphi(x, y, z, t)$.
+This can be a scalar, a vector, or a tensor, however, to keep things simple,
+suppose $\varphi$ is a scalar field.
+Let's find its rate of change.
 Since it depends on $x$, $y$, $z$, and $t$, the rate of change of $\varphi$ along
-each of these dimensions must be considered.
-So, the total change of $\varphi$ (let's call it $\delta\varphi$) over spatial and
-temporal increments $\delta x$, $\delta y$, $\delta z$, and $\delta t$ is the
-sum of changes along each of these dimensions:
+each of these dimensions must be taken into account.
+So, the total change of $\varphi$ (let's call it $\delta\varphi$, where $\delta$
+is a small but finite increment) over spatial and temporal increments $\delta x$,
+$\delta y$, $\delta z$, and $\delta t$, is the sum of changes along each of
+these dimensions:
 
 \begin{equation}
   \delta\varphi = \frac{\partial \varphi}{\partial x} \delta x +
@@ -743,7 +758,7 @@ Divide by $\delta t$ to obtain:
     \frac{\partial \varphi}{\partial z} \frac{\delta z}{\delta t} +
     \frac{\partial \varphi}{\partial t}
 \end{equation}
-Recall the definition of $\nabla$ (Eq. \ref{eq:nabla}), and let the finite
+Recall the definition of $\nabla$ (Eq. \ref{eq:nabla}) and let the finite
 increment $\delta t$ approach $dt$ (and likewise for $\delta x$, $\delta y$, and
 $\delta z$), to obtain:
 
@@ -753,6 +768,11 @@ $\delta z$), to obtain:
     \frac{\partial \varphi}{\partial z} \frac{dz}{dt} +
     \frac{\partial \varphi}{\partial t}
 \end{equation}
+The above is equivalent to applying the chain rule to $\varphi$ with respect
+to time and assuming that the spatial dimension variables are functions of time
+($\varphi = \varphi(x(t), y(t), z(t), t)$).
+Recognize that by stating the dependence of position on time, we are implicitly
+stating that we are following a fluid particle.
 Then, recognize that the velocity in each direction is the rate of change of
 the position in that direction:
 
@@ -761,8 +781,11 @@ the position in that direction:
     \frac{\partial \varphi}{\partial t} +
     u \frac{\partial \varphi}{\partial x} +
     v \frac{\partial \varphi}{\partial y} +
-    w \frac{\partial \varphi}{\partial z} w
+    w \frac{\partial \varphi}{\partial z}
 \end{equation}
+which states that the total change of $\varphi$ is due to the local (at fixed
+point in space) change over time, and due to spatial variations of $\varphi$ as
+the fluid particle moves through them.
 Finally, recall the definition of $\nabla$ (Eq. \ref{eq:nabla}) to obtain:
 
 \begin{equation}
@@ -789,6 +812,9 @@ $\mathbf{u}$ and $\nabla \varphi$, the Lagrangian derivative in Eq.
 \end{equation}
 The parentheses on the right-hand side indicate that that term acts as an
 operator on a field.
+Like we stated for the operator $\nabla$ in the previous chapter, the total
+derivative operator $\frac{d}{dt}$ cannot stand on its own, but is instead
+applied to a field.
 
 \subsection{Lagrangian derivative of a volume}
 
