@@ -921,13 +921,6 @@ In this chapter, we covered:
 We'll use these concepts in the next chapter where we derive the equations of
 continuity and motion.
 
-\subsection*{Further reading}
-
-\begin{itemize}
-  \item Section 1.1 of \textit{EAOD} by Vallis
-  \item Chapter 3 of \textit{Fluid Mechanics} by Kundu, Cohen, and Dowling
-\end{itemize}
-
 \newpage
 \section{Conservation of mass and momentum}
 \label{sec:continuity_momentum}
@@ -947,7 +940,7 @@ fixed points in space.
 We can thus derive the conservation of mass, or commonly known as the
 \textit{continuity}, from both perspectives.
 Let's start with the Eulerian perspective, as it may seem more intuitive to
-derive from first principles
+derive from first principles.
 
 \subsubsection{Eulerian derivation}
 \index{Continuity!Eulerian derivation}
@@ -968,8 +961,8 @@ This scenario is illustrated in Fig. \ref{fig:continuity1}.
 The fluid mass flow rate into the volume through the left face is $\rho u \Delta y \Delta z$,
 and the mass flow rate out of the volume through the right face is
 $\rho (u + \frac{\partial u}{\partial x} \Delta x) \Delta y \Delta z$.
-The net mass change in the control volume must be balanced by the net mass flow
-rate into the volume through the left and right faces:
+The net mass increase in the control volume must be governed by the net mass
+inflow excess relative to the net mass outflow:
 
 \begin{figure}[h]
   \centering
@@ -986,19 +979,19 @@ rate into the volume through the left and right faces:
 
 \begin{equation}
   \int_V \frac{\partial \rho}{\partial t} dV =
-  \rho u + \frac{\partial (\rho u)}{\partial x} \Delta x) \Delta y \Delta z - \rho u \Delta y \Delta z =
+  \rho u \Delta y \Delta z - \left(\rho u + \frac{\partial (\rho u)}{\partial x} \Delta x\right) \Delta y \Delta z
 \end{equation}
 
 \begin{equation}
   \int_V \frac{\partial \rho}{\partial t} dV =
-  \frac{\partial (\rho u)}{\partial x} \Delta x \Delta y \Delta z
+  - \frac{\partial (\rho u)}{\partial x} \Delta x \Delta y \Delta z
 \end{equation}
-Now, we we allow a flow field to have components in the $y$ and $z$ directions,
-the equation becomes:
+Now, if we allow the flow field to have components in the $y$ and $z$ directions
+as well, the equation becomes:
 
 \begin{equation}
   \int_V \frac{\partial \rho}{\partial t} dV =
-  \left[\frac{\partial (\rho u)}{\partial x} + \frac{\partial (\rho v)}{\partial y} + \frac{\partial (\rho w)}{\partial z} \right] \Delta V
+  - \left[\frac{\partial (\rho u)}{\partial x} + \frac{\partial (\rho v)}{\partial y} + \frac{\partial (\rho w)}{\partial z} \right] \Delta V
 \end{equation}
 Let $\Delta V \to 0$ to such that any field within $\Delta V$ is uniform to obtain:
 
@@ -1030,12 +1023,12 @@ Mathematically, we can express this as:
 \end{figure}
 
 \begin{equation}
-  \int_V \frac{\partial \rho}{\partial t} dV = \int_S \rho \mathbf{u} \cdot d\mathbf{S}
+  \int_V \frac{\partial \rho}{\partial t} dV = - \int_S \rho \mathbf{u} \cdot d\mathbf{S}
 \end{equation}
 Now, recall the divergence theorem (Eq. \ref{eq:divergence_theorem}) to obtain:
 
 \begin{equation}
-  \int_V \frac{\partial \rho}{\partial t} dV = \int_V \nabla \cdot (\rho \mathbf{u}) dV
+  \int_V \frac{\partial \rho}{\partial t} dV = - \int_V \nabla \cdot (\rho \mathbf{u}) dV
 \end{equation}
 Let $\Delta V \to 0$ to integrate and drop $\Delta V$ on both sides to obtain
 Eq. \ref{eq:continuity_eulerian}, which is the Eulerian form of the continuity
@@ -1132,7 +1125,7 @@ Recall the Lagrangian derivative operator from Eq. \ref{eq:lagrangian_derivative
 to obtain:
 
 \begin{equation}
-  \frac{\partial \mathbf{u}}{\partial t} + (\mathbf{u} \cdot \nabla) \mathbf{u} = \frac{\mathbf{F}}{\rho}
+  \frac{\partial \mathbf{u}}{\partial t} + \mathbf{u} \cdot \nabla \mathbf{u} = \frac{\mathbf{F}}{\rho}
   \label{eq:momentum_eulerian}
 \end{equation}
 This equation states that the acceleration of a fluid parcel at any fixed point
@@ -1162,14 +1155,18 @@ on the weather patterns of interest.
 If, however, we could assume that either the velocity or its gradient are so
 small that they could be neglected, the equation simplifies significantly
 and often allows for analytical solutions.
+$\mathbf{u} \cdot \nabla \mathbf{u}$ is the most important term for
+turbulence, weather prediction and predictability, and a major obstacle toward
+analytical solutions of Eq. \ref{eq:momentum_eulerian} and its variants.
+Remember this now.
 
-Back to our equation now.
+Back to our equation.
 For a 3-dimensional Cartesian flow where the velocity field is $\mathbf{u} = (u, v, w)$
 and net forces are $\mathbf{F} = (F_x, F_y, F_z)$, Eq. \ref{eq:momentum_eulerian}
 becomes a system of three equations, one for each component of the velocity field.
-Recall from the Lagrangian derivative operator that $(\mathbf{u} \cdot \nabla) \mathbf{u}$
+Recall from the Lagrangian derivative operator that $\mathbf{u} \cdot \nabla \mathbf{u}$
 is an operator acting on $\mathbf{u}$ (as opposed to divergence of a gradient).
-The $(\mathbf{u} \cdot \nabla)$ operator then expands to
+The $\mathbf{u} \cdot \nabla$ operator then expands to
 $u\frac{\partial}{\partial x} + v\frac{\partial}{\partial y} + w\frac{\partial}{\partial z}$.
 Our vector equations becomes a system of three scalar equations:
 
@@ -1206,7 +1203,7 @@ it's useful to write it as the sum of body forces $\mathbf{F}_b$ and surface
 forces $\mathbf{F}_s$:
 
 \begin{equation}
-  \frac{\partial \mathbf{u}}{\partial t} + (\mathbf{u} \cdot \nabla) \mathbf{u} = \frac{1}{\rho} (\mathbf{F}_s + \mathbf{F}_b)
+  \frac{\partial \mathbf{u}}{\partial t} + \mathbf{u} \cdot \nabla \mathbf{u} = \frac{1}{\rho} (\mathbf{F}_s + \mathbf{F}_b)
 \end{equation}
 
 Let's derive the surface forces first.
@@ -1248,7 +1245,7 @@ Insert this into Eq. \ref{eq:momentum_eulerian} to get our new form of
 the momentum equation:
 
 \begin{equation}
-  \frac{\partial \mathbf{u}}{\partial t} + (\mathbf{u} \cdot \nabla) \mathbf{u} =
+  \frac{\partial \mathbf{u}}{\partial t} + \mathbf{u} \cdot \nabla \mathbf{u} =
   \frac{1}{\rho} \nabla \cdot \boldsymbol{\sigma} + \frac{\mathbf{F}_b}{\rho}
   \label{eq:momentum_cauchy}
 \end{equation}
@@ -1309,7 +1306,7 @@ Let's insert this into Eq. \ref{eq:momentum_eulerian} to get our new form of
 the momentum equation:
 
 \begin{equation}
-  \frac{\partial \mathbf{u}}{\partial t} + (\mathbf{u} \cdot \nabla) \mathbf{u} =
+  \frac{\partial \mathbf{u}}{\partial t} + \mathbf{u} \cdot \nabla \mathbf{u} =
   - \frac{1}{\rho} \nabla p + \frac{1}{\rho} \nabla \cdot \boldsymbol{\tau} + \frac{\mathbf{F}_b}{\rho}
   \label{eq:momentum_cauchy_with_shear}
 \end{equation}
@@ -1327,7 +1324,7 @@ Dropping $\nabla \cdot \boldsymbol{\tau}$ and the body forces $\mathbf{F}_b$ for
 now, the Cauchy momentum equation simplifies to:
 
 \begin{equation}
-  \frac{\partial \mathbf{u}}{\partial t} + (\mathbf{u} \cdot \nabla) \mathbf{u} =
+  \frac{\partial \mathbf{u}}{\partial t} + \mathbf{u} \cdot \nabla \mathbf{u} =
   - \frac{1}{\rho} \nabla p
   \label{eq:momentum_euler}
 \end{equation}
@@ -1408,7 +1405,7 @@ Inserting this into Eq. \ref{eq:momentum_cauchy_with_shear} and assuming
 incompressibility, we get:
 
 \begin{equation}
-  \frac{\partial \mathbf{u}}{\partial t} + (\mathbf{u} \cdot \nabla) \mathbf{u} =
+  \frac{\partial \mathbf{u}}{\partial t} + \mathbf{u} \cdot \nabla \mathbf{u} =
   - \frac{1}{\rho} \nabla p + \frac{1}{\rho} \nabla \cdot (\mu \nabla \mathbf{u}) +
   \frac{\mathbf{F}_b}{\rho}
 \end{equation}
@@ -1418,7 +1415,7 @@ This allows us to neglect the viscous stress gradient term, leading to the
 \textit{Navier-Stokes equation}\index{Momentum equation!Navier-Stokes}.
 
 \begin{equation}
-  \frac{\partial \mathbf{u}}{\partial t} + (\mathbf{u} \cdot \nabla) \mathbf{u} =
+  \frac{\partial \mathbf{u}}{\partial t} + \mathbf{u} \cdot \nabla \mathbf{u} =
   - \frac{1}{\rho} \nabla p + \nu \nabla^2 \mathbf{u} +
   \frac{\mathbf{F}_b}{\rho}
   \label{eq:momentum_navier_stokes}
@@ -1751,13 +1748,6 @@ A larger Reynolds number corresponds to a more turbulent flow.
   the Eulerian form and vice versa. What is the key equation that relates the
   two forms?
 
-  \item Write out the Cauchy, Euler, and Navier-Stokes equations in vector form
-  and discuss their similarities and differences.
-  Give examples of flows that are well described by each of these equations.
-
-  \item Write a computer program that calculates the divergence of a second-order
-  tensor in a Cartesian, 3-dimensional coordinate system.
-
   \item Consider two opposing, horizontal, surface currents along the $x$-axis.
   In the vertical they uniformly span a mixed layer that extends from the
   surface to the depth of 20 meters, with a magnitude of 1 m s$^{-1}$.
@@ -1765,6 +1755,13 @@ A larger Reynolds number corresponds to a more turbulent flow.
   Calculate the downwelling velocity at the bottom of the mixed layer.
   Assume $\nabla \cdot \mathbf{u} = 0$, no change in mean sea level, and no
   flow in the $y$-direction.
+
+  \item Write out the Cauchy, Euler, and Navier-Stokes equations in vector form
+  and discuss their similarities and differences.
+  Give examples of flows that are well described by each of these equations.
+
+  \item Write a computer program that calculates the divergence of a second-order
+  tensor in a Cartesian, 3-dimensional coordinate system.
 
   \item Write a function in your favorite programming language that takes a
   value of temperature, salinity, and pressure and returns the density of
@@ -1804,13 +1801,6 @@ In this chapter, we covered:
   salinity, and pressure;
   \item Examples of flows with different Reynolds numbers, from laminar pipe
   flow to turbulent geophysical flows.
-\end{itemize}
-
-\subsection*{Further reading}
-
-\begin{itemize}
-  \item Sections 1.2-1.4 of \textit{EAOD} by Vallis
-  \item Sections 4.1-4.6 of \textit{Fluid Mechanics} by Kundu, Cohen, and Dowling
 \end{itemize}
 
 \newpage
