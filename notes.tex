@@ -583,6 +583,35 @@ vector field and quantifies how much the vector field is rotating around a
 point.
 When curl is zero, the vector field is said to be \textit{irrotational}.
 
+\subsubsection{Laplacian}
+
+The Laplacian\index{Laplacian} is a second-order differential operator that
+can be applied to both scalar and vector fields.
+It measures the rate at which field varies in space and is defined as:
+
+\begin{equation}
+  \nabla^2 = \frac{\partial^2}{\partial x^2} + \frac{\partial^2}{\partial y^2} + \frac{\partial^2}{\partial z^2}
+\end{equation}
+Applied to a scalar field $T$, it is:
+
+\begin{equation}
+  \nabla^2 T = \frac{\partial^2 T}{\partial x^2} + \frac{\partial^2 T}{\partial y^2} + \frac{\partial^2 T}{\partial z^2}
+\end{equation}
+Applied to a vector $\mathbf{u} = (u, v, w)$, it is applied to each component:
+
+\begin{equation}
+  \nabla^2 \mathbf{u} = \begin{bmatrix}
+    \frac{\partial^2 u}{\partial x^2} + \frac{\partial^2 u}{\partial y^2} + \frac{\partial^2 u}{\partial z^2} \\
+    \frac{\partial^2 v}{\partial x^2} + \frac{\partial^2 v}{\partial y^2} + \frac{\partial^2 v}{\partial z^2} \\
+    \frac{\partial^2 w}{\partial x^2} + \frac{\partial^2 w}{\partial y^2} + \frac{\partial^2 w}{\partial z^2}
+  \end{bmatrix}
+\end{equation}
+The Laplacian of a scalar is thus a scalar and the Laplacian of a vector is a
+vector.
+In some literature you will see the Laplacian written as $\Delta$, but here we
+will use $\nabla^2$ to avoid confusion with the $\Delta$ that we use to denote
+a finite increment.
+
 \subsubsection{Useful vector identities}
 
 Curl of a gradient of a scalar field is always zero:
@@ -1421,7 +1450,8 @@ This allows us to neglect the viscous stress gradient term, leading to the
   \label{eq:momentum_navier_stokes}
 \end{equation}
 where $\nu = \frac{\mu}{\rho}$ is the kinematic viscosity.
-The $\nabla^2$ operator is often called the \textit{Laplacian}\index{Laplacian}.
+The operator $\nabla^2 = \left( \frac{\partial^2}{\partial x^2} + \frac{\partial^2}{\partial y^2} + \frac{\partial^2}{\partial z^2} \right)$
+is the \textit{Laplacian}\index{Laplacian}.
 It is a second-order differential operator that appears in many partial
 differential equations, including the heat equation, the wave equation, and
 the Laplace equation.
@@ -1434,17 +1464,16 @@ Let's now look at the body forces to conclude our derivation.
 As we mentioned earlier, gravity is the only body force we'll consider here.
 The force of gravity per unit mass is given by $\mathbf{g} = (0, 0, -g)$,
 where $g$ is the gravitational acceleration.
-Here we're assuming that the gravitational acceleration is constant and always
-points downward.
-Insert this into Eq. \ref{eq:momentum_navier_stokes} and assuming
+Here we assume that the gravitational acceleration is constant and points downward.
+Insert this into Eq. \ref{eq:momentum_navier_stokes}, and assuming
 incompressibility, we get:
 
 \begin{equation}
   \frac{\partial \mathbf{u}}{\partial t} + (\mathbf{u} \cdot \nabla) \mathbf{u} =
   - \frac{1}{\rho} \nabla p + \mathbf{g} + \nu \nabla^2 \mathbf{u}
 \end{equation}
-
-Written out explicitly, we get:
+Written out explicitly for each of the three spatial dimensions ($x$, $y$, and $z$),
+we get:
 
 \begin{equation}
   \frac{\partial u}{\partial t} + 
@@ -1501,6 +1530,13 @@ we get:
 \begin{equation}
   \frac{\partial w}{\partial z} = - \frac{\partial u}{\partial x} - \frac{\partial v}{\partial y}
   \label{eq:hydrostatic_continuity}
+\end{equation}
+which relates the vertical acceleration to the horizontal divergence.
+Integrating this equation vertically allows us to calculate the vertical velocity
+anywhere in the fluid column provided bottom and top boundary conditions:
+
+\begin{equation}
+  w\left(z\right) = w\left(z+\Delta z\right) - \int_z^{z+\Delta z} \left(\frac{\partial u}{\partial x} + \frac{\partial v}{\partial y} \right) dz'
 \end{equation}
 This relationship will prove to be extremely useful in ocean applications where
 only the horizontal velocity field is resolved.
@@ -1559,9 +1595,9 @@ is often used as the equation of state:
 \end{equation}
 where $R$ is the specific gas constant for the gas in question, and $T$ is the
 temperature.
-For the moist air, we need account for both the properties of dry air
-($R_d \approx 287 J kg^{-1} K^{-1}$) and those of water vapor
-($R_v \approx 461 J kg^{-1} K^{-1}$).
+For the moist air, we need to account for both the properties of dry air
+($R_d \approx\ 287\ J kg^{-1} K^{-1}$) and those of water vapor
+($R_v \approx\ 461\ J kg^{-1} K^{-1}$).
 The equation of state for moist air relies on the so-called
 \textit{virtual temperature}\index{Virtual temperature} to account for the
 moisture in the air:
@@ -1601,6 +1637,8 @@ that control their production and loss:
 \end{equation}
 where $\dot{S}_T$ and $\dot{S}_q$ are the sources and sinks of temperature and
 specific humidity, respectively.
+They are governed by a plethora of thermodynamic processes such as radiation,
+evaporation, condensation, etc.
 
 Although we won't delve further into the details behind the sources and sinks
 of temperature and specific humidity in the atmosphere, we can denote these
