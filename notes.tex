@@ -1733,14 +1733,13 @@ the system and to group terms in the equations that are of similar magnitudes.
 This is especially useful for large-scale flows, where the length and time
 scales can vary over several orders of magnitude.
 
-For example, let's look at the vector equation for horizontal momentum
+Let's look, for example, at the vector equation for horizontal momentum
 (thus, ignoring $\mathbf{g}$ for now):
 
 \begin{equation}
   \frac{\partial \mathbf{u}}{\partial t} + (\mathbf{u} \cdot \nabla) \mathbf{u} =
   - \frac{1}{\rho} \nabla p + \nu \nabla^2 \mathbf{u}
 \end{equation}
-
 The characteristic scales for each term are:
 
 \begin{equation}
@@ -1845,7 +1844,8 @@ In this chapter, we covered:
 \section{Rotating flows}
 
 Fluids behave somewhat differently when in a rotating reference frame, for
-example on the surface of a rotating planet.
+example on the surface of a rotating planet while being observed from a fixed
+location on that surface.
 In this chapter we explore the effects of rotation on the flow.
 We begin by deriving the temporal derivative of a general vector in a rotating
 reference frame, and then apply it to find the velocity and acceleration in such
@@ -1855,8 +1855,8 @@ implications for geophysical flows.
 
 \subsection{Rate of change of a rotating vector}
 
-Before determining the what the velocity and acceleration should appear like
-in a rotating reference frame (i.e. on the surface of a rotating planet), we
+Before determining what the velocity and acceleration should appear like
+in a rotating reference frame (\textit{i.e.} on the surface of a rotating planet), we
 first need to understand how a vector that is fixed in the rotating frame
 appears to change over time to the observer in the inertial (fixed) frame.
 To do that, consider a vector $\mathbf{C}$ that rotates around an axis at a
@@ -1894,6 +1894,7 @@ the cosine of the angle between $\mathbf{C}$ and the horizontal plane
 the change in $\lambda$;
 and, the unit vector $\mathbf{m}$.
 Notice now that using the definition of the cross product (Eq. \ref{eq:cross_product_magnitude}),
+and recalling that $\Omega = \frac{d\lambda}{dt}$,
 we can write the change in $\mathbf{C}$ as:
 
 \begin{equation}
@@ -1980,7 +1981,7 @@ Recall that:
   \left( \frac{d \mathbf{r}}{dt} \right)_I =
   \left( \frac{d \mathbf{r}}{dt} \right)_R +
   \mathbf{\Omega} \times \mathbf{r} =
-  \left( \mathbf{u}_R + \mathbf{\Omega} \times \mathbf{r} \right)
+  \mathbf{u}_R + \mathbf{\Omega} \times \mathbf{r}
   \label{eq:inertial_velocity_from_rotating}
 \end{equation}
 If $\mathbf{\Omega}$ is constant, as we have assumed at the beginning,
