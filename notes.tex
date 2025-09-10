@@ -2133,29 +2133,37 @@ The Coriolis force is then:
 The Coriolis term thus contributes to all three components of the flow, and
 their components vary with latitude.
 Let's look at the horizontal components first.
-On geophysical scales, generally $w \ll u$ and so the $2 \Omega w \cos\theta$
+On geophysical scales, generally $w \ll u$ and so $2 \Omega w \cos\theta$
 can often be neglected.
 The two dominant horizontal components of the Coriolis force then become
 $(-2\Omega v \sin\theta, 2\Omega u \sin\theta)$.
 These components are zero at the Equator and increase poleward.
-The vertical component, $-2 \Omega u \cos\theta$, can be neglected as well as
-its magnitude is very small compared to the other terms in the momentum
-equation.
+The vertical component, $-2 \Omega u \cos\theta$, is negligible as well
+compared to the other terms in the momentum equation, most notably the
+gravitational acceleration $\mathbf{g}$ and the vertical pressure gradient that
+balances it.
+The horizontal effect is thus significantly more relevant for the horizontal
+motion than the vertical one.
 
-The practical implications of the Coriolis flow is that it deflects it
-toward the right on the Northern hemisphere and to the left on the Southern
+The practical implications of the Coriolis force on the flow is that it deflects
+it toward the right on the Northern hemisphere and toward the left on the Southern
 hemisphere.
+If a parcel or a particle with some initial velocity on a rotating planet is
+let undisturbed by other forces, it will appear to the observer standing on the
+surface of the planet to move in circles with some radius.
+We will calculate soon exactly how big this radius is depending on where on
+the planet we are and the initial velocity of the parcel.
 Let's now incorporate the Coriolis force components into the vector-component
 form of the momentum equation and apply some convenient approximations, namely
-the f-plane and the $\beta$-plane approximations.
+the $f$-plane and the $\beta$-plane approximations.
 
-\subsection{f-plane and $\beta$-plane approximations}
+\subsection{$f$-plane and $\beta$-plane approximations}
 
-Although geophysical fluids flow on a sphere, the curvature of the surface of
-the planet is negligible for many applications.
-Here we will make the so-called f-plane approximation in which the flow is
+Although geophysical fluids flow in a thin layer on a sphere, the curvature of
+the surface of the planet is negligible for many applications.
+Here we will make the so-called $f$-plane approximation in which the flow is
 assumed to be on a flat plane tangent to the surface of a curved planet.
-The main assumption of the f-plane approximation is that the planet's rotation
+The main assumption of the $f$-plane approximation is that the planet's rotation
 exhibits only a locally vertical component anywhere on that planet's surface.
 In other words, we'll neglect the horizontal component (\textit{i.e.} $\Omega_y$).
 With that assumption, the Coriolis force becomes strictly horizontal:
@@ -2199,7 +2207,7 @@ Ignoring viscosity for brevity, we can re-write our system of momentum equations
 \end{equation}
 
 \begin{equation}
-  \frac{dw}{dt} = - \frac{1}{\rho} \frac{\partial p}{\partial x} - g
+  \frac{dw}{dt} = - \frac{1}{\rho} \frac{\partial p}{\partial z} - g
 \end{equation}
 
 While on the small plane tangential to the planet's surface the local rotation
@@ -2208,7 +2216,9 @@ may be uniform in space, in reality it does vary with latitude:
 \begin{equation}
   f = 2 \Omega \sin\theta \approx 2\Omega \sin\theta_0 + 2\Omega (\theta - \theta_0) \cos\theta_0
 \end{equation}
-from small deviations in $\theta$.
+for small deviations in $\theta$.
+We obtained this expression by expanding $f$ in a Taylor series to the first
+order around $\theta_0$.
 On a plane, the above can be expressed as:
 
 \begin{equation}
@@ -2321,7 +2331,7 @@ we can define the \textit{Rossby number}\index{Rossby!number} as:
   \approx \frac{\frac{U^2}{L}}{fU}
   \approx \frac{U}{fL}
 \end{equation}
-Though the Rossby number characterizes the relative importance of rotation in
+Although the Rossby number characterizes the relative importance of rotation in
 the flow, notice that the rotation term is in the denominator.
 The Rossby number is thus small for flows in which rotation dominates over
 advection.
@@ -2351,6 +2361,7 @@ In scalar component form, this is:
   \frac{\partial v}{\partial t} - f u = 0
   \label{eq:inertial_oscillation_dvdt}
 \end{equation}
+We are now looking for a solution for ($u(t), v(t)$).
 These two equations are linear but coupled, so we need to decouple them
 first to obtain the equations with one unknown variable each.
 Differentiate each equation with respect to time to get:
@@ -2412,8 +2423,7 @@ motion.
   \item Using scale analysis, show that on geophysical scales the vertical
   component of the Coriolis force is negligible compared to the other terms
   in the momentum equation.
-  \item Derive the Coriolis parameter $f$ on the $\beta$-plane assuming small
-  variation in latitude $\theta$ around the constant $\theta_0$ at which $f = f_0$.
+  \item Show that the kinetic energy of an inertial oscillation is constant.
 \end{enumerate}
 
 \subsection*{Summary}
@@ -2429,12 +2439,6 @@ In this chapter, we covered:
   inertia and Coriolis force;
   \item The solution for inertial oscillations showing circular motion with period
   $2\pi/f$ and radius $r_0 = \sqrt{u_0^2 + v_0^2}/f$.
-\end{itemize}
-
-\subsection*{Further reading}
-
-\begin{itemize}
-  \item Sections 2.1-2.3 and 3.3 of \textit{EAOD} by Vallis
 \end{itemize}
 
 \newpage
