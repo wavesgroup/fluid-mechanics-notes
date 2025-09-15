@@ -2408,12 +2408,16 @@ This results in:
   \label{eq:inertial_oscillation_v}
 \end{equation}
 These equations describe a circular motion in the horizontal plane with a radius
-of $r_0 = \sqrt{u_0^2 + v_0^2} / f$.
+of $r_0 = \sqrt{u_0^2 + v_0^2} / f$ and a period of $2\pi / f$.
 It can be demonstrated that the motion is circular by integrating the velocities
 (Eqs. \ref{eq:inertial_oscillation_u}-\ref{eq:inertial_oscillation_v}) over time
 to obtain displacements $x(t)$ and $y(t)$ and showing that the displacement
 radius $r = \sqrt{x^2 + y^2}$ is constant, which can only be true for a circular
 motion.
+As the inertial oscillations scale with $1/f$, they are larger and slower
+near the Equator and smaller and faster near the poles.
+For example, at 45 degrees latitude, $f \approx 10^{-4}\ s^{-1}$, and so the
+period of the inertial oscillation is $2\pi/f \approx 17.5$ hours.
 
 \subsection*{Exercises}
 
@@ -2453,14 +2457,17 @@ common approximations used for large-scale oceanic flows.
 
 \subsection{The Boussinesq equations}
 
+We will now explore within our framework the density perturbations that will
+allow for buoyancy effects in a flow.
 The \textit{Boussinesq approximation}\index{Boussinesq!approximation} is an
 approximation to the full equations of motion.
 It assumes that the density and pressure perturbations are much smaller than
 their means, and when applied to the Navier-Stokes equations, results in the
 \textit{Boussinesq equations}\index{Boussinesq!equations}.
 
-We start by decomposing the density and pressure into the mean and the
-perturbation components:
+To start, we will allow the density to have small variations around its mean
+value.
+Decompose the density into the mean and the perturbation components:
 
 \begin{equation}
   \rho = \rho_0 + \delta \rho(x, y, z, t)
@@ -2484,7 +2491,7 @@ horizontal or over time, and any perturbations in density, including those in
 the vertical, are much smaller than the mean density.
 This approximation can be demonstrated to hold well by using the equation of
 state for seawater (Eq. \ref{eq:equation_of_state_ocean}), for example.
-The hydrostatic approximation for them is trivially satisfied:
+The hydrostatic approximation in this framework is trivially satisfied:
 
 \begin{equation}
   \frac{d p_0}{d z} = - \rho_0 g
@@ -2825,12 +2832,6 @@ In this chapter, we covered:
   \item Static stability and its relationship to the vertical density gradient;
   \item The Brunt-Väisälä frequency as a measure of stratification strength and
   the natural frequency of vertical oscillations in a stratified fluid.
-\end{itemize}
-
-\subsection*{Further reading}
-
-\begin{itemize}
-  \item Chapters 2 and 3 of \textit{EAOD} by Vallis
 \end{itemize}
 
 \newpage
