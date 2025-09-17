@@ -3,7 +3,7 @@
 Lecture notes for the Fluid Mechanics course (OCE 575/675) taught at the
 Rosenstiel School.
 
-[Download the PDF](https://github.com/user-attachments/files/22118951/fluid-mechanics-lecture-notes.pdf)
+[Download the PDF](https://github.com/user-attachments/files/22385651/fluid-mechanics-lecture-notes.pdf)
 
 See the [Syllabus](syllabus.md) for the Fall 2025 course information.
 
