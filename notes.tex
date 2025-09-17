@@ -2670,6 +2670,16 @@ Equations \ref{eq:thermal_wind_u}-\ref{eq:thermal_wind_v} are known as the
 It states that the geostrophic velocity must be vertically sheared in the
 presence of a horizontal buoyancy (density) gradient. 
 This is illustrated in Fig. \ref{fig:thermal_wind}.
+Warm and light air means $\delta \rho < 0$ and thus $b > 0$, while cold and dense
+air means $\delta \rho > 0$ and thus $b < 0$.
+By hydrostasy, the vertical gradient of the pressure anomaly
+$\partial \delta p / \partial z$ is positive on the left and negative on the right.
+This establishes negative horizontal pressure gradient aloft and a positive one
+near the ground.
+As the Coriolis force balances the horizontal pressure gradients, the geostrophic
+wind is positive aloft (out of the page) and negative near the ground (into the page).
+Thus, in a geostrophic balanced flow alone, introducing a horizontal buoyancy gradient
+results in a vertical shear of the horizontal velocity.
 
 \begin{figure}[h]
   \centering
@@ -2756,15 +2766,34 @@ its density will change but its potential density will remain constant.
 Potential density is thus a useful concept for understanding the static stability
 of the fluid.
 
-From Fig. \ref{fig:static_instability}, taking the reference level to be 
-$z + \delta z$, we have:
+Our goal now is to express a small change in density of the parcel relative to
+the environment solely in terms of the vertical gradient of the potential density.
+From Fig. \ref{fig:static_instability}, we start from:
 
 \begin{equation}
-  \delta \rho = \rho(z + \delta z) - \widetilde{\rho}(z + \delta z) =
-  \rho_\theta(z + \delta z) - \widetilde{\rho}_\theta(z + \delta z) =
-  \widetilde{\rho}_\theta(z) - \widetilde{\rho}_\theta(z + \delta z)  
+  \delta \rho = \rho(z + \delta z) - \widetilde{\rho}(z + \delta z)
 \end{equation}
+which is the difference between the parcel's density and the environmental
+density at the new level.
+Taking the reference level to be  $z + \delta z$ means that:
 
+\begin{equation}
+  \rho(z + \delta z) = \rho_\theta(z + \delta z)
+\end{equation}
+so we can re-write the above as:
+
+\begin{equation}
+  \delta \rho = \rho_\theta(z + \delta z) - \widetilde{\rho}_\theta(z + \delta z)
+\end{equation}
+Since the parcel's potential density is conserved during the adiabatic
+displacement, $\rho_\theta(z) = \rho_\theta(z+\delta z)$, and recall that at
+the starting level the parcel's potential density equals the environmental
+potential density, \textit{i.e.} $\rho_\theta(z) = \widetilde{\rho}_\theta(z)$,
+we can write:
+
+\begin{equation}
+  \delta \rho = \widetilde{\rho}_\theta(z) - \widetilde{\rho}_\theta(z + \delta z)
+\end{equation}
 Then, for small $\delta z$:
 
 \begin{equation}
