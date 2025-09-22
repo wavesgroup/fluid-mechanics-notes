@@ -6,9 +6,11 @@ on:
   pull_request:
     branches: [ "main" ]
 
+permissions:
+  contents: write
+
 jobs:
   build:
-
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -16,6 +18,8 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
 
     - name: Set up TeX Live
       run: |
@@ -31,3 +35,31 @@ jobs:
       with:
         name: fluid-mechanics-notes
         path: notes.pdf
+
+    - name: Publish PDF to artifacts branch
+      run: |
+        set -euo pipefail
+        PDF=notes.pdf
+        test -f "$PDF"
+
+        git config user.name "github-actions[bot]"
+        git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+        git fetch origin artifacts || true
+        if git show-ref --verify --quiet refs/heads/artifacts; then
+          :
+        else
+          git branch artifacts origin/artifacts 2>/dev/null || git branch artifacts
+        fi
+
+        git worktree add artifacts artifacts
+        cp "$PDF" artifacts/
+        cd artifacts
+
+        if git diff --quiet -- "$PDF"; then
+          echo "No PDF changes."
+        else
+          git add "$PDF"
+          git commit -m "Update notes.pdf from ${GITHUB_SHA}"
+          git push origin artifacts
+        fi
