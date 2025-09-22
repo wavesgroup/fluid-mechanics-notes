@@ -30,12 +30,6 @@ jobs:
       run: |
         make
 
-    - name: Upload PDF as artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: fluid-mechanics-book
-        path: fluid-mechanics-book.pdf
-
     - name: Publish PDF to artifacts branch
       run: |
         set -euo pipefail

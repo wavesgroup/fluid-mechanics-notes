@@ -5,7 +5,7 @@ Rosenstiel School.
 
 Click on the cover to download the PDF:
 
-<a href="https://github.com/wavesgroup/fluid-mechanics-notes/blob/artifacts/fluid-mechanics-book.pdf">
+<a href="https://raw.githubusercontent.com/wavesgroup/fluid-mechanics-notes/artifacts/fluid-mechanics-book.pdf">
   <img src="assets/cover.png" alt="Download the PDF" width="600">
 </a>
 
