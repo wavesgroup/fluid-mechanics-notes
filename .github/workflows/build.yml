@@ -45,30 +45,27 @@ jobs:
         git config user.name "github-actions[bot]"
         git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-        # Clean any stale worktree dir from previous run (defensive)
         if [ -d artifacts ]; then
           git worktree prune || true
           rm -rf artifacts
         fi
 
-        # If remote branch exists, attach worktree to it; else create new branch
         if git ls-remote --exit-code origin refs/heads/artifacts >/dev/null 2>&1; then
           git fetch origin artifacts
-          git worktree add artifacts origin/artifacts
+          # Create (or reset) local branch 'artifacts' tracking remote and attach worktree
+          git worktree add -B artifacts artifacts origin/artifacts
         else
           git worktree add -b artifacts artifacts
-          # Optional: ensure branch only contains the PDF (remove other files)
           find artifacts -mindepth 1 -maxdepth 1 -not -name .git -exec rm -rf {} +
         fi
 
-        # Change detection BEFORE overwriting
-        if [ -f artifacts/fluid-mechanics-book.pdf ] && cmp -s "$PDF" artifacts/fluid-mechanics-book.pdf; then
+        if [ -f artifacts/$PDF ] && cmp -s "$PDF" artifacts/$PDF; then
           echo "No PDF changes."
           exit 0
         fi
 
-        cp "$PDF" artifacts/fluid-mechanics-book.pdf
+        cp "$PDF" artifacts/$PDF
         cd artifacts
-        git add fluid-mechanics-book.pdf
-        git commit -m "Update fluid-mechanics-book.pdf from ${GITHUB_SHA}"
+        git add "$PDF"
+        git commit -m "Update $PDF from ${GITHUB_SHA}"
         git push origin artifacts
