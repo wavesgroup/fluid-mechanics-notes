@@ -1,10 +1,10 @@
 .PHONY: all clean
 
-all: notes
+all: book
 
-notes: notes.tex
+book: fluid-mechanics-book.tex
 	pdflatex -halt-on-error -shell-escape $<
-	makeindex notes.idx
+	makeindex fluid-mechanics-book.idx
 	pdflatex -halt-on-error -shell-escape $<
 	pdflatex -halt-on-error -shell-escape $<
 

@@ -33,13 +33,13 @@ jobs:
     - name: Upload PDF as artifact
       uses: actions/upload-artifact@v4
       with:
-        name: fluid-mechanics-notes
-        path: notes.pdf
+        name: fluid-mechanics-book
+        path: fluid-mechanics-book.pdf
 
     - name: Publish PDF to artifacts branch
       run: |
         set -euo pipefail
-        PDF=notes.pdf
+        PDF=fluid-mechanics-book.pdf
         test -f "$PDF"
 
         git config user.name "github-actions[bot]"
@@ -62,13 +62,13 @@ jobs:
         fi
 
         # Change detection BEFORE overwriting
-        if [ -f artifacts/notes.pdf ] && cmp -s "$PDF" artifacts/notes.pdf; then
+        if [ -f artifacts/fluid-mechanics-book.pdf ] && cmp -s "$PDF" artifacts/fluid-mechanics-book.pdf; then
           echo "No PDF changes."
           exit 0
         fi
 
-        cp "$PDF" artifacts/notes.pdf
+        cp "$PDF" artifacts/fluid-mechanics-book.pdf
         cd artifacts
-        git add notes.pdf
-        git commit -m "Update notes.pdf from ${GITHUB_SHA}"
+        git add fluid-mechanics-book.pdf
+        git commit -m "Update fluid-mechanics-book.pdf from ${GITHUB_SHA}"
         git push origin artifacts
