@@ -45,30 +45,30 @@ jobs:
         git config user.name "github-actions[bot]"
         git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-        # Prepare local artifacts branch (create if missing remotely)
-        if git ls-remote --exit-code origin refs/heads/artifacts >/dev/null 2>&1; then
-          git fetch origin artifacts:artifacts
-        else
-          git branch artifacts
-        end
-
-        # Use a worktree to avoid altering current checkout
+        # Clean any stale worktree dir from previous run (defensive)
         if [ -d artifacts ]; then
-          git worktree remove -f artifacts
+          git worktree prune || true
+          rm -rf artifacts
         fi
-        git worktree add artifacts artifacts
 
-        cp "$PDF" artifacts/
+        # If remote branch exists, attach worktree to it; else create new branch
+        if git ls-remote --exit-code origin refs/heads/artifacts >/dev/null 2>&1; then
+          git fetch origin artifacts
+          git worktree add artifacts origin/artifacts
+        else
+          git worktree add -b artifacts artifacts
+          # Optional: ensure branch only contains the PDF (remove other files)
+          find artifacts -mindepth 1 -maxdepth 1 -not -name .git -exec rm -rf {} +
+        fi
+
+        # Change detection BEFORE overwriting
+        if [ -f artifacts/notes.pdf ] && cmp -s "$PDF" artifacts/notes.pdf; then
+          echo "No PDF changes."
+          exit 0
+        fi
+
+        cp "$PDF" artifacts/notes.pdf
         cd artifacts
-
-        # Decide if commit needed
-        if git ls-files --error-unmatch "$PDF" >/dev/null 2>&1; then
-          if git diff --quiet -- "$PDF"; then
-            echo "No PDF changes."
-            exit 0
-          fi
-        fi
-
-        git add "$PDF"
+        git add notes.pdf
         git commit -m "Update notes.pdf from ${GITHUB_SHA}"
         git push origin artifacts
