@@ -633,6 +633,10 @@ Finally, curl of a curl of a vector field is:
 Some of these identities will come handy when we derive the conservation of
 vorticity laws.
 
+\subsubsection{Computing and visualizing gradient, divergence, and curl}
+
+WIP
+
 \subsection{Gauss and Stokes theorems}
 
 The most useful in our work will be variants of the
@@ -2448,12 +2452,13 @@ In this chapter, we covered:
 \newpage
 \section{Stratified flows}
 
-We derived our equations for mass and momentum conservation and we incorporated
-the effects of rotation.
+Oceans and atmospheres are vertically stratified due to the effects of gravity.
+In the previous chapters, we derived our equations for mass and momentum
+conservation and we incorporated the effects of rotation.
 We also explored how the density may vary in the vertical according to the
 ideas gas law (in the atmosphere) or the equation of state for seawater.
-We now explore the effects of stratification on the flow and examine the
-common approximations used for large-scale oceanic flows.
+We now explore the effects of density stratification on the flow and examine a
+common approximation used for large-scale oceanic flows.
 
 \subsection{The Boussinesq equations}
 
@@ -2873,35 +2878,38 @@ hydrostatic balance.
 It turns out that this seemingly drastic approximation still allows the
 reduced equation set to reproduce many observed large scale oceanic and
 atmospheric phenomena.
-In fact, the shallow water system of equations is the basis for some operational
-ocean prediction models, especially if applied to the nearshore and coastal
-ocean.
+In other words, the shallow water equations may be about the simplest equation
+set thay yield relatively realistic and accurate atmospheric and oceanic flows.
+The simplicity of these equations allow for easier interpretation and testing
+of numerical implementations.
+For this reasons, many high-end weather, ocean, and climate models begin with
+a two-dimensional shallow water equations solver.
+In fact, this system of equations is the basis for some operational
+ocean prediction models, which are surprisingly accurate when applied to the
+nearshore and coastal ocean.
 We begin by introducing the key assumptions that allow the derivation of the
 shallow water equations, and after that we derive the general solutions to the
 equations.
 
 \subsection{Key assumptions}
 
-The name "shallow water" may be revealing about the approximations that we will
-make about the flow:
+The name "shallow water" hints at the approximations that we will make about
+the flow:
 
 \begin{enumerate}
   \item \textbf{Shallow:} The vertical scale of the flow is much smaller than the
-    horizontal scale. Although this doesn't mean that there is no vertical
-    flow, it does mean that the horizontal flow is much larger,
-    \textit{i.e.} $u, v \gg w$.
-  \item \textbf{Water:} The flow is incompressible, \textit{i.e.}
-  $\nabla \cdot \mathbf{u} = 0$.
+    horizontal scale. This doesn't mean that there's no vertical
+    flow, only that the horizontal flow is the dominant one ($u, v \gg w$).
+  \item \textbf{Water:} The flow is incompressible ($\nabla \cdot \mathbf{u} = 0$).
 \end{enumerate}
-As a consequence of the above approximations, our flow will also be hydrostatic,
-\textit{i.e.} $\partial p / \partial z = -\rho g$.
+As a consequence, our flow is also hydrostatic ($\partial p / \partial z = -\rho g$).
 This approximation will show to be instrumental in allowing us to cast the 
 horizontal pressure gradient in terms of the surface elevation only.
 
-The flow can then be described as a thin layer of fluid over a rigid bottom
-that may vary in the horizontal, and with a free surface that can freely
-move in the vertical in response to the flow and incompressibility
-(Fig. \ref{fig:shallow_water1}).
+The flow can then be seen as a thin layer of fluid over a rigid bottom
+that may vary horizontally, and with a free surface that can freely
+move in the vertical in response to the horizontal flow, bottom topography, and
+incompressibility (Fig. \ref{fig:shallow_water1}).
 This layer of fluid may or may not be covered on top by another layer of fluid,
 with its own hydrostatic pressure imposed on the surface.
 
@@ -2950,14 +2958,19 @@ function of height:
   \int_{p(z)}^{p_\eta} dp = - \int_z^\eta \rho g \, dz
 \end{equation}
 where $p_\eta$ is the pressure at $z = \eta$.
+As this is the pressure at the free surface, it corresponds to the atmospheric
+pressure, if any.
 Rearranging the terms after integration yields:
 
 \begin{equation}
   p(z) = p_\eta + \rho g \eta - \rho g z
 \end{equation}
-We will now take a horizontal gradient to both sides and assume for simplicity
+We will now apply a horizontal gradient to both sides and assume for simplicity
 that the horizontal gradient of $p_\eta$ is negligible compared to the other
 terms.
+In the context of the ocean surface, this would mean that the atmospheric
+pressure varies in the horizontal much less than the water elevation.
+This is almost always trivially satisfied.
 Further, taking that neither the density nor gravity vary in the horizontal,
 and noting that $z$ as a vertical coordinate cannot vary in the horizontal,
 we get:
@@ -6454,6 +6467,37 @@ Shallow water: $kh \to 0$
 \begin{equation}
   \frac{\partial E}{\partial t} + \nabla \cdot \left( \mathbf{C_g} E \right) = 0
 \end{equation}
+
+\section{Definition of symbols}
+
+WIP
+
+\begin{table}[h]
+\centering
+\renewcommand{\arraystretch}{1.15}
+\begin{tabular}{p{2cm} p{6.2cm} p{2.2cm} p{2.2cm}}
+\hline
+\textbf{Symbol} & \textbf{Meaning} & \textbf{Units} & \textbf{First used} \\
+\hline
+$\nabla$ & Del (nabla) operator & m$^{-1}$ & (\ref{eq:nabla}) \\
+$\nabla T$ & Gradient of scalar $T$ & K m$^{-1}$ & --- \\
+$\nabla\cdot\mathbf{u}$ & Divergence of velocity & s$^{-1}$ & (\ref{eq:divergence}) \\
+$\nabla\times\mathbf{u}$ & Curl (vorticity) of velocity & s$^{-1}$ & --- \\
+$\nabla^2$ & Laplacian operator & m$^{-2}$ & --- \\
+$\rho$ & Density & kg m$^{-3}$ & --- \\
+$\mathbf{a}\cdot\mathbf{b}$ & Dot (scalar) product of vectors & --- & (\ref{eq:dot_product_general}) \\
+$\mathbf{a}\times\mathbf{b}$ & Cross (vector) product of vectors & --- & (\ref{eq:cross_product_magnitude}) \\
+$det(\cdot)$ & Determinant of a matrix & --- & --- \\
+$\mathbf{I}$ & Identity tensor & --- & (2.3) \\
+$\mathbf{i},\mathbf{j},\mathbf{k}$ & Cartesian unit vectors & --- & (2.4) \\
+$p$ & Pressure & Pa & --- \\
+$T$ & Temperature & K & --- \\
+$\mathbf{u}$ & Velocity vector & m s$^{-1}$ & (2.1) \\
+$\boldsymbol{\tau}$ & Stress tensor & Pa, N m$^{-2}$ & (2.2) \\
+\hline
+\end{tabular}
+\caption{Definition of symbols}
+\end{table}
 
 \printindex
 
