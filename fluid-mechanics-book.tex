@@ -3472,14 +3472,18 @@ at the boundary, and non-zero elsewhere).
 The general solution for $u$ may be:
 
 \begin{equation}
-  u = \widehat{u}(y) e^{i(k - c t)}
+  u = \widehat{u}(y) e^{i(x - c t)}
   \label{eq:kelvin_u_sol}
 \end{equation}
+Notice that we have now assumed the wave phase in the form of $(x - c t)$,
+as opposed to $(kx - \omega t)$.
+This is because we already know the phase speed $c$, as well as for mathematical
+convenience; the two wave forms are otherwise equivalent.
 As for the elevation $\eta$, insert Eq. \ref{eq:kelvin_u_sol} into Eq.
 \ref{eq:kelvin_eta} to get:
 
 \begin{equation}
-  \eta = \sqrt{\frac{g}{H}} \widehat{u}(y) e^{i(k - c t)}
+  \eta = \sqrt{\frac{H}{g}} \widehat{u}(y) e^{i(x - c t)}
   \label{eq:kelvin_eta_sol}
 \end{equation}
 We still need to solve for $\widehat{u}(y)$, so we look for the equation that
@@ -3493,7 +3497,9 @@ So, insert Eqs. \ref{eq:kelvin_u_sol} and \ref{eq:kelvin_eta_sol} into Eq.
 which integrates to:
 
 \begin{equation}
-  \widehat{u}(y) = \widehat{u}_0 e^{-\frac{y}{L_d}}
+  \widehat{u}(y) =
+  \widehat{u}_0 e^{-\frac{fy}{\sqrt{gH}}} =
+  \widehat{u}_0 e^{-\frac{y}{L_d}}
   \label{eq:kelvin_u_sol_y}
 \end{equation}
 where
@@ -3509,12 +3515,21 @@ relative to the effects of gravity (or buoyancy, in stratified flows).
 The complete solutions for the shallow water Kelvin waves are then:
 
 \begin{equation}
-  u = \widehat{u}_0 e^{-\frac{y}{L_d}} e^{i(k - c t)}
+  u = \widehat{u}_0 e^{-\frac{y}{L_d}} e^{i(x - c t)}
 \end{equation}
 
 \begin{equation}
-  \eta = \sqrt{\frac{H}{g}} \widehat{u}_0 e^{-\frac{y}{L_d}} e^{i(k - c t)}
+  \eta = \sqrt{\frac{H}{g}} \widehat{u}_0 e^{-\frac{y}{L_d}} e^{i(x - c t)}
 \end{equation}
+which is a wave in the direction along the rigid boundary ($y=0$) whose
+amplitude decays exponentially away from the boundary, with a decay scale
+equal to the Rossby radius of deformation $L_d$.
+The choice of the orientation of the rigid boundary at $y=0$ is arbitrary;
+if we had chosen the boundary at $x=0$, the solution would be a wave
+propagating in the $y$ direction and decaying in the $x$ direction.
+If it were oriented at some arbitrary angle between $x$ and $y$ axes, the
+solution would be a 2-d wave in $x$ and $y$ and with their respective
+wavenumbers controlling the phase speed in each direction.
 
 \begin{figure}[h]
   \centering
@@ -3545,7 +3560,53 @@ planetary vorticity (Coriolis parameter $f$).
 of rotation of a fluid parcel scaled by the fluid depth.
 It is a material property, meaning that it is conserved along a fluid parcel
 as it moves and deforms.
-Start from the momentum equation with effects of rotation:
+In shallow water systems, the conservation of potential vorticity allows us to
+predict how an eddy's spin may change as it moves into shallower or deeper water,
+or if it moves north or south on a rotating planet.
+
+First, some definitions as this is the first place that we encounter vorticity.
+Vorticity\index{Vorticity} is a measure of the local rotation of a fluid parcel,
+and is defined as the curl of the velocity field:
+
+\begin{equation}
+  \boldsymbol{\omega} =
+  \nabla \times \mathbf{u} =
+  \begin{bmatrix}
+    \mathbf{i} & \mathbf{j} & \mathbf{k} \\
+    \frac{\partial}{\partial x} & \frac{\partial}{\partial y} & \frac{\partial}{\partial z} \\
+    u & v & w
+  \end{bmatrix} =
+  \begin{bmatrix}
+    \frac{\partial w}{\partial y} - \frac{\partial v}{\partial z} \\
+    \frac{\partial u}{\partial z} - \frac{\partial w}{\partial x} \\
+    \frac{\partial v}{\partial x} - \frac{\partial u}{\partial y}
+  \end{bmatrix}
+\end{equation}
+In largely 2-d flows, the vertical component of vorticity is the most relevant,
+and hereon we will use a separate symbol for it:
+
+\begin{equation}
+  \zeta = \frac{\partial v}{\partial x} - \frac{\partial u}{\partial y}
+\end{equation}
+
+Vorticity of a flow is a complementary property to its divergence.
+A flow can be either rotational (non-zero vorticity) or irrotational
+(zero vorticity), and either divergent (non-zero divergence) or non-divergent
+(zero divergence).
+It can be both rotational and divergent, or neither.
+However, that they are complementary (and in a way, orthogonal) properties of
+the flow can be shown mathematically by the fact that the divergence of
+vorticity is always zero:
+
+\begin{equation}
+  \nabla \cdot \nabla \times \mathbf{u} = 0
+\end{equation}
+This means simply that once you extract the vorticity from a flow by taking
+$\nabla \times \mathbf{u}$, any divergence that may have been present in the
+flow is left behind.
+
+Back to our potential vorticity conservation derivation,
+start from the momentum equation with effects of rotation:
 
 \begin{equation}
   \frac{\partial \mathbf{u}}{\partial t} +
@@ -3573,7 +3634,14 @@ Take a curl of this equation to get:
 \begin{equation}
   \frac{\partial (\nabla \times \mathbf{u})}{\partial t} +
   \nabla \times \left[(\boldsymbol{\omega} + \mathbf{f}) \times \mathbf{u}\right] =
-  - \nabla \times \nabla \left(\eta + \frac{1}{2} \mathbf{u}^2 \right)
+  - g \nabla \times \nabla \left(\eta + \frac{1}{2} \mathbf{u}^2 \right)
+\end{equation}
+Since the curl of a gradient is always zero, the right-hand side vanishes, and
+we are left with:
+
+\begin{equation}
+  \frac{\partial \boldsymbol{\omega}}{\partial t} +
+  \nabla \times \left[(\boldsymbol{\omega} + \mathbf{f}) \times \mathbf{u}\right] = 0
 \end{equation}
 Next, we use the vector triple product identity:
 

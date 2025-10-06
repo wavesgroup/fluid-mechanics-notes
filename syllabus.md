@@ -47,12 +47,13 @@ related mathematical tools to ocean physics research problems.
 
 ## Grading
 
-* Homework (40%); assignments will be given every Wednesday and will be due the following Monday.
+* Homework (20%); assignments will be given every Wednesday and will be due the following Monday.
   Each assignment is graded on a scale of 0-3 (0: not submitted; 1: incomplete;
   2: complete and partially correct; 3: complete and correct).
   I use fractional scores where applicable, so, for example, a complete and mostly
   correct assignment may give you a 2.5.
-* Final exam (60%); exam is open-book take-home exam, due in 48 hours.
+* Midterm exam (30%); closed book, in person, one class period.
+* Final exam (50%); closed book, in person, one class period.
 
 ## Approximate course schedule
 
@@ -61,11 +62,12 @@ related mathematical tools to ocean physics research problems.
 * Week 3-4: Conservation of volume, mass, and momentum
 * Week 5: Rotating flows
 * Week 6: Stratified flows
+* Week 7: Midterm exam
 * Week 7-8: Shallow water systems
 * Week 9-10: Turbulence
 * Week 11-12: Boundary layers
 * Week 13: Surface gravity waves
-* Week 14: Review and discussion
+* Week 14-15: Review and discussion
 * Week 15: Final exam
 
 ## Course policies
