@@ -3839,7 +3839,7 @@ This is true on a sphere where $f = 2 \Omega \sin(\theta)$, or on a $\beta$-plan
 where $f = f_0 + \beta y$.
 This pattern is called \textit{Rossby waves}\index{Rossby waves} (also called
 \textit{planetary waves}\index{Planetary waves}) and is among the most important
-class of motions in both the ocean and the atmosphere.
+classes of motions in both the ocean and the atmosphere.
 
 To derive the solution for Rossby waves, we start from the shallow-water potential
 vorticity conservation equation:
@@ -3855,21 +3855,22 @@ To simplify the derivation, we will assume a flat bottom so that
 Expand the Lagrangian derivative to get:
 
 \begin{equation}
-  \frac{\partial \zeta}{\partial t} + \left(\mathbf{u} \cdot \nabla \right) \zeta + v \beta = 0
+  \frac{\partial \zeta}{\partial t} + \mathbf{u} \cdot \nabla \zeta + v \beta = 0
   \label{eq:swe_potential_vorticity_beta}
 \end{equation}
 which is the potential vorticity conservation equation on a $\beta$-plane.
 
-We still have only one equation with two unknowns (relative vorticity $\zeta$
-and velocity $\mathbf{u}$), so we somehow need to reduce them to one unknown
-variable.
-One approach is to introduce a streamfunction $\psi$ such that:
+We still have only one equation with two unknowns, albeit two related unknowns 
+(relative vorticity $\zeta$ and velocity $\mathbf{u}$).
+We somehow need to reduce them to one unknown variable.
+One approach is to introduce a \textit{streamfunction}\index{Streamfunction}
+$\psi$ such that:
 
 \begin{equation}
   (u, v) = \left( - \frac{\partial \psi}{\partial y}, \frac{\partial \psi}{\partial x} \right)
   \label{eq:swe_streamfunction}
 \end{equation}
-We can then express the relative vorticity as:
+We can then express the relative vorticity in terms of the streamfunction as:
 
 \begin{equation}
   \zeta = \frac{\partial v}{\partial x} - \frac{\partial u}{\partial y} =
@@ -3877,8 +3878,10 @@ We can then express the relative vorticity as:
   = \nabla^2 \psi
   \label{eq:swe_relative_vorticity}
 \end{equation}
-Insert Eqs. \ref{eq:swe_streamfunction} and \ref{eq:swe_relative_vorticity}
-into Eq. \ref{eq:swe_potential_vorticity_beta} to get:
+Then, insert Eqs. \ref{eq:swe_streamfunction} and \ref{eq:swe_relative_vorticity}
+into Eq. \ref{eq:swe_potential_vorticity_beta}, and linearize $u$ in the
+advective term such that the relative vorticity is only advected by the steady
+zonal flow $U$:
 
 \begin{equation}
   \frac{\partial}{\partial t} \nabla^2 \psi + U \frac{\partial}{\partial x} \nabla^2 \psi + \beta \frac{\partial \psi}{\partial x} = 0
@@ -3892,8 +3895,15 @@ As before, assume a wave-like solution but this time for the streamfunction:
 \begin{equation}
   \psi = \widehat{\psi} e^{i(kx - \omega t)}
 \end{equation}
-and insert it into Eq. \ref{eq:swe_streamfunction_beta} to get the dispersion
-relation for Rossby waves:
+and insert it into Eq. \ref{eq:swe_streamfunction_beta} to get:
+
+\begin{equation}
+  k \left( k\omega - Uk^2 + \beta \right) = 0
+\end{equation}
+As before, $k = 0$ is a trivial and non-interesting solution, as it corresponds
+to there being no wave at all.
+For the non-trivial solution, rearranging the terms to get the equation for
+frequency yields the dispersion relation for Rossby waves:
 
 \begin{equation}
   \omega = U k - \frac{\beta}{k}
@@ -3905,6 +3915,30 @@ The phase speed of Rossby waves is:
   c = \frac{\omega}{k} = U - \frac{\beta}{k^2}
   \label{eq:swe_rossby_wave_phase_speed_1d}
 \end{equation}
+and their group speed, that is, the speed at which the wave energy propagates,
+is:
+
+\begin{equation}
+  c_g = \frac{\partial\omega}{\partial k} = U + \frac{\beta}{k^2}
+  \label{eq:swe_rossby_wave_group_speed_1d}
+\end{equation}
+
+Like in the case of the Poincaré waves, the frequency (or the phase speed) of
+Rossby waves do not depend on the wave amplitude ($\widehat{\psi}$), which is a
+consequence of the linearization.
+Instead, they depend on the wavenumber $k$ (inverse wave length), the magnitude
+of the steady zonal flow $U$, and the meridional Coriolis gradient $\beta$.
+$U$ is here simply a linear Doppler shift term, and does not affect the
+wave's intrinsic properties; it merely translates it.
+The second term, $-\beta/k$, is the intrinsic frequency of Rossby waves,
+which is always negative because $\beta = 2\Omega \cos{\theta} > 0$.
+This means that Rossby waves always propagate westward relative to the mean flow
+($c - U < 0$).
+Further, depending on their scale and the magnitude of the zonal flow, their
+phase can be stationary ($c = 0$) or even eastward propagating ($c > 0$).
+However, their intrinsic group speed is always positive ($c_g > 0$), and thus,
+even in the case of no background zonal flow ($U=0$), their energy propagates
+eastward.
 
 \begin{figure}[h]
   \centering
@@ -3923,6 +3957,12 @@ The phase speed of Rossby waves is:
   \label{fig:swe_rossby_wave}
 \end{figure}
 
+Rossby waves are named after Carl-Gustaf Rossby, an American meteorologist of
+Swedish origin, who first identified these waves while studying large scale
+flow in the atmosphere in the 1930s.
+The Carl-Gustaf Rossby Research Medal is the highest award in atmospheric
+sciences, has been awarded by the American Meteorological Society since 1951.
+
 \subsection*{Exercises}
 
 \begin{enumerate}
@@ -3933,18 +3973,14 @@ The phase speed of Rossby waves is:
   \item Consider characteristic mid-latitude flows on Earth, Jupiter, and Titan.
   At what spatial scales does the gravity play equal role as the rotation?
   Assume the shallow water dispersion relationship for your analysis.
-  \item Show that the vector identity
-  \begin{equation}
-    \nabla \times (\mathbf{a} \times \mathbf{b}) =
-    (\mathbf{b} \cdot \nabla) \mathbf{a} - (\mathbf{a} \cdot \nabla) \mathbf{b} +
-    \mathbf{a} \nabla \cdot \mathbf{b} - \mathbf{b} \nabla \cdot \mathbf{a}
-  \end{equation}
-  holds for arbitrary vector fields $\mathbf{a}$ and $\mathbf{b}$.
   \item An ocean eddy with initial relative vorticity $\zeta_0$ begins its
   journey northward at 30$^\circ$N and depth of 2000 m and travels with the
   mean flow to 40$^\circ$N and depth of 1000 m.
   Assuming the potential vorticity of the eddy is conserved, calculate the its
   final relative vorticity.
+  \item Find the expression for the wavenumber of a stationary Rossby wave as
+  a function of latitude and the mean zonal flow. Then, calculate the wavelength
+  of a stationary Rossby wave at 45$^\circ$N, in a mean zonal flow of 10 m/s.
 \end{enumerate}
 
 \subsection*{Summary}
@@ -3954,16 +3990,9 @@ In this chapter, we covered:
 \begin{itemize}
   \item The shallow water equations as a simplified model for large-scale ocean and atmospheric flows;
   \item Key assumptions of the shallow water system: horizontal scales much larger than vertical scales, incompressible flow, and hydrostatic balance;
+  \item Conservation of potential vorticity and its role in generating relative vorticity as fluid parcels move meridionally.
   \item Rossby waves - westward propagating planetary waves that arise from the variation of the Coriolis parameter with latitude;
   \item The dispersion relationship and phase speed of Rossby waves;
-  \item Conservation of potential vorticity and its role in generating relative vorticity as fluid parcels move meridionally.
-\end{itemize}
-
-\subsection*{Further reading}
-
-\begin{itemize}
-  \item Chapter 4 (Shallow water systems) of EAOD by Vallis.
-  \item Section 6.3 (Rossby wave essentials) of EAOD by Vallis.
 \end{itemize}
 
 \newpage
