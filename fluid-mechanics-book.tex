@@ -173,11 +173,12 @@ vector $\mathbf{u}(x,y,z)$ can be described by its components
     u_y \\
     u_z
   \end{bmatrix}
+  \label{eq:velocity}
 \end{equation}
 where $u_x$, $u_y$, and $u_z$ (each a scalar) are the components of $\mathbf{u}$
 in the $x$, $y$, and $z$ directions, respectively.
-This is the conventional notation, however, we will often write vectors
-inline as $\mathbf{u} = (u_x, u_y, u_z)$.
+This is the general conventional notation, however, we will often write vectors
+inline as $\mathbf{u} = (u, v, w)$.
 The fundamental vector field of fluid mechanics is the velocity.
 Many other vector fields are derived from velocity, such as vorticity,
 acceleration, and force.
@@ -188,7 +189,7 @@ The magnitude\index{Vector!magnitude}, or norm\index{Vector!norm}, of a vector
 $\mathbf{u}$ is written as $||\mathbf{u}||$ and calculated as
 
 \begin{equation}
-  ||\mathbf{u}|| = \sqrt{u_x^2 + u_y^2 + u_z^2}
+  ||\mathbf{u}|| = \sqrt{u^2 + v^2 + w^2}
 \end{equation}
 Here we're working in 3-dimensional Cartesian space, but vectors can be defined
 in any number of dimensions, and the above definitions generalize exactly how
@@ -212,6 +213,7 @@ In 3-dimensional space, for example, a stress tensor can be described as:
     \tau_{yx} & \tau_{yy} & \tau_{yz} \\
     \tau_{zx} & \tau_{zy} & \tau_{zz}
   \end{bmatrix}
+  \label{eq:stress_tensor}
 \end{equation}
 In this notation and index ordering, i.e. $\tau_{ij}$, the first index ($i$)
 refers to the direction of the stress component, and the second index ($j$)
@@ -233,6 +235,7 @@ In Cartesian coordinates, it is given by:
     0 & 1 & 0 \\
     0 & 0 & 1
   \end{bmatrix}
+  \label{eq:identity_tensor}
 \end{equation}
 
 It may be useful to think of scalars as 0$^{th}$-order tensors, vectors as
@@ -248,6 +251,7 @@ So, a vector $\mathbf{u}$ can be written as
 
 \begin{equation}
   \mathbf{u} = u_x \mathbf{i} + u_y \mathbf{j} + u_z \mathbf{k}
+  \label{eq:unit_vectors}
 \end{equation}
 
 Notice that you can get the unit vector by dividing any vector by its
@@ -505,10 +509,10 @@ This operator is called \textit{del}\index{Del} and is denoted by the symbol
 $\nabla$\index{Nabla} (pronounced "nabla"):
 
 \begin{equation}
-  \label{eq:nabla}
   \nabla = \frac{\partial}{\partial x} \mathbf{i} +
     \frac{\partial}{\partial y} \mathbf{j} +
     \frac{\partial}{\partial z} \mathbf{k}
+  \label{eq:nabla}
 \end{equation}
 Written as above, $\nabla$ cannot stand on its own but must be applied as an
 operator to a field.
@@ -539,6 +543,7 @@ It is denoted by $\nabla T$ and is defined as
   \nabla T = \frac{\partial T}{\partial x} \mathbf{i} +
     \frac{\partial T}{\partial y} \mathbf{j} +
     \frac{\partial T}{\partial z} \mathbf{k}
+  \label{eq:gradient}
 \end{equation}
 
 Gradient of a scalar field is a vector that points in the direction of the
@@ -554,9 +559,9 @@ the rate at which the vector field flows out of a point.
 It is denoted by $\nabla \cdot \mathbf{u}$ and is defined as
 
 \begin{equation}
-  \label{eq:divergence}
   \nabla \cdot \mathbf{u} = \frac{\partial u_x}{\partial x} +
     \frac{\partial u_y}{\partial y} + \frac{\partial u_z}{\partial z}
+  \label{eq:divergence}
 \end{equation}
 
 Divergence of a vector field is a scalar that describes how much the vector
@@ -576,6 +581,7 @@ It is denoted by $\nabla \times \mathbf{u}$ and is defined as
     \frac{\partial u_z}{\partial x} \right) \mathbf{j} +
     \left( \frac{\partial u_y}{\partial x} -
     \frac{\partial u_x}{\partial y} \right) \mathbf{k}
+  \label{eq:curl}
 \end{equation}
 
 Curl of a vector field is another vector that is orthogonal to the original
@@ -591,6 +597,7 @@ It measures the rate at which field varies in space and is defined as:
 
 \begin{equation}
   \nabla^2 = \frac{\partial^2}{\partial x^2} + \frac{\partial^2}{\partial y^2} + \frac{\partial^2}{\partial z^2}
+  \label{eq:laplacian}
 \end{equation}
 Applied to a scalar field $T$, it is:
 
@@ -900,6 +907,7 @@ parcel with the volume $\Delta V$ and density $\rho$ (and mass $\rho \Delta V$).
 
 \begin{equation}
   \frac{d}{dt} (\varphi \rho \Delta V) = \rho \Delta V \frac{d\varphi}{dt} + \varphi \frac{d(\rho \Delta V)}{dt}
+  \label{eq:lagrangian_property_per_mass_derivative}
 \end{equation}
 However recall that our fluid parcel has constant mass, so $\frac{d(\rho \Delta V)}{dt} = 0$.
 Our total derivative becomes:
@@ -2227,6 +2235,7 @@ On a plane, the above can be expressed as:
 
 \begin{equation}
 f = f_0 + \beta y
+\label{eq:beta_plane_approximation}
 \end{equation}
 where $f_0 = 2\Omega \sin\theta_0$ and $\beta = \partial f/\partial y = (2\Omega\cos\theta_0) / R_E$
 (where $R_E$ is the radius of the Earth).
@@ -2895,7 +2904,7 @@ are uncommon.
 
 \begin{figure}[h]
   \centering
-  \includegraphics[width=\textwidth]{assets/fig_static_instability.pdf}
+  \includegraphics[width=\textwidth]{assets/fig_static_instability_numerical.pdf}
   \caption{
     Static instability oscillations in a stably (top) and unstably (bottom)
     stratified fluid.
@@ -3912,7 +3921,7 @@ frequency yields the dispersion relation for Rossby waves:
 The phase speed of Rossby waves is:
 
 \begin{equation}
-  c = \frac{\omega}{k} = U - \frac{\beta}{k^2}
+  c_p = \frac{\omega}{k} = U - \frac{\beta}{k^2}
   \label{eq:swe_rossby_wave_phase_speed_1d}
 \end{equation}
 and their group speed, that is, the speed at which the wave energy propagates,
@@ -3933,9 +3942,9 @@ wave's intrinsic properties; it merely translates it.
 The second term, $-\beta/k$, is the intrinsic frequency of Rossby waves,
 which is always negative because $\beta = 2\Omega \cos{\theta} > 0$.
 This means that Rossby waves always propagate westward relative to the mean flow
-($c - U < 0$).
+($c_p - U < 0$).
 Further, depending on their scale and the magnitude of the zonal flow, their
-phase can be stationary ($c = 0$) or even eastward propagating ($c > 0$).
+phase can be stationary ($c_p = 0$) or even eastward propagating ($c_p > 0$).
 However, their intrinsic group speed is always positive ($c_g > 0$), and thus,
 even in the case of no background zonal flow ($U=0$), their energy propagates
 eastward.
@@ -3962,6 +3971,8 @@ Swedish origin, who first identified these waves while studying large scale
 flow in the atmosphere in the 1930s.
 The Carl-Gustaf Rossby Research Medal is the highest award in atmospheric
 sciences, has been awarded by the American Meteorological Society since 1951.
+
+\newpage
 
 \subsection*{Exercises}
 
@@ -6472,7 +6483,13 @@ This section serves a quick reference for the key equations used in this book.\\
 \textbf{Rossby wave phase speed:}
 
 \begin{equation}
-  c = U - \frac{\beta}{k^2}
+  c_p = U - \frac{\beta}{k^2}
+\end{equation}
+
+\textbf{Rossby wave group speed:}
+
+\begin{equation}
+  c_g = U + \frac{\beta}{k^2}
 \end{equation}
 
 \textbf{Reynolds decomposition:}
@@ -6642,28 +6659,35 @@ WIP
 \begin{table}[h]
 \centering
 \renewcommand{\arraystretch}{1.15}
-\begin{tabular}{p{2cm} p{6.2cm} p{2.2cm} p{2.2cm}}
+\begin{tabular}{p{2cm} p{8cm} p{2.2cm} p{2.2cm}}
 \hline
 \textbf{Symbol} & \textbf{Meaning} & \textbf{Units} & \textbf{First used} \\
 \hline
-$\nabla$ & Del (nabla) operator & m$^{-1}$ & (\ref{eq:nabla}) \\
-$\nabla T$ & Gradient of scalar $T$ & K m$^{-1}$ & --- \\
-$\nabla\cdot\mathbf{u}$ & Divergence of velocity & s$^{-1}$ & (\ref{eq:divergence}) \\
-$\nabla\times\mathbf{u}$ & Curl (vorticity) of velocity & s$^{-1}$ & --- \\
-$\nabla^2$ & Laplacian operator & m$^{-2}$ & --- \\
-$\rho$ & Density & kg m$^{-3}$ & --- \\
-$\mathbf{a}\cdot\mathbf{b}$ & Dot (scalar) product of vectors & --- & (\ref{eq:dot_product_general}) \\
-$\mathbf{a}\times\mathbf{b}$ & Cross (vector) product of vectors & --- & (\ref{eq:cross_product_magnitude}) \\
+$\nabla$ & Del (nabla) operator & m$^{-1}$ & \ref{eq:nabla} \\
+$\nabla T$ & Gradient of scalar $T$ & K m$^{-1}$ & \ref{eq:gradient} \\
+$\nabla\cdot\mathbf{u}$ & Divergence of velocity & s$^{-1}$ & \ref{eq:divergence} \\
+$\nabla\times\mathbf{u}$ & Curl (vorticity) of velocity & s$^{-1}$ & \ref{eq:curl} \\
+$\nabla^2$ & Laplacian operator & m$^{-2}$ & \ref{eq:laplacian} \\
+$\beta$ & Meridional gradient of the Coriolis parameter & s$^{-1}$ m$^{-1}$ & \ref{eq:beta_plane_approximation} \\
+$\beta_T$ & Thermal expansion coefficient & K$^{-1}$ & \ref{eq:equation_of_state_ocean} \\
+$\beta_S$ & Haline contraction coefficient & PSU$^{-1}$ & \ref{eq:equation_of_state_ocean} \\
+$\beta_p$ & Compressibility coefficient & Pa$^{-1}$ & \ref{eq:equation_of_state_ocean} \\
+$\rho$ & Density & kg m$^{-3}$ & \ref{eq:lagrangian_property_per_mass_derivative} \\
+$\mathbf{a}\cdot\mathbf{b}$ & Dot (scalar) product of vectors & --- & \ref{eq:dot_product_general} \\
+$\mathbf{a}\times\mathbf{b}$ & Cross (vector) product of vectors & --- & \ref{eq:cross_product_magnitude} \\
 $det(\cdot)$ & Determinant of a matrix & --- & --- \\
-$\mathbf{I}$ & Identity tensor & --- & (2.3) \\
-$\mathbf{i},\mathbf{j},\mathbf{k}$ & Cartesian unit vectors & --- & (2.4) \\
+$\mathbf{I}$ & Identity tensor & --- & \ref{eq:identity_tensor} \\
+$\mathbf{i},\mathbf{j},\mathbf{k}$ & Cartesian unit vectors & --- & \ref{eq:unit_vectors} \\
 $p$ & Pressure & Pa & --- \\
 $T$ & Temperature & K & --- \\
-$\mathbf{u}$ & Velocity vector & m s$^{-1}$ & (2.1) \\
-$\boldsymbol{\tau}$ & Stress tensor & Pa, N m$^{-2}$ & (2.2) \\
+$\mathbf{u}$ & Velocity vector & m s$^{-1}$ & \ref{eq:velocity} \\
+$\boldsymbol{\tau}$ & Stress tensor & Pa, N m$^{-2}$ & \ref{eq:stress_tensor} \\
 \hline
 \end{tabular}
-\caption{Definition of symbols}
+\caption{
+  Definition of symbols, in alphabetical order (mathematical symbols first,
+  greek alphabet second, latin alphabet last).
+  }
 \end{table}
 
 \printindex

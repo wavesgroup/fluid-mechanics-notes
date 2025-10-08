@@ -51,5 +51,5 @@ if __name__ == "__main__":
     ax.grid()
 
     plt.tight_layout()
-    plt.savefig("fig_static_instability.pdf")
+    plt.savefig("fig_static_instability_numerical.pdf")
     plt.close()
