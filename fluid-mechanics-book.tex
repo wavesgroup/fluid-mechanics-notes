@@ -1,6 +1,6 @@
 \documentclass[12pt]{article}
 
-\usepackage[margin=1in,footskip=0.25in]{geometry}
+\usepackage[margin=1in,footskip=0.5in]{geometry}
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{graphicx}
@@ -1442,13 +1442,13 @@ is proportional to the gradient of the velocity field, i.e. $\boldsymbol{\tau} =
 This property of the fluid makes it a so-called \textit{Newtonian fluid}\index{Fluid!Newtonian}.
 The proportionality constant $\mu$ is the dynamic viscosity and depends on the
 fluid properties and temperature.
-Inserting this into Eq. \ref{eq:momentum_cauchy_with_shear} and assuming
-incompressibility, we get:
+Inserting this into Eq. \ref{eq:momentum_cauchy_with_shear}, we get:
 
 \begin{equation}
   \frac{\partial \mathbf{u}}{\partial t} + \mathbf{u} \cdot \nabla \mathbf{u} =
   - \frac{1}{\rho} \nabla p + \frac{1}{\rho} \nabla \cdot (\mu \nabla \mathbf{u}) +
   \frac{\mathbf{F}_b}{\rho}
+  \label{eq:cauchy_with_viscosity}
 \end{equation}
 We can further simplify this equation by assuming that the viscosity is constant
 and that the flow is incompressible.
@@ -3282,15 +3282,32 @@ Or, in scalar form:
   \label{eq:swe_linear_eta}
 \end{equation}
 
-Assume the general solution to have a wave-like form:
+This is a linear system of three equations with three unknowns, $u$, $v$, and
+$\eta$.
+To solve it, we will look for wave-like solutions:
 
 \begin{equation}
   (u, v, \eta) = (\widehat{u}, \widehat{v}, \widehat{\eta}) e^{i(kx + ly - \omega t)}
 \end{equation}
-where $\widehat{u}$, $\widehat{v}$, and $\widehat{\eta}$ are the amplitudes of the
-wave-like perturbations, $k$ and $l$ are the wavenumbers, and $\omega$ is the
+where $\widehat{u}$, $\widehat{v}$, and $\widehat{\eta}$ are the wave amplitudes,
+$k$ and $l$ are the zonal and meridional wavenumbers, respectively, and $\omega$ is the
 angular frequency.
-Insert the wave form into Eqs. (\ref{eq:swe_linear_u}-\ref{eq:swe_linear_eta})
+It is now worthwhile to pause and discuss what is a wave and how would we get
+the idea to assume a wave form for the solution.
+A wave is a disturbance in the medium that propagates through it with some
+characteristic speed.
+In our case, the wave is periodic, meaning that the disturbance repeats itself
+in space and time.
+That's the meaning of the phase function $\phi = kx + ly - \omega t$ in the
+exponent: it determines where in the wave cycle we are at a given point in space
+and time.
+The assumption that the solution to the equations is a periodic wave is informed
+by the fact that derivatives of periodic functions are also periodic, and
+this will allow the wave form ($e^{i\phi}$) to factor out of the equations, leaving
+only the amplitudes and the wave parameters ($k$, $l$, $\omega$) to
+determine the solution.
+
+Now, insert the wave form into Eqs. (\ref{eq:swe_linear_u}-\ref{eq:swe_linear_eta})
 to get:
 
 \begin{equation}
@@ -3975,8 +3992,6 @@ flow in the atmosphere in the 1930s.
 The Carl-Gustaf Rossby Research Medal is the highest award in atmospheric
 sciences, has been awarded by the American Meteorological Society since 1951.
 
-\newpage
-
 \subsection*{Exercises}
 
 \begin{enumerate}
@@ -4021,11 +4036,14 @@ Fluid elements with high vorticity of either sign move and interact with each
 other, transferring energy and vorticity across scales.
 In this chapter, we investigate turbulence from the point of view of the
 governing equations of fluid motion.
-To do that, we begin by introducing the Reynolds decomposition, a fundamental
-tool in the study of turbulence.
-By applying it to the Navier-Stokes equation, we will derive the Reynolds-averaged
-Navier-Stokes (RANS) equation, which describes and predicts the evolution of the
+The key pursuit of fluid mechanics of turbulence is to predict the evolution of
 mean flow while accounting for the effects of turbulence.
+We begin by introducing the Reynolds decomposition, a fundamental
+tool in the study of turbulence that allows separating the flow into a slowly
+evolving mean part and a rapidly fluctuating turbulent part.
+Applying the Reynolds decomposition to the Navier-Stokes equation leads to the
+Reynolds-averaged Navier-Stokes (RANS) equation, which is the prognostic
+equation for the mean flow. 
 We will discuss the so-called closure problem of turbulence, which is the
 challenge of representing the effects of the smallest scales on the larger scales.
 Using the RANS equation, we will derive the turbulent kinetic energy budget
@@ -4036,13 +4054,30 @@ layers in the atmosphere and the ocean alike.
 \subsection{Reynolds decomposition}
 \label{sec:reynolds_decomposition}
 
-We begin by introducing the decomposition of a field (in this case velocity
-$\mathbf{u}$, a vector field) into the mean and fluctuating parts:
+Before we apply any scale separation to the Navier-Stokes equation, let's
+first define the Reynolds decomposition that breaks the flow $u$ into the
+time-mean and fluctuating parts:
 
 \begin{equation}
   \mathbf{u}(x, t) = \overline{\mathbf{u}}(x) + \mathbf{u}'(x, t)
+  \label{eq:reynolds_decomposition}
 \end{equation}
-If we take the time average of the above equation, we get:
+The time average is defined as:
+
+\begin{equation}
+  \overline{\mathbf{u}}(x) = \frac{1}{T} \int_{t_0}^{t_0 + T} \mathbf{u}(x, t)\ dt
+\end{equation}
+Already we need to make a choice about the averaging time $T$.
+This choice is arbitrary and usually driven by the practical limitations of the
+problem.
+Typical weather and ocean ciculation models take $T$ to be on the order of
+seconds (for a regional weather prediction model) to minutes
+(for a mesoscale ocean circulation model).
+The turbulence itself operates on much shorter time scales, typically on the
+order of milliseconds to seconds for atmospheric and oceanic flows.
+
+Let's look at some mathematical properties of the Reynolds decomposition.
+If we take the time average of \ref{eq:reynolds_decomposition}, we get:
 
 \begin{equation}
   \overline{\mathbf{u}(x, t)} = \overline{\overline{\mathbf{u}}(x) + \mathbf{u}'(x, t)}
@@ -4052,6 +4087,12 @@ which leads to:
 \begin{equation}
   \overline{\mathbf{u}'(x, t)} = 0
 \end{equation}
+Notice that we specifically average over time, not space, which allows the mean
+flow to vary in space.
+We could have as easily defined the average in \ref{eq:reynolds_decomposition}
+to be over a spatial domain (or any other dimension), and those are indeed
+useful for other things.
+
 The averaging operation is commutative with respect to derivatives and integrals,
 over space or time alike:
 
@@ -4090,12 +4131,12 @@ We seek the governing equations for the mean flow that include the effects of
 the fluctuating field (turbulence).
 To do that, let's apply the Reynolds decomposition to the Navier-Stokes equation
 and take the time average of the resulting equation.
-We begin by writing out Eq. (\ref{eq:momentum_navier_stokes}) without the
+We begin by writing out Eq. \ref{eq:momentum_navier_stokes} without the
 body forces, for simplicity (as the body forces won't be affected by the
 Reynolds decomposition):
 
 \begin{equation}
-  \frac{\partial \mathbf{u}}{\partial t} + (\mathbf{u} \cdot \nabla) \mathbf{u} =
+  \frac{\partial \mathbf{u}}{\partial t} + \mathbf{u} \cdot \nabla \mathbf{u} =
   - \frac{1}{\rho} \nabla p + \nu \nabla^2 \mathbf{u}
   \label{eq:ns_reynolds1}
 \end{equation}
@@ -4105,7 +4146,7 @@ velocity $\mathbf{u}$.
 To do that, multiply Eq. \ref{eq:ns_reynolds1} by $\rho$ to get:
 
 \begin{equation}
-  \rho \frac{\partial \mathbf{u}}{\partial t} + (\rho \mathbf{u} \cdot \nabla) \mathbf{u} =
+  \rho \frac{\partial \mathbf{u}}{\partial t} + \rho \mathbf{u} \cdot \nabla \mathbf{u} =
   - \nabla p + \mu \nabla^2 \mathbf{u}
   \label{eq:ns_reynolds2}
 \end{equation}
@@ -4117,13 +4158,19 @@ Now, we will use the Eulerian form of the continuity equation
 
 \begin{equation}
 \begin{split}
-  \rho \frac{\partial \mathbf{u}}{\partial t} + (\rho \mathbf{u} \cdot \nabla) \mathbf{u} \\
-  = \frac{\partial (\rho \mathbf{u})}{\partial t} - \mathbf{u} \frac{\partial \rho}{\partial t} + (\rho \mathbf{u} \cdot \nabla) \mathbf{u} \\
-  = \frac{\partial (\rho \mathbf{u})}{\partial t} + \mathbf{u} \nabla \cdot (\rho \mathbf{u}) + (\rho \mathbf{u} \cdot \nabla) \mathbf{u} \\
+  \rho \frac{\partial \mathbf{u}}{\partial t} + \rho \mathbf{u} \cdot \nabla \mathbf{u} \\
+  = \frac{\partial (\rho \mathbf{u})}{\partial t} - \mathbf{u} \frac{\partial \rho}{\partial t} + \rho \mathbf{u} \cdot \nabla \mathbf{u} \\
+  = \frac{\partial (\rho \mathbf{u})}{\partial t} + \mathbf{u} \nabla \cdot (\rho \mathbf{u}) + \rho \mathbf{u} \cdot \nabla \mathbf{u} \\
   = \frac{\partial (\rho \mathbf{u})}{\partial t} + \nabla \cdot (\rho \mathbf{u} \mathbf{u})
 \end{split}
 \end{equation}
-Our momentum equation (Eq. \ref{eq:ns_reynolds2}) can then be written as:
+Take a moment to notice and understand that $\mathbf{u}\mathbf{u}$ in the last
+term is a second-order tensor rather than a scalar
+$\mathbf{u} \cdot \mathbf{u} = \mathbf{u}^2$.
+Its physical interpretation as advective flux still remains as before; the only
+difference is that the advective velocity is now inside the derivative.
+
+Back to our momentum equation (Eq. \ref{eq:ns_reynolds2}), we can now write it as:
 
 \begin{equation}
   \frac{\partial (\rho \mathbf{u})}{\partial t} +
@@ -4138,7 +4185,8 @@ and in case of incompressible flows ($\nabla \cdot \mathbf{u} = 0$):
   - \frac{1}{\rho} \nabla p + \nu \nabla^2 \mathbf{u}
   \label{eq:ns_reynolds3}
 \end{equation}
-We are still describing the full flow with all it turbulent fluctuations.
+As we haven't applied the Reynolds decomposition yet, we are still describing
+the full flow with all its turbulent fluctuations.
 Remember that we are interested in the solution for the mean flow that accounts
 for the effects of turbulence, so we need apply the Reynolds decomposition to
 $\mathbf{u}$ and $p$, time average the resulting equation, and notice that
@@ -4163,7 +4211,7 @@ which reduces to:
   \nabla \cdot (\overline{\mathbf{u}}\, \overline{\mathbf{u}}) + \nabla \cdot (\overline{\mathbf{u}' \mathbf{u}'})
   \label{eq:reynolds_advection_expanded}
 \end{equation}
-Insert Eq. (\ref{eq:reynolds_advection_expanded}) into Eq. (\ref{eq:ns_reynolds3}) to get:
+Insert Eq. \ref{eq:reynolds_advection_expanded} into Eq. \ref{eq:ns_reynolds3} to get:
 
 \begin{equation}
   \frac{\partial \overline{\mathbf{u}}}{\partial t} +
@@ -4174,11 +4222,13 @@ Insert Eq. (\ref{eq:reynolds_advection_expanded}) into Eq. (\ref{eq:ns_reynolds3
   \label{eq:rans}
 \end{equation}
 which is the \textit{Reynolds-Averaged Navier-Stokes (RANS) equation}
-\index{Reynolds!averaged Navier-Stokes equation}, the term
-$\overline{\mathbf{u}' \mathbf{u}'}$ is called the \textit{Reynolds stress tensor}
-\index{Reynolds!stress tensor},
+\index{Reynolds!averaged Navier-Stokes equation}.
+The term $\overline{\mathbf{u}' \mathbf{u}'}$ is called the
+\textit{Reynolds stress tensor} \index{Reynolds!stress tensor}
 and $\nabla \cdot (\overline{\mathbf{u}' \mathbf{u}'})$ is the
 \textit{Reynolds stress divergence}\index{Reynolds!stress divergence}.
+As this term is the only one that features the velocity fluctuations, it must
+be the contribution of turbulence to the mean flow! 
 
 The Reynolds-averaged continuity equation is much simpler to derive and is
 just:
@@ -4188,16 +4238,18 @@ just:
   \label{eq:continuity_reynolds}
 \end{equation}
 
-Between Eqs. (\ref{eq:rans}) and (\ref{eq:continuity_reynolds}) we have
+Between Eqs. \ref{eq:rans} and \ref{eq:continuity_reynolds} we have
 two equations with three unknowns: $\overline{\mathbf{u}}$, $\overline{p}$, and
 $\overline{\mathbf{u}' \mathbf{u}'}$.
 To close the system, we need to find an equation for the Reynolds stress tensor,
-which brings us to the closure problem of turbulence.
+which brings us to the infamous closure problem of turbulence.
 
 \subsection{Closure problem}
 
-To illustrate the closure problem of turbulence, let's try to derive the
-equation for the evolution of the Reynolds stress $\overline{\mathbf{u}' \mathbf{u}'}$.
+The closure problem of turbulence arose as a key obstacle in the theoretical
+study of turbulence based on the Navier-Stokes equation.
+To illustrate it, try to derive the equation for the evolution of the Reynolds
+stress $\overline{\mathbf{u}' \mathbf{u}'}$.
 Suppose that the Reynolds stress evolves according to the yet to be determined
 sources and sinks of the Reynolds stress:
 
@@ -4207,7 +4259,7 @@ sources and sinks of the Reynolds stress:
   \label{eq:reynolds_stress_evolution}
 \end{equation}
 Expanding the time derivative in a momentum-conservative form and time averaging
-yields similar to Eq. (\ref{eq:reynolds_advection_expanded}):
+yields an equation similar to Eq. \ref{eq:reynolds_advection_expanded}:
 
 \begin{equation}
   \frac{d \left( \overline{\mathbf{u}' \mathbf{u}'} \right)}{dt} =
@@ -4215,7 +4267,7 @@ yields similar to Eq. (\ref{eq:reynolds_advection_expanded}):
   \nabla \cdot \left( \overline{\mathbf{u}} \overline{\mathbf{u}' \mathbf{u}'} \right) +
   \nabla \cdot \left( \overline{\mathbf{u}' \mathbf{u}' \mathbf{u}'} \right)
 \end{equation}
-See, if we try to seek the equation for the evolution of the Reynolds stress,
+See, if we try to find the equation for the evolution of the Reynolds stress,
 we end up with the flux of the flux itself as a new unknown.
 Further, if we tried to seek the equation for this new cubic term, we would
 end up with an equation that includes a quartic term of $\mathbf{u}'$:
@@ -4227,12 +4279,17 @@ end up with an equation that includes a quartic term of $\mathbf{u}'$:
   \nabla \cdot \left( \overline{\mathbf{u}} \overline{\mathbf{u}' \mathbf{u}' \mathbf{u}'} \right) +
   \nabla \cdot \left( \overline{\mathbf{u}' \mathbf{u}' \mathbf{u}' \mathbf{u}'} \right)
 \end{equation}
+Then, if we tried to find the equation for the quartic term, we would end up
+with a quintic term, and so on in an infinitely recursive pursuit.
 The fact that we cannot close the RANS equations unless we somehow approximate
 the Reynolds stress tensor is known as the closure problem of turbulence.
 On one hand, it's relieving that we don't have to figure out the sources and
 sinks for the Reynolds stress tensor in Eq. (\ref{eq:reynolds_stress_evolution}).
 On the other hand, we still need to come up with some model or approximation
 for the Reynolds stress tensor to solve the RANS equations.
+Decades of theoretical, experimental, and numerical research have been devoted
+to exactly this question: how to approximate $\overline{\mathbf{u}'\mathbf{u}'}$
+in terms of the mean flow $\overline{\mathbf{u}}$ and its gradients.
 
 \subsection{Reynolds stress}
 
@@ -4268,12 +4325,12 @@ approximation that was established in the laboratory:
   \nabla \cdot \boldsymbol{\tau} = \nu \nabla^2 \mathbf{u}
 \end{equation}
 Now, in addition to the viscous stresses, we have the turbulent Reynolds stresses
-introduced in Eq. (\ref{eq:rans}).
+introduced in Eq. \ref{eq:rans}.
 The turbulent Reynolds stresses arise due to the scale separation between the
 large-scale mean flow and the turbulent fluctuations, which we introduced when
 we applied the Reynolds decomposition to the velocity field.
 
-Eq. (\ref{eq:rans}) can be rewritten more concisely by applying the divergence
+Eq. \ref{eq:rans} can be rewritten more concisely by applying the divergence
 operator to the pressure and Reynolds and viscous stresses as a whole:
 
 \begin{equation}
@@ -4283,8 +4340,8 @@ operator to the pressure and Reynolds and viscous stresses as a whole:
   \label{eq:rans_expanded}
 \end{equation}
 If it's not obvious already, notice that $\rho \overline{\mathbf{u}' \mathbf{u}'}$
-is the only term that makes Eq. (\ref{eq:rans_expanded}) different from the
-original Navier-Stokes equation (Eq. \ref{eq:ns_reynolds3}).
+is the only term that makes Eq. \ref{eq:rans_expanded} different from the
+original Navier-Stokes equation Eq. \ref{eq:ns_reynolds3}.
 Thus, if we apply a scale separation (\textit{i.e.} the Reynolds decomposition)
 to the velocity field such that we distinguish between the mean flow and the
 fluctuations, the equation for the mean flow contains an additional term that
@@ -6675,7 +6732,10 @@ $\beta$ & Meridional gradient of the Coriolis parameter & s$^{-1}$ m$^{-1}$ & \r
 $\beta_T$ & Thermal expansion coefficient & K$^{-1}$ & \ref{eq:equation_of_state_ocean} \\
 $\beta_S$ & Haline contraction coefficient & PSU$^{-1}$ & \ref{eq:equation_of_state_ocean} \\
 $\beta_p$ & Compressibility coefficient & Pa$^{-1}$ & \ref{eq:equation_of_state_ocean} \\
+$\mu$ & Dynamic viscosity & kg m$^{-1}$ s$^{-1}$ & \ref{eq:cauchy_with_viscosity} \\
+$\nu$ & Kinematic viscosity & m$^{2}$ s$^{-1}$ & \ref{eq:momentum_navier_stokes} \\
 $\rho$ & Density & kg m$^{-3}$ & \ref{eq:lagrangian_property_per_mass_derivative} \\
+$\boldsymbol{\tau}$ & Stress tensor & Pa, N m$^{-2}$ & \ref{eq:stress_tensor} \\
 $\mathbf{a}\cdot\mathbf{b}$ & Dot (scalar) product of vectors & --- & \ref{eq:dot_product_general} \\
 $\mathbf{a}\times\mathbf{b}$ & Cross (vector) product of vectors & --- & \ref{eq:cross_product_magnitude} \\
 $det(\cdot)$ & Determinant of a matrix & --- & --- \\
@@ -6684,7 +6744,9 @@ $\mathbf{i},\mathbf{j},\mathbf{k}$ & Cartesian unit vectors & --- & \ref{eq:unit
 $p$ & Pressure & Pa & --- \\
 $T$ & Temperature & K & --- \\
 $\mathbf{u}$ & Velocity vector & m s$^{-1}$ & \ref{eq:velocity} \\
-$\boldsymbol{\tau}$ & Stress tensor & Pa, N m$^{-2}$ & \ref{eq:stress_tensor} \\
+$\overline{\mathbf{u}}$ & Mean flow & m s$^{-1}$ & \ref{eq:reynolds_decomposition} \\
+$\mathbf{u'}$ & Fluctuating velocity & m s$^{-1}$ & \ref{eq:reynolds_decomposition} \\
+$\overline{\mathbf{u'}\mathbf{u'}}$ & Reynolds stress tensor & m$^2$ s$^{-2}$ & \ref{eq:rans} \\
 \hline
 \end{tabular}
 \caption{
