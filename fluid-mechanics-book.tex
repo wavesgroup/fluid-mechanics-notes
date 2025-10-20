@@ -4093,6 +4093,19 @@ We could have as easily defined the average in \ref{eq:reynolds_decomposition}
 to be over a spatial domain (or any other dimension), and those are indeed
 useful for other things.
 
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=\textwidth]{assets/fig_reynolds_decomposition.pdf}
+  \caption{
+    An 10-second example sequence of horizontal velocity $u$ (blue) measured at
+    1000 Hz using a Constant Temperature Anemometer in the Air-Sea Interaction
+    Saltwater Tank (ASIST) at the University of Miami.
+    Dashed black line shows the time-mean velocity $\overline{u}$ calculated
+    over the 10-second interval, and the orange line shows the fluctuating part.
+  }
+  \label{fig:reynolds_decomposition}
+\end{figure}
+
 The averaging operation is commutative with respect to derivatives and integrals,
 over space or time alike:
 
@@ -4126,6 +4139,12 @@ and by definition the fluctuating field must also be divergence-free:
 \begin{equation}
   \nabla \cdot \mathbf{u}' = 0
 \end{equation}
+
+An example of the Reynolds decomposition applied to a measured turbulent velocity
+time series is shown in Fig. \ref{fig:reynolds_decomposition}.
+
+\subsection{Reynolds-Averaged Navier-Stokes (RANS) equation}
+\label{sec:rans_equation}
 
 We seek the governing equations for the mean flow that include the effects of
 the fluctuating field (turbulence).
@@ -4389,7 +4408,8 @@ the atmospheric surface layer, the ocean surface waves, and the upper-ocean
 boundary layer.
 
 In numerical models, the vector equations must be written out explicitly in
-scalar component form.
+scalar component form (remember that computers only deal with numbers and never
+with higher level concepts like orientation or vectors).
 It's thus a useful exercise to write out the RANS equation
 (Eq. \ref{eq:rans_expanded}) as a system of scalar equations, one for each
 component of the mean velocity vector:
@@ -4432,6 +4452,10 @@ component of the mean velocity vector:
                \frac{\partial^2 \overline{w}}{\partial z^2}
         \right)
 \end{equation}
+
+Via the finite difference, finite volume, or finite element methods, each term
+in these equations can be written out simple arithmetic expressions, and most
+numerical flow prediction models do exactly that.
 
 \subsection{Turbulent kinetic energy budget}
 
@@ -4810,13 +4834,6 @@ In this chapter, we covered:
   \item Kolmogorov's similarity hypotheses and dimensional analysis leading to the -5/3 law;
   \item The turbulent energy cascade from large to small scales in 3D turbulence;
   \item The role of energy dissipation rate $\varepsilon$ in determining the energy spectrum.
-\end{itemize}
-
-\subsection*{Further reading}
-
-\begin{itemize}
-  \item Chapter 11 of \textit{AOFD} by Vallis
-  \item Chapter 6 of \textit{Turbulent Flows} by Pope
 \end{itemize}
 
 \newpage
