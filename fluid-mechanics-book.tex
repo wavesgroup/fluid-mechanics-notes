@@ -4454,8 +4454,8 @@ component of the mean velocity vector:
 \end{equation}
 
 Via the finite difference, finite volume, or finite element methods, each term
-in these equations can be written out simple arithmetic expressions, and most
-numerical flow prediction models do exactly that.
+in these equations can be written out using simple arithmetic expressions,
+and most numerical flow prediction models do exactly that.
 
 \subsection{Turbulent kinetic energy budget}
 
@@ -4522,7 +4522,7 @@ The RANS equation in the advective form is:
   + \nu \nabla^2 \overline{\mathbf{u}}
   \label{eq:tke_budget_rans}
 \end{equation}
-Subtract Eq. (\ref{eq:tke_budget_rans}) from Eq. (\ref{eq:tke_budget_ns}) to
+Subtract Eq. \ref{eq:tke_budget_rans} from Eq. \ref{eq:tke_budget_ns} to
 obtain the equation for the velocity fluctuations:
 
 \begin{equation}
@@ -4568,7 +4568,7 @@ $k \equiv \frac{1}{2} \overline{\mathbf{u}'^2}$:
 \begin{equation}
   \frac{\partial k}{\partial t} + \overline{\mathbf{u}} \cdot \nabla k =
   - \frac{1}{2} \nabla \cdot (\overline{\mathbf{u}' \mathbf{u}' \mathbf{u}'})
-  - (\mathbf{u}' \mathbf{u}' \cdot \nabla) \overline{\mathbf{u}}
+  - (\overline{\mathbf{u}' \mathbf{u}'} \cdot \nabla) \overline{\mathbf{u}}
   - \frac{1}{\rho} \overline{\mathbf{u}' \nabla p'}
   + \overline{\frac{\delta \rho'}{\rho} \mathbf{u}' \cdot \mathbf{g}}
   + \nu \overline{\mathbf{u}' \nabla^2 \mathbf{u}'}
@@ -4635,7 +4635,7 @@ physical meaning:
   \item $-\nu \overline{\nabla \mathbf{u}' \cdot \nabla \mathbf{u}'}$ is the 
   turbulent eddy dissipation of TKE. Note that $\nabla \mathbf{u}'$ are rank-2
   tensors, so the inner product $\nabla \mathbf{u}' \cdot \nabla \mathbf{u}'$
-  is a rank-4 tensor, which is averaged to get a scalar.
+  through double contraction results in a scalar.
 \end{itemize}
 
 Given Eq. (\ref{eq:tke_budget_final}) and the interpretation of its terms,
