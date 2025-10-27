@@ -4544,7 +4544,7 @@ Multiply by $\mathbf{u}'$ to get:
   \mathbf{u}' (\mathbf{u}' \cdot \nabla) \mathbf{u}' -
   \mathbf{u}' \overline{(\mathbf{u}' \cdot \nabla) \mathbf{u}'} = \\
   - \frac{1}{\rho} \mathbf{u}' \nabla p'
-  + \frac{\delta \rho'}{\rho} \mathbf{u}' \mathbf{g}
+  + \frac{\delta \rho'}{\rho} \mathbf{u}' \cdot \mathbf{g}
   + \nu \mathbf{u}' \nabla^2 \mathbf{u}'
 \end{equation}
 Rearrange the terms:
@@ -4587,7 +4587,7 @@ Here we'll use the following identity to expand the Laplacian:
   \nu \nabla^2 k - \nu \overline{(\nabla \mathbf{u}' \cdot \nabla \mathbf{u}')}
   \label{eq:tke_budget_viscous}
 \end{equation}
-Inserting Eq. (\ref{eq:tke_budget_viscous}) into Eq. (\ref{eq:tke_budget_near_final})
+Inserting Eq. \ref{eq:tke_budget_viscous} into Eq. \ref{eq:tke_budget_near_final}
 gives us our final form of the TKE budget equation:
 
 \begin{equation}
@@ -4629,8 +4629,11 @@ physical meaning:
   scaled by the buoyancy anomaly $\delta \rho'$. The stronger the stratification
   of the fluid, the larger the buoyancy production (or dissipation, depending on
   the sign of stratification) of TKE.
+  Of course, this term is non-negligible only in the vertical direction.
 
-  \item $\nu \nabla^2 k$ is the dissipation of TKE by molecular diffusion.
+  \item $\nu \nabla^2 k$ is the dissipation of TKE by molecular diffusion,
+  analogous to the viscous diffusion of momentum in the original Navier-Stokes
+  equation. 
 
   \item $-\nu \overline{\nabla \mathbf{u}' \cdot \nabla \mathbf{u}'}$ is the 
   turbulent eddy dissipation of TKE. Note that $\nabla \mathbf{u}'$ are rank-2
@@ -4638,7 +4641,20 @@ physical meaning:
   through double contraction results in a scalar.
 \end{itemize}
 
-Given Eq. (\ref{eq:tke_budget_final}) and the interpretation of its terms,
+In atmospheric and oceanic boundary layer modeling, the TKE budget equation
+(Eq. \ref{eq:tke_budget_final}) is often simplified by assuming stationarity and
+horizontal homogeneity, and applying it to the vertical direction near the
+boundary.
+A simpler budget is then found to be the balance between shear and buoyancy
+production of TKE and its dissipation by eddy viscosity, respectively:
+
+\begin{equation}
+  - \overline{u'w'} \frac{\partial \overline{u}}{\partial z}
+  + \overline{w'b'}
+  - \nu \left[ \overline{\left( \frac{\partial u'}{\partial z} \right)^2} + \overline{\left( \frac{\partial w'}{\partial z} \right)^2} \right] = 0
+\end{equation}
+
+Given Eq. \ref{eq:tke_budget_final} and the interpretation of its terms,
 we can proceed to apply dimensional analysis in an attempt to learn the
 distribution and transfer of turbulence across spatial scales.
 
