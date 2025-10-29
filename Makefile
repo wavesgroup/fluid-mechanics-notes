@@ -4,6 +4,7 @@ all: book
 
 book: fluid-mechanics-book.tex
 	pdflatex -halt-on-error -shell-escape $<
+	bibtex fluid-mechanics-book
 	makeindex fluid-mechanics-book.idx
 	pdflatex -halt-on-error -shell-escape $<
 	pdflatex -halt-on-error -shell-escape $<

@@ -5,17 +5,19 @@
 \usepackage{amssymb}
 \usepackage{graphicx}
 \usepackage{hyperref}
-\usepackage{makeidx}
 \usepackage{listings}
+\usepackage{makeidx}
 \usepackage{minted}
+\usepackage{natbib}
 \usemintedstyle{friendly}
 
 \setcounter{tocdepth}{2}
 
 \hypersetup{
     colorlinks=true,
-    linkcolor=blue,       % Color for internal links
-    urlcolor=blue         % Color for external URLs
+    linkcolor=blue,  % internal links
+    urlcolor=blue,   % external URLs
+    citecolor=blue   % citations
 }
 
 % Number equations, figures, and tables within sections
@@ -83,8 +85,9 @@ understanding the underlying physics.
 Examples and figures help illustrate key concepts.
 This textbook is a work in progress and continues to evolve.
 I welcome feedback from students and colleagues on how to best improve it.
-I thanks my students Susan Harrison, Jack Lee, Mia Vallee, and Jessie Yang for
-their contributions so far.
+I thank my students Stephen Casey, Katia Childs, Katelyn DeWater,
+Susan Harrison, Jack Lee, Ryland Lewis, Kayla Thompson, Joseph Unsworth,
+Mia Vallee, and Jessie Yang for their contributions so far.
 Special thanks to Prof. Mike Brown who previously taught this course and who
 gave me valuable advice on preparing for it.
 My hope is that this textbook will serve as a useful resource for students
@@ -119,10 +122,17 @@ However, parts of this course are covered in detail by various textbooks.
 These lecture notes are based on the following textbooks:
 
 \begin{enumerate}
-  \item \textit{Fluid Mechanics}, 7$^{th}$ Ed., by Kundu, Cohen, Dowling, and Capecelatro (Elsevier), for the classical;
-  \item \textit{Atmospheric and Oceanic Fluid Dynamics} (AOFD) by Geoffrey Vallis (Cambridge University Press), for the geophysical;
-  \item \textit{Turbulent Flows} by Stephen Pope (Cambridge University Press), for the turbulent;
-  \item \textit{Water Wave Mechanics for Engineers and Scientists} by Dean and Dalrymple (World Scientific), for the wavy.
+  \item \textit{Fluid Mechanics}, 7$^{th}$ Ed., by Kundu, Cohen, Dowling, and
+  Capecelatro (Elsevier), for the classical \citep{kundu2024fluid};
+  \item \textit{Atmospheric and Oceanic Fluid Dynamics} (AOFD)
+  by Geoffrey Vallis (Cambridge University Press),
+  for the geophysical \citep{vallis2017atmospheric};
+  but see also his more concise \textit{Essentials of Atmospheric and Oceanic Dynamics} (Cambridge University Press),
+  for a shorter and more selective treatment \citep{vallis2019essentials};
+  \item \textit{Turbulent Flows} by Stephen Pope (Cambridge University Press),
+  for the turbulent \citep{pope2001turbulent};
+  \item \textit{Water Wave Mechanics for Engineers and Scientists} by Dean and
+  Dalrymple (World Scientific), for the wavy \citep{dean1991water}.
 \end{enumerate}
 
 While the notes contain the distilled and required information for you to
@@ -1736,8 +1746,7 @@ or \textit{scaling the equations}\index{Scaling}.
 In practice, for each (dependent or independent) variable $x$ in the equations,
 we define a characteristic value $X$.
 For example, for the velocity $\mathbf{u}$, we may pick the characteristic
-value of $U = 1\ m\ s^{-1}$ or $U = 10\ m\ s^{-1}$ for the ocean or atmosphere,
-respectively.
+value of $U = 1$ m/s or $U = 10$ m/s for the ocean or atmosphere, respectively.
 We then divide each term in the equations by the characteristic value to
 obtain a nondimensional (unitless) number.
 This helps us identify the important parameters that govern the behavior of
@@ -1756,10 +1765,12 @@ The characteristic scales for each term are:
 
 \begin{equation}
   \frac{\partial \mathbf{u}}{\partial t} \sim \frac{U}{T}
+  \label{eq:scaling_time_derivative}
 \end{equation}
 
 \begin{equation}
   (\mathbf{u} \cdot \nabla) \mathbf{u} \sim \frac{U^2}{L}
+  \label{eq:scaling_advection}
 \end{equation}
 
 \begin{equation}
@@ -2343,6 +2354,7 @@ we can define the \textit{Rossby number}\index{Rossby!number} as:
   \frac{\left( \mathbf{u} \cdot \nabla \right) \mathbf{u}}{\mathbf{f} \times \mathbf{u}}
   \approx \frac{\frac{U^2}{L}}{fU}
   \approx \frac{U}{fL}
+  \label{eq:rossby_number}
 \end{equation}
 Although the Rossby number characterizes the relative importance of rotation in
 the flow, notice that the rotation term is in the denominator.
@@ -4678,7 +4690,7 @@ mechanical energy into heat.
 What happens between the largest and the smallest scales is less clear and is
 the subject of this section.
 A concept of \textit{turbulent energy cascade}\index{Turbulent!Energy cascade},
-first introduced by Richardson (1922)\index{Richardson},
+first introduced by \citet{richardson1920supply}\index{Richardson},
 suggests that the energy is transferred from the large to the small scales,
 and that this transfer is a cascade.
 He put it succinctly as:
@@ -4735,26 +4747,35 @@ In the atmosphere with $U \approx 10$ m/s and viscosity of $\nu \approx 10^{-5}$
 we get $L_\nu \approx 10^{-6}$ m, or, one micron.
 These are obviously very small scales.
 
+\subsection{Kolmogorov's hypotheses and scales}
+
 To answer what happens to the flow statistics between the largest scales at
-which the turbulence is generated and the smalles scales at which viscosity
-dissipates all mechanical energy into heat, Kolmogorov (1941) proposed a new
+which the turbulence is generated and the smallest scales at which viscosity
+dissipates all mechanical energy into heat, \citet{Kolmogorov1941local} proposed
+a new theory of turbulence based on three hypotheses.
 Kolmogorov's three turbulence hypotheses are: 
 
 \begin{enumerate}
   \item \textbf{Hypothesis of local isotropy:} At sufficiently high $Re$ and
   sufficiently small $L$, the turbulence is \textit{locally isotropic},
   \textit{i.e.} the flow statistics at a point are the same in all directions.
+  In other words, the small-scale turbulence is homogeneous and has no preferred
+  direction.
   \item \textbf{First similarity hypothesis:} At sufficiently high $Re$ and
   sufficiently small $L$, the flow statistics have a universal form
   that is uniquely determined by the viscosity $\nu$ and the energy dissipation 
   rate $\varepsilon$.
+  In other words, small-scale turbulence is independent of the large-scale flow
+  features such as the geometry and boundary conditions.
   \item \textbf{Second similarity hypothesis:} At sufficiently high $Re$ and
   and sufficiently large $L$, the flow statistics have a universal form
   that is uniquely determined by the energy dissipation rate $\varepsilon$,
   and that is independent of viscosity $\nu$.
+  In other words, large-scale turbulence is governed by turbulent eddy dissipation
+  and is independent of molecular viscosity.
 \end{enumerate}
 The energy dissipation rate $\varepsilon$ comes straight from the TKE budget
-equation (Eq. \ref{eq:tke_budget_final}) and is defined as:
+equation (\ref{eq:tke_budget_final}) and is defined as:
 
 \begin{equation}
   \varepsilon = \nu \overline{\nabla \mathbf{u}' \cdot \nabla \mathbf{u}'}
@@ -4765,23 +4786,63 @@ sufficiently small scales is the same looking in all directions, that
 statistically all such turbulent flows are the same, and that they are uniquely
 determined by either by energy dissipation rate alone, or by the energy
 dissipation rate and viscosity, depending on the scale.
-Through dimensional analysis, Kolmogorov also introduced the fundamental
+Through dimensional analysis, Kolmogorov also introduced three fundamental
 turbulent scales, now commonly known as Kolmogorov scales:
+The Kolmogorov length scale $\eta_k$, the velocity scale $u_\eta$, and the time
+scale $\tau_\eta$.
 
-\begin{itemize}
-  \item $\eta \equiv \left( \nu^3/\varepsilon \right)^{1/4}$, or,
-  Kolmogorov length scale, is the scale at which the energy dissipation by
-  molecular diffusion balances the energy input by the mean flow.
-  \item $u_\eta \equiv \left( \varepsilon \nu \right)^{1/4}$ is
-  the velocity at the Kolmogorov length scale.
-  \item $\tau_\eta \equiv \left( \nu/\varepsilon \right)^{1/2}$ is the
-  Kolmogorov time scale at which the smallest coherent eddy can exist.
-\end{itemize}
+Let's use dimensional analysis to determine the length scale $\eta_k$.
+Following Kolmogorov's first similarity hypothesis, we assume that $\eta_k$ is a
+function of only $\nu$ and $\varepsilon$:
+
+\begin{equation}
+  \eta_k = f(\nu, \varepsilon) = \nu^a \varepsilon^b
+\end{equation}
+The powers $a$ and $b$ can be determined by matching the dimensions on both sides:
+
+\begin{equation}
+  L = \left( L^2 T^{-1} \right)^a \left( L^2 T^{-3} \right)^b
+\end{equation}
+which leads to:
+
+\begin{equation}
+  1 = 2a + 2b
+\end{equation}
+
+\begin{equation}
+  0 = -a - 3b
+\end{equation}
+so we arrive at $a = 3/4$ and $b = -1/4$, giving us the Kolmogorov length scale:
+
+\begin{equation}
+  \eta_k = \left( \frac{\nu^3}{\varepsilon} \right)^{1/4}
+  \label{eq:kolmogorov_length_scale}
+\end{equation}
+This is the scale at which the energy dissipation by molecular diffusion
+balances the energy input by the mean flow.
+(The subscript $k$ stands for "Kolmogorov", and although it is not commonly used
+in the literature, here I use it to avoid a notion conflict with $\eta$ used
+for surface elevation.)
+
+Following the same approach, we can derive the Kolmogorov time scale:
+
+\begin{equation}
+  \tau_\eta = \left( \frac{\nu}{\varepsilon} \right)^{1/2}
+  \label{eq:kolmogorov_time_scale}
+\end{equation}
+which is the time scale at which the smallest coherent eddy can exist.
+
+Finally, the Kolmogorov velocity scale is:
+
+\begin{equation}
+  u_\eta = \left( \varepsilon \nu \right)^{1/4}
+  \label{eq:kolmogorov_velocity_scale}
+\end{equation}
 Any flow feature at scales smaller than these is governed by viscous dissipation
 of kinetic energy into heat.
 
 Examining the Reynolds number using the Kolmogorov scales indeed shows that
-it reduces to unity, consistent with Eq. (\ref{eq:viscous_length_scale}):
+it reduces to unity, consistent with Eq. \ref{eq:viscous_length_scale}:
 
 \begin{equation}
   Re_\eta = \frac{u_\eta \eta}{\nu} = \frac{\left( \varepsilon \nu \right)^{1/4} \left( \nu^3/\varepsilon \right)^{1/4}}{\nu} = 1
@@ -4803,6 +4864,11 @@ it reduces to unity, consistent with Eq. (\ref{eq:viscous_length_scale}):
 \end{figure}
 
 Now, we may ask, how is the turbulent energy distributed across the scales?
+Kolmogorov's scales only tell us about the smallest scales of turbulence,
+at which its energy is dissipated by viscosity into heat.
+However, if his hypotheses are correct and the turbulence statistics are
+indeed universal across scales, we should be able to determine the distribution
+of turbulent energy across all scales by dimensional analysis.
 Define the energy spectrum $E(k)$ as the energy per unit mass per unit wavenumber:
 
 \begin{equation}
@@ -4820,7 +4886,8 @@ If that is true, then it must be some function of $\varepsilon$ and $k$:
 The dimensions of $E(k)$ are $L^3 T^{-2}$.
 Since the wavenumber $k$ has dimensions of $L^{-1}$ and thus no temporal
 dependence, the only way it can match the dimensions of $E(k)$ is if the
-energy spectrum scales with $\varepsilon^{2/3}$:
+energy spectrum scales with $\varepsilon^{2/3}$ (as this is the only scaling
+for $\varepsilon$ that will satisfy the time dimension of $E(k)$):
 
 \begin{equation}
   E(k) = \varepsilon^{2/3} G(k)
@@ -6747,9 +6814,7 @@ Shallow water: $kh \to 0$
 
 \section{Definition of symbols}
 
-WIP
-
-\begin{table}[h]
+\begin{table}[!h]
 \centering
 \renewcommand{\arraystretch}{1.15}
 \begin{tabular}{p{2cm} p{8cm} p{2.2cm} p{2.2cm}}
@@ -6765,8 +6830,10 @@ $\beta$ & Meridional gradient of the Coriolis parameter & s$^{-1}$ m$^{-1}$ & \r
 $\beta_T$ & Thermal expansion coefficient & K$^{-1}$ & \ref{eq:equation_of_state_ocean} \\
 $\beta_S$ & Haline contraction coefficient & PSU$^{-1}$ & \ref{eq:equation_of_state_ocean} \\
 $\beta_p$ & Compressibility coefficient & Pa$^{-1}$ & \ref{eq:equation_of_state_ocean} \\
+$\eta_k$ & Kolmogorov length scale & m & \ref{eq:kolmogorov_length_scale} \\
 $\mu$ & Dynamic viscosity & kg m$^{-1}$ s$^{-1}$ & \ref{eq:cauchy_with_viscosity} \\
 $\nu$ & Kinematic viscosity & m$^{2}$ s$^{-1}$ & \ref{eq:momentum_navier_stokes} \\
+$\nu_\eta$ & Kolmogorov time scale & s & \ref{eq:kolmogorov_time_scale} \\
 $\rho$ & Density & kg m$^{-3}$ & \ref{eq:lagrangian_property_per_mass_derivative} \\
 $\boldsymbol{\tau}$ & Stress tensor & Pa, N m$^{-2}$ & \ref{eq:stress_tensor} \\
 $\mathbf{a}\cdot\mathbf{b}$ & Dot (scalar) product of vectors & --- & \ref{eq:dot_product_general} \\
@@ -6774,11 +6841,16 @@ $\mathbf{a}\times\mathbf{b}$ & Cross (vector) product of vectors & --- & \ref{eq
 $det(\cdot)$ & Determinant of a matrix & --- & --- \\
 $\mathbf{I}$ & Identity tensor & --- & \ref{eq:identity_tensor} \\
 $\mathbf{i},\mathbf{j},\mathbf{k}$ & Cartesian unit vectors & --- & \ref{eq:unit_vectors} \\
+$L$ & Characteristic length scale & m & \ref{eq:scaling_advection} \\
 $p$ & Pressure & Pa & --- \\
+$Re$ & Reynolds number & --- & \ref{eq:reynolds_number} \\
+$Ro$ & Rossby number & --- & \ref{eq:rossby_number} \\
 $T$ & Temperature & K & --- \\
+$U$ & Characteristic velocity scale & m s$^{-1}$ & \ref{eq:scaling_time_derivative} \\
 $\mathbf{u}$ & Velocity vector & m s$^{-1}$ & \ref{eq:velocity} \\
 $\overline{\mathbf{u}}$ & Mean flow & m s$^{-1}$ & \ref{eq:reynolds_decomposition} \\
 $\mathbf{u'}$ & Fluctuating velocity & m s$^{-1}$ & \ref{eq:reynolds_decomposition} \\
+$u_\eta$ & Kolmogorov velocity scale & m s$^{-1}$ & \ref{eq:kolmogorov_velocity_scale} \\
 $\overline{\mathbf{u'}\mathbf{u'}}$ & Reynolds stress tensor & m$^2$ s$^{-2}$ & \ref{eq:rans} \\
 \hline
 \end{tabular}
@@ -6787,6 +6859,11 @@ $\overline{\mathbf{u'}\mathbf{u'}}$ & Reynolds stress tensor & m$^2$ s$^{-2}$ & 
   greek alphabet second, latin alphabet last).
   }
 \end{table}
+
+\clearpage
+
+\bibliographystyle{jfm}
+\bibliography{references}
 
 \printindex
 
