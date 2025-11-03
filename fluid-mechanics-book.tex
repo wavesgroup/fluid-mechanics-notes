@@ -4428,41 +4428,44 @@ component of the mean velocity vector:
 
 \begin{equation}
   \frac{\partial \overline{u}}{\partial t} + 
-  \frac{\partial \overline{u} \overline{u}}{\partial x} +
-  \frac{\partial \overline{v} \overline{u}}{\partial y} +
-  \frac{\partial \overline{w} \overline{u}}{\partial z} =
+  \frac{\partial \overline{u}\, \overline{u}}{\partial x} +
+  \frac{\partial \overline{v}\, \overline{u}}{\partial y} +
+  \frac{\partial \overline{w}\, \overline{u}}{\partial z} =
   - \frac{1}{\rho} \frac{\partial \overline{p}}{\partial x}
   - \frac{\partial \overline{u'u'}}{\partial x} - \frac{\partial \overline{v'u'}}{\partial y} - \frac{\partial \overline{w'u'}}{\partial z}
   + \nu \left( \frac{\partial^2 \overline{u}}{\partial x^2} + 
                \frac{\partial^2 \overline{u}}{\partial y^2} +
                \frac{\partial^2 \overline{u}}{\partial z^2}
         \right)
+  \label{eq:rans_u}
 \end{equation}
 
 \begin{equation}
   \frac{\partial \overline{v}}{\partial t} + 
-  \frac{\partial \overline{u} \overline{v}}{\partial x} +
-  \frac{\partial \overline{v} \overline{v}}{\partial y} +
-  \frac{\partial \overline{w} \overline{v}}{\partial z} =
+  \frac{\partial \overline{u}\, \overline{v}}{\partial x} +
+  \frac{\partial \overline{v}\, \overline{v}}{\partial y} +
+  \frac{\partial \overline{w}\, \overline{v}}{\partial z} =
   - \frac{1}{\rho} \frac{\partial \overline{p}}{\partial y}
   - \frac{\partial \overline{u'v'}}{\partial x} - \frac{\partial \overline{v'v'}}{\partial y} - \frac{\partial \overline{w'v'}}{\partial z}
   + \nu \left( \frac{\partial^2 \overline{v}}{\partial x^2} + 
                \frac{\partial^2 \overline{v}}{\partial y^2} +
                \frac{\partial^2 \overline{v}}{\partial z^2}
         \right)
+  \label{eq:rans_v}
 \end{equation}
 
 \begin{equation}
   \frac{\partial \overline{w}}{\partial t} + 
-  \frac{\partial \overline{u} \overline{w}}{\partial x} +
-  \frac{\partial \overline{v} \overline{w}}{\partial y} +
-  \frac{\partial \overline{w} \overline{w}}{\partial z} =
+  \frac{\partial \overline{u}\, \overline{w}}{\partial x} +
+  \frac{\partial \overline{v}\, \overline{w}}{\partial y} +
+  \frac{\partial \overline{w}\, \overline{w}}{\partial z} =
   - \frac{1}{\rho} \frac{\partial \overline{p}}{\partial z}
   - \frac{\partial \overline{u'w'}}{\partial x} - \frac{\partial \overline{v'w'}}{\partial y} - \frac{\partial \overline{w'w'}}{\partial z}
   + \nu \left( \frac{\partial^2 \overline{w}}{\partial x^2} + 
                \frac{\partial^2 \overline{w}}{\partial y^2} +
                \frac{\partial^2 \overline{w}}{\partial z^2}
         \right)
+  \label{eq:rans_w}
 \end{equation}
 
 Via the finite difference, finite volume, or finite element methods, each term
@@ -4933,22 +4936,25 @@ of the Earth.
 The surface beneath the planetary boundary layer may be rigid (land or sea ice)
 or free (ocean), and its roughness and thermodynamic properties may vary greatly
 from place to place.
+The most common geophysical boundary layers are the planetary boundary layer
+in the atmosphere (whether over land or water) and the upper-ocean mixed layer.
+Boundary layers also exist at the bottom of the ocean where the flow interacts
+with the seafloor, as well as where the air and water are directly impacted
+by surface waves.
 In this chapter, we start from the simplest boundary layer, a channel flow, and
 derive the stress and mean velocity profiles in laminar flows.
 Then, we zoom into the vertical structure of the boundary layer in turbulent
 flows, and examine different regimes that occur depending on the distance from
 the boundary.
 
-\subsection{Channel flow}
+\subsection{Governing equations}
 
 A channel flow is a classic problem in fluid mechanics that is both relevant to
 engineering applications, and analogous to larger-scale geophysical flows.
 We begin by setting up the problem and establishing the governing equations
 and the notation that we will use.
-Then, we explore some analytical and numerical solutions for the time-mean
+Then, we will explore some analytical and numerical solutions for the time-mean
 flow structure within the channel.
-
-\subsubsection{Governing equations and boundary conditions}
 
 \begin{figure}[h]
   \centering
@@ -4959,7 +4965,7 @@ flow structure within the channel.
     Although the vertical and the cross-stream coordinates are denoted as $y$
     and $z$ here, respectively, we will be using the opposite notation with $z$
     being the vertical coordinate and $y$ the cross-stream coordinate.
-    This is Figure 7.1a from Turbulent Flows by Pope.
+    This is Figure 7.1a from \citet{pope2001turbulent}.
   }
   \label{fig:channel_flow}
 \end{figure}
@@ -4967,7 +4973,7 @@ flow structure within the channel.
 Let's examine a flow in a channel between two flat plates, spaced apart by a
 a distance $h = 2\delta$, such that $\delta$ represents the centerline distance
 between the plates (Fig. \ref{fig:channel_flow}).
-The channel is long ($L \gg \delta$) and wide ($W \gg \delta$), so there is no
+The channel is long ($L \gg \delta$) and wide (width $\gg \delta$), so there is no
 variability in the $x$ and $y$ directions.
 The mean flow is predominantly in the $x$ direction, so if the velocity is
 defined as having components $u$, $v$, and $w$ in the streamwise, spanwise,
@@ -4987,7 +4993,8 @@ flow well into the channel such that $\partial \overline{u}/\partial x = 0$.
 Thus, from a statistical point of view, this is a stationary, one-dimensional
 flow that varies only in the $z$ direction.
 
-The flow can be characterized using two different Reynolds numbers:
+As the simplest possible attempt to describe the turbulence in this scenario,
+let's characterize the flow using a Reynolds number based on the bulk velocity:
 
 \begin{equation}
   Re \equiv \frac{\left<\overline{u}\right> 2 \delta}{\nu}
@@ -5005,19 +5012,26 @@ between the plates:
 
 \begin{equation}
   Re_0 \equiv \frac{u_0 \delta}{\nu}
+  \label{eq:Re_centerline}
 \end{equation}
 where $u_0$ is the centerline velocity $u(z=\delta)$.
 Based on laboratory experiments, we know that the channel flow is laminar
 for $Re < 1350$ and turbulent for $Re > 1800$, with transitional effects
 observable up to $Re \approx 3000$.
+Let's now take note to distinguish these two Reynolds numbers as the bulk
+Reynolds number $Re$ (Eq. \ref{eq:Re_bulk}) and the centerline Reynolds number
+$Re_0$ (Eq. \ref{eq:Re_centerline}).
 
-Start from the Reynolds-averaged Navier-Stokes equation for $\overline{u}$:
+Next, let's attempt to describe the vertical structure of the flow within the
+channel based on the governing equation for the mean velocity $\overline{u}(z)$.
+Start from the Reynolds-averaged Navier-Stokes equation for $\overline{u}$
+(Eq. \ref{eq:rans_u}):
 
 \begin{equation}
   \frac{\partial \overline{u}}{\partial t} + 
-  \overline{u} \frac{\partial \overline{u}}{\partial x} + 
-  \overline{v} \frac{\partial \overline{u}}{\partial y} + 
-  \overline{w} \frac{\partial \overline{u}}{\partial z} =
+  \frac{\partial \overline{u}\, \overline{u}}{\partial x} + 
+  \frac{\partial \overline{v}\, \overline{u}}{\partial y} + 
+  \frac{\partial \overline{w}\, \overline{u}}{\partial z} =
   - \frac{1}{\rho} \frac{\partial \overline{p}}{\partial x} +
   \nu \left( \frac{\partial^2 \overline{u}}{\partial x^2} +
   \frac{\partial^2 \overline{u}}{\partial y^2} +
@@ -5036,7 +5050,7 @@ and so continuity requires that $\overline{w}$ is zero everywhere.
 Accounting for stationarity ($\partial \overline{u}/\partial t = 0$),
 homogeneity in the $x$ and $y$ directions
 ($\partial \overline{u}/\partial x = \partial \overline{u}/\partial y = 0$),
-and the fact that $\overline{w} = 0$, Eq. (\ref{eq:channel_ns_u1}) greatly
+and the fact that $\overline{w} = 0$, Eq. \ref{eq:channel_ns_u1} greatly
 simplifies to:
 
 \begin{equation}
@@ -5046,7 +5060,7 @@ simplifies to:
 \end{equation}
 This stationary, one-dimensional flow is thus driven by the streamwise pressure
 gradient that is balanced by the normal viscous stress and the cross-stream
-Reynolds stress.
+Reynolds stress (that is, the vertical flux of horizontal momentum).
 The above can be further simplified to:
 
 \begin{equation}
@@ -5061,14 +5075,15 @@ stresses:
   \label{eq:channel_tau}
 \end{equation}
 
-Since the flow is stationary, the streamwise pressure gradient that drives it
-must be constant, and so does the vertical stress gradient as well:
+Since the mean flow is stationary (even though instantaenous flow is not!),
+the streamwise pressure gradient that drives it must be constant, and so does
+the vertical stress gradient as well:
 
 \begin{equation}
   \frac{\partial \tau}{\partial z} = \text{constant}
 \end{equation}
 Assuming symmetry around the centerline of the channel requires that the stress
-there is zero (as there should not be any mean transport through the centerline).
+there is zero, as there should not be any mean transport through the centerline.
 Integrating the above from $z=0$ to $z=\delta$ we get:
 
 \begin{equation}
@@ -5085,11 +5100,21 @@ where $\tau_w$ is the so-called wall stress whose value is yet to be determined.
 The stress thus decreases linearly from $\tau_w$ at the bottom wall to zero at
 the centerline, reaching $-\tau_w$ at the top wall.
 
+As we do not yet have an expression for the the turbulent Reynolds stress in
+terms of any mean quantity, we cannot yet discuss the velocity profile in the
+general case.
+However, we can explore two limiting cases: laminar flow where the turbulent
+Reynolds stress is negligible, and turbulent flow where the turbulent Reynolds
+stress is dominant.
+If we can establish the velocity profiles in the two limiting cases, and the
+regions in the channel where each case is valid, we can then piece together a
+more complete picture of the flow structure within the channel.
+
 \subsection{Laminar flow}
 
 What does the velocity profile look like in the case of laminar flow?
-We can drop the Reynolds stress term in Eq. (\ref{eq:channel_tau}) and combine
-it with Eq. (\ref{eq:channel_tau_profile}) to get:
+We can drop the Reynolds stress term in Eq. \ref{eq:channel_tau} and combine
+it with Eq. \ref{eq:channel_tau_profile} to get:
 
 \begin{equation}
   \frac{\partial \overline{u}}{\partial z} = \frac{\tau_w}{\rho \nu} \left(1 - \frac{z}{\delta}\right)
@@ -5108,7 +5133,10 @@ and that has a centerline value of:
 
 The preceding equations determine the stress and velocity profiles strictly in
 laminar flows, \textit{i.e.} for relatively small Reynolds numbers.
-Let's see what the profiles may look like in turbulent flows.
+$\tau_w$ remains an unknown parameter, but it can be determined if the
+centerline velocity is known and if the flow in the entire channel is laminar.
+
+Now, let's see what the profiles may look like in turbulent flows.
 
 \subsection{Turbulent flow}
 
@@ -5117,12 +5145,12 @@ Let's see what the profiles may look like in turbulent flows.
   \includegraphics[width=0.6\textwidth]{assets/fig_channel_flow_turbulent_u.png}
   \caption{
     Mean velocity profile normalized by the bulk velocity in a fully developed
-    turbulent channel flow, from the DNS of Kim et al. (1987).
+    turbulent channel flow, from the DNS of \citet{kim1987turbulence}.
     Dashed and solid lines are for $Re = 5,600$ and $Re = 13,750$, respectively.
     Note that in the axis labels, $y$ is the vertical coordinate and the
     angle brackets and overline denote averaging in the opposite sense from
     our notation in the main text.
-    This is Figure 7.2 from Turbulent Flows by Pope.
+    This is Figure 7.2 from \citet{pope2001turbulent}.
   }
   \label{fig:channel_flow_turbulent_u}
 \end{figure}
@@ -5133,17 +5161,18 @@ Let's see what the profiles may look like in turbulent flows.
   \caption{
     As in Fig. \ref{fig:channel_flow_turbulent_u}, but for the vertical profiles
     of the viscous and turbulent Reynolds stresses.
-    This is Figure 7.3 from Turbulent Flows by Pope.
+    This is Figure 7.3 from \citet{pope2001turbulent}.
   }
   \label{fig:channel_flow_stress_profiles}
 \end{figure}
 In the laminar case, we were able to analytically derive the velocity and stress
 profiles.
-However, in the turbulent case, the problem is much more complex and analytical
+However, in the turbulent case, the problem is more complex and analytical
 solutions are not feasible due to the presence of the turbulent Reynolds stress
 term.
-Direct Numerical Simulations (DNS) reveal what a turbulent velocity profile
-in a channel may look like (Fig. \ref{fig:channel_flow_turbulent_u}).
+Direct Numerical Simulations (DNS)\index{Direct Numerical Simulation (DNS)}
+reveal what a turbulent velocity profile in a channel may look like
+(Fig. \ref{fig:channel_flow_turbulent_u}).
 
 At the boundaries, we can't have any flow through the walls of the channel,
 the velocity and thus the turbulent Reynolds stresses must be zero, and so the
