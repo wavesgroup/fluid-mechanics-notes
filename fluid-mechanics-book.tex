@@ -5124,12 +5124,22 @@ Integrate the above with respect to $z$ to get:
 \begin{equation}
   \overline{u}(z) = \frac{\tau_w z}{\rho \nu} \left(1 - \frac{z}{2\delta} \right)
 \end{equation}
-The velocity profile thus has a quadratic form that reaches zero at either wall,
-and that has a centerline value of:
+The velocity profile thus has a quadratic form that reaches zero at either wall
+(Fig. \ref{fig:channel_flow_laminar_u}), and that has a centerline value of:
 
 \begin{equation}
   u_0 = \overline{u}(z=\delta) = \frac{\tau_w \delta}{2 \rho \nu}
 \end{equation}
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.8\textwidth]{assets/fig_channel_flow_laminar_u.pdf}
+  \caption{
+    Mean velocity profile in laminar channel flow, for the flow parameters
+    given in the title.
+  }
+  \label{fig:channel_flow_laminar_u}
+\end{figure}
 
 The preceding equations determine the stress and velocity profiles strictly in
 laminar flows, \textit{i.e.} for relatively small Reynolds numbers.
@@ -5182,7 +5192,7 @@ wall shear stress must be entirely due to the viscosity:
   \tau_w = \rho \nu \left( \frac{\partial \overline{u}}{\partial z} \right)_{z=0}
   \label{eq:wall_stress}
 \end{equation}
-Recall from Eq. (\ref{eq:channel_tau}) that the stress $\tau$ is always composed
+Recall from Eq. \ref{eq:channel_tau} that the stress $\tau$ is always composed
 of the viscous and turbulent parts.
 However, in turbulent flows, the relative contributions of the viscous and
 turbulent parts vary greatly as we move away from the wall.
@@ -5262,7 +5272,7 @@ and the \textit{friction Reynolds number}, defined as:
     Reynolds stresses to the total stress, based on the DNS data of Kim et al.
     (1987), as in Figs. \ref{fig:channel_flow_turbulent_u} and
     \ref{fig:channel_flow_stress_profiles}.
-    This is Figure 7.4 from Turbulent Flows by Pope.
+    This is Figure 7.4 from \citet{pope2001turbulent}.
   }
   \label{fig:channel_flow_stress_fractions}
 \end{figure}
@@ -5334,9 +5344,9 @@ seek the form of the velocity profile in terms of the mean shear:
 \end{equation}
 where $\Phi$ is, like $F$ before, some yet-to-be-determined non-dimensional
 function, and the proportionality to $u_*/z$ is proposed on dimensional grounds.
-Notice that the second argument of $G$, $z/\delta_\nu$ (which we also defined
+Notice that the second argument of $\Phi$, $z/\delta_\nu$ (which we also defined
 earlier as $z^+$), is equivalent to $Re_\tau z/\delta$, so it is useful to see
-$G$ as a function of two non-dimensional heights, one characteristic of the
+$\Phi$ as a function of two non-dimensional heights, one characteristic of the
 boundary layer and another of the viscous sublayer.
 
 \begin{figure}[h]
@@ -5346,7 +5356,7 @@ boundary layer and another of the viscous sublayer.
     Near-wall profiles of mean velocity from the DNS data of Kim et al. (1987):
     dashed line, $Re = 5,600$; solid line, $Re = 13,750$; dot-dashed line,
     $u^+ = z^+$.
-    This is Figure 7.5 from Turbulent Flows by Pope.
+    This is Figure 7.5 from \citet{pope2001turbulent}.
   }
   \label{fig:law_of_the_wall_viscous_sublayer}
 \end{figure}
@@ -5523,12 +5533,6 @@ In this chapter, we covered:
   \item The universality of the log-law across different Reynolds numbers;
   \item The relationship between mean velocity profiles and wall stress through the friction coefficient $C_f$;
   \item Experimental validation of boundary layer theory using DNS and laboratory measurements.
-\end{itemize}
-
-\subsection*{Further reading}
-
-\begin{itemize}
-  \item Chapter 7 of Turbulent Flows by Stephen Pope.
 \end{itemize}
 
 \newpage
