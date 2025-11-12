@@ -379,6 +379,7 @@ $\mathbf{b}$ is defined as:
     a_x & a_y & a_z \\
     b_x & b_y & b_z
   \end{bmatrix}
+  \label{eq:cross_product}
 \end{equation}
 where $det(\mathbf{M})$ means the \textit{determinant of matrix $\mathbf{M}$}.
 
@@ -5310,6 +5311,14 @@ Some useful criteria for $z^+$ in characterizing the flow regimes are:
 \begin{equation}
   z^+ \gtrsim 50 \quad \text{(outer region)}
 \end{equation}
+As a rule of thumb, we claim that the
+\textit{viscous sublayer}\index{Boundary layer!Viscous sublayer}
+is predominantly laminar, governed by viscosity, and does not permit turbulent
+eddies; the \textit{outer region}\index{Boundary layer!Outer region} is
+dominated by turbulence and the viscous stress is relatively negligible;
+finally, the \textit{viscous wall region}\index{Boundary layer!Viscous wall region}
+is a transition zone between the two, with both viscous and turbulent stresses
+being important.
 
 Let's now examine in more detail each of these regions and see if flow structure
 varies significantly between them.
@@ -5348,6 +5357,9 @@ Notice that the second argument of $\Phi$, $z/\delta_\nu$ (which we also defined
 earlier as $z^+$), is equivalent to $Re_\tau z/\delta$, so it is useful to see
 $\Phi$ as a function of two non-dimensional heights, one characteristic of the
 boundary layer and another of the viscous sublayer.
+The nondimensional heights $z/\delta$ and $z/\delta_\nu$ thus capture all
+relevant flow parameters, namely $\rho$, $\nu$, $\delta$, $\tau_w$, as well as
+the distance from the wall $z$.
 
 \begin{figure}[h]
   \centering
@@ -5363,7 +5375,7 @@ boundary layer and another of the viscous sublayer.
 
 Let's focus for now on the region closest to the wall, which may include the
 viscous sublayer and extend somewhat beyond it.
-Prandtl (1925) hypothesized that at high Reynolds numbers, there is a region
+\citet{prandtl1925} hypothesized that at high Reynolds numbers, there is a region
 very near the wall ($z \ll \delta$), called the \textit{inner layer}, in which
 the mean velocity profile is entirely governed by viscosity, and is independent
 of the boundary layer size $\delta$ and the centerline velocity $u_0$.
@@ -5442,9 +5454,9 @@ on $z^+$.
   \includegraphics[width=0.6\textwidth]{assets/fig_law_of_the_wall_loglaw.png}
   \caption{
     Near-wall profiles of mean velocity:
-    Solid line, DNS data of Kim et al. (1987), $Re = 13,750$;
+    Solid line, DNS data of \citet{kim1987turbulence}, $Re = 13,750$;
     dot-dashed line, $u^+ = z^+$; dashed line, the log-law.
-    This is Figure 7.6 from Turbulent Flows by Pope.
+    This is Figure 7.6 from \citet{pope2001turbulent}.
   }
   \label{fig:law_of_the_wall_loglaw}
 \end{figure}
@@ -5486,13 +5498,22 @@ demonstrated based on experimental data in Fig. \ref{fig:law_of_the_wall_measure
   \includegraphics[width=0.6\textwidth]{assets/fig_law_of_the_wall_measurements.png}
   \caption{
     Mean velocity profiles in fully developed turbulent channel flow measured by
-    Wei and Willmarth (1989):
+    \citet{wei1989reynolds}:
     Circles, $Re_0 = 2,970$; squares, $Re_0 = 14,914$; upward triangles, $Re_0 = 22,776$;
     downward triangles, $Re_0 = 39,582$; line, the log-law.
-    This is Figure 7.7 from Turbulent Flows by Pope.
+    This is Figure 7.7 from \citet{pope2001turbulent}.
   }
   \label{fig:law_of_the_wall_measurements}
 \end{figure}
+
+In summary, the velocity structure in the near-wall region of a turbulent
+boundary layer can be summarized as:
+
+\begin{itemize}
+  \item For $z^+ \lesssim 5$ (viscous sublayer), $u^+$ scales linearly with $z^+$ and likewise for $u$ scaling with $z$;
+  \item For $z^+ \gtrsim 50$ (log-law region), $u^+$ scales logarithmically with $z^+$ and likewise for $u$ scaling with $z$;
+  \item For $5 \lesssim z^+ \lesssim 50$ (viscous wall region), the velocity profile transitions between the two regimes above.
+\end{itemize}
 
 %\begin{figure}[h]
 %  \centering
@@ -5507,6 +5528,8 @@ demonstrated based on experimental data in Fig. \ref{fig:law_of_the_wall_measure
 %  \label{fig:wall_flow}
 %\end{figure}
 
+\newpage
+
 \subsection*{Exercises}
 
 \begin{enumerate}
@@ -5514,12 +5537,14 @@ demonstrated based on experimental data in Fig. \ref{fig:law_of_the_wall_measure
   of a laminar channel flow. How large is it compared to the centerline velocity
   $u_0$? How about the bulk Reynolds number relative to the centerline Reynolds
   number $Re_0$?
-  \item Consider a fully developed turbulent channel flow at $Re = 10^5$ (Eq. \ref{eq:Re_bulk}).
-  The fluid is water with $\rho = 10^3$ kg/m$^3$ and viscosity $\nu = 10^{-6}$ m$^2$/s.
-  The channel half-height is $\delta = 0.1$ m,
-  and the skin-friction coefficient is $C_f = u_*^2 / U_0^2 = 4 \times 10^{-3}$.
-  Find the bulk velocity $\left< \overline{u} \right>$, the friction velocity $u_*$,
-  the friction Reynolds number $Re_\tau$, and the viscous length scale $\delta_\nu$.
+  \item Consider a fully developed turbulent channel flow.
+  The fluid viscosity is $\nu = 10^{-6}$ m$^2$/s, the channel half-height is
+  $\delta = 0.1$ m, and the friction velocity is $u_* = 0.1$ m/s.
+  Assuming that the inner layer is negligible compared to the channel height
+  and that you can apply the log-law (Eq. \ref{eq:law_of_the_wall_loglaw_dim})
+  everywhere in the channel, find the mean centerline velocity
+  ($\overline{u}$ at $z=\delta$) and the bulk velocity (Eq. \ref{eq:bulk_velocity}).
+  
 \end{enumerate}
 
 \subsection*{Summary}
@@ -6870,8 +6895,8 @@ $\nu_\eta$ & Kolmogorov time scale & s & \ref{eq:kolmogorov_time_scale} \\
 $\rho$ & Density & kg m$^{-3}$ & \ref{eq:lagrangian_property_per_mass_derivative} \\
 $\boldsymbol{\tau}$ & Stress tensor & Pa, N m$^{-2}$ & \ref{eq:stress_tensor} \\
 $\mathbf{a}\cdot\mathbf{b}$ & Dot (scalar) product of vectors & --- & \ref{eq:dot_product_general} \\
-$\mathbf{a}\times\mathbf{b}$ & Cross (vector) product of vectors & --- & \ref{eq:cross_product_magnitude} \\
-$det(\cdot)$ & Determinant of a matrix & --- & --- \\
+$\mathbf{a}\times\mathbf{b}$ & Cross (vector) product of vectors & --- & \ref{eq:cross_product} \\
+$det(\cdot)$ & Determinant of a matrix & --- & \ref{eq:cross_product} \\
 $\mathbf{I}$ & Identity tensor & --- & \ref{eq:identity_tensor} \\
 $\mathbf{i},\mathbf{j},\mathbf{k}$ & Cartesian unit vectors & --- & \ref{eq:unit_vectors} \\
 $L$ & Characteristic length scale & m & \ref{eq:scaling_advection} \\
