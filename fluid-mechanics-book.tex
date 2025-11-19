@@ -5854,7 +5854,7 @@ Recall that $\phi_x$ and $\phi_z$ are functions of $x$ and $z$ respectively.
 If, for example, we hold $x$ constant and consider variations in $z$, the
 first term would remain constant but the second term would not!
 You can arrive to the same conclusion by holding $z$ constant and varying $x$.
-This would clearly violate Eq. (\ref{eq:phi2}), and so the only way that
+This would clearly violate Eq. \ref{eq:phi2}, and so the only way that
 equation can hold is if both $\phi_x$ and $\phi_z$ are equal to the same
 constant but with opposite signs:
 
@@ -5907,7 +5907,7 @@ Then:
   w = \frac{\partial \phi_z}{\partial z} = k \left( C e^{kz} - D e^{-kz} \right) = 0
 \end{equation}
 which implies $C = D e^{2kh}$.
-Insert this back into Eq. (\ref{eq:phi_z}) to get:
+Insert this back into Eq. \ref{eq:phi_z} to get:
 
 \begin{equation}
   \begin{split}
@@ -5919,7 +5919,7 @@ Insert this back into Eq. (\ref{eq:phi_z}) to get:
     2 D e^{kh} \cosh\left( k(z+h) \right)
   \end{split}
 \end{equation}
-Inserting this back into Eq. (\ref{eq:phi_inter}) we get:
+Inserting this back into Eq. \ref{eq:phi_inter} we get:
 
 \begin{equation}
   \phi(x, z, t) = \left[ A \sin(kx) + B \cos(kx) \right] 2 D e^{kh} \cosh\left( k(z+h) \right) \sin(\omega t)
@@ -5933,8 +5933,8 @@ Recall the Bernoulli equation at $z = \eta$ with $p = 0$:
   \frac{\partial \phi}{\partial t} + \frac{1}{2} \left(u^2 + w^2\right) + g\eta = C(t), \text{ at } z=\eta(x, t)
   \label{eq:bernoulli_free_surface}
 \end{equation}
-If we denote this equation as BE, we could evaluate it at the free surface
-$z = \eta$ using a Taylor expansion around $z = 0$:
+Denoting this equation as BE, we can evaluate it at the free surface $z = \eta$
+using the Taylor expansion around $z = 0$:
 
 \begin{equation}
   BE_{z=\eta} = BE_{z=0} +
@@ -5959,7 +5959,9 @@ of the potential and time:
   \eta = - \frac{1}{g} \left. \frac{\partial \phi}{\partial t} \right|_{z=0} + \frac{C(t)}{g}
 \end{equation}
 As by definition $\eta$ is a periodic displacement around the mean water level,
-its spatial and temporal average is zero, so $C(t)$ must be zero as well.
+its spatial and temporal average is zero, so $C(t)$ must be zero as well,
+assuming that the surface pressure is negligible and is dropped from the
+Bernoulli equation.
 The surface elevation is then:
 
 \begin{equation}
@@ -5977,7 +5979,7 @@ and the constant $D$ is:
   D = - \frac{a g}{2 \omega e^{kh} \cosh{kh}}
 \end{equation}
 Insert this back to our intermediate solution for the velocity potential
-(Eq. \ref{eq:phi_inter2}) and moving the minus sign into the $z$-dependent part
+Eq. \ref{eq:phi_inter2} and moving the minus sign into the $z$-dependent part
 of the potential, we get:
 
 \begin{equation}
@@ -6230,6 +6232,23 @@ one period:
 \end{equation}
 It can be easily shown by following the same procedure for the vertical velocity
 that the vertical Stokes drift is zero.
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.8\textwidth]{assets/fig_stokes_drift_glad.jpg}
+  \caption{
+    Trajectories of a five member cluster located in a strongly forced region on
+    the right side of Hurricane Isaac track from 0000 UTC 27 to 30 August 2012.
+    Observed (black) and simulated trajectories using the Eulerian (green;
+    ocean current without Stokes drift) and Lagrangian (red; ocean current with
+    Stokes drift) velocities started at the same initial positions as the GLAD
+    drifters. The dots mark drifter locations valid on the time indicated on top
+    of each panel. The color background shows surface seawater density
+    $10^3$ $kg\ m^{-3}$ from the simulation.
+    Adapted from \citet{curcic2016hurricane}.
+  }
+  \label{fig:stokes_drift_glad}
+\end{figure}
 
 \subsection{Wave groups}
 
