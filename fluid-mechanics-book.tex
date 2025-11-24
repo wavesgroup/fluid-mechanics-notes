@@ -6057,10 +6057,10 @@ As we explore the wave kinematics, we will leverage this form for brevity.
 
 \subsection{Dispersion of gravity waves}
 
-An important property of gravity waves is that they disperse, meaning that
-waves of different wavenumbers travel at different speeds.
-A dispersion relationship describes how the wavenumber changes as a function
-of the frequency.
+An important property of surface gravity waves is that they disperse, meaning
+that waves of different frequencies (or wavenumbers) travel at different speeds.
+A dispersion relationship describes how the wavenumber changes as function of
+frequency.
 To derive it, we leverage the kinematic free surface boundary condition
 (Eq. \ref{eq:kfsbc}), where, to the first order (recall our small-amplitude
 approximation), we have:
@@ -6078,6 +6078,7 @@ Simplifying on both sides, we arrive to:
 
 \begin{equation}
   \omega^2 = g k \tanh(kh)
+  \label{eq:wave_dispersion}
 \end{equation}
 which is the \textit{dispersion relationship} for surface gravity waves.
 Wavenumber as function of frequency is shown in Fig. \ref{fig:wave_dispersion}.
@@ -6137,6 +6138,16 @@ It is no coincidence that this is the same expression that we found for the
 phase speed of Poincaré waves in the limit of negligible planetary rotation
 (Eq. \ref{eq:shallow_water_phase_speed}).
 
+Before we close this section, let's remark on the fact that the dispersion
+relation for waves in water of arbitrary depth (Eq. \ref{eq:wave_dispersion})
+is nonlinear and transcendental in $k$ because of the hyperbolic tangent term.
+This means that although evaluating the frequency given the wavenumber is
+straightforward, the inverse problem of finding the wavenumber given the
+frequency is not trivial and requires a numerical approximation or iteration.
+Of course, both the deep and shallow water limits provide simple analytical
+expressions for $k$ as function of $\omega$, but these are only valid in their
+respective limits.
+
 \subsection{Wave kinematics}
 
 With the velocity potential well defined in Eq. \ref{eq:deep_water_wave_potential},
@@ -6151,8 +6162,24 @@ the instantaneous wave-induced velocities can be readily obtained as:
   w = \frac{\partial \phi}{\partial z} = a \omega e^{kz} \sin(kx - \omega t)
   \label{eq:wave_vertical_velocity}
 \end{equation}
+The wave-induced velocity thus have the following properties:
 
-The horizontal and vertical velocities for a linear wave with amplitude $a = 0.1$ m
+\begin{itemize}
+  \item It oscillates sinusoidally in both space and time, just like the wave
+  elevation.
+  \item The horizontal and vertical velocities are exactly $\pi/2$ out of phase
+  in both space and time.
+  \item Their magnitude scales with the wave amplitude and frequency, and decays
+  exponentially with depth, their decay scale being proportional to $1/k$.
+\end{itemize}
+The horizontal velocity is in phase with the wave elevation, which means that
+it reaches its maximum at the wave crest and minimum (maximum but in the
+opposite direction) at the wave trough.
+The vertical velocity is correspondingly positive and largest on the front face
+of the wave (where the elevation is increasing with time) and negative and
+largest in magnitude on the back face of the wave (where the elevation is
+decreasing with time).
+As an example, these velocities for a linear wave with amplitude $a = 0.1$ m
 and wavenumber $k = 1$ rad m$^{-1}$, in deep water ($h = 100$ m), are shown in
 Fig. \ref{fig:wave_velocities}.
 
@@ -6186,6 +6213,7 @@ The displacements are thus closed orbits when evaluated at any fixed depth $z$.
 
 The wave-induced accelerations are also relevant because they govern the
 wave-induced forces on submerged bodies.
+They are simply a time derivative of the respective velocities:
 
 \begin{equation}
   a_x = \frac{\partial u}{\partial t} = a \omega^2 e^{kz} \sin(kx - \omega t)
@@ -6196,6 +6224,9 @@ wave-induced forces on submerged bodies.
   a_z = \frac{\partial w}{\partial t} = - a \omega^2 e^{kz} \cos(kx - \omega t)
   \label{eq:wave_vertical_acceleration}
 \end{equation}
+
+Accelerations are a common measurement of ocean surface waves, especially on
+freely drifting platforms.
 
 \subsection{Mean Lagrangian velocity}
 
@@ -6211,27 +6242,56 @@ that we can approximate the velocity at a particle position $(x+\zeta, z+\xi)$
 to the first order as:
 
 \begin{equation}
-  u(x+\zeta, z+\xi) = u(x,z) +
+  u(x+\zeta, z+\xi, t) = u(x,z,t) +
   \frac{\partial u}{\partial x} \zeta +
   \frac{\partial u}{\partial z} \xi \\
 \end{equation}
 
 \begin{equation}
-  u(x+\zeta, z+\xi) = u(x,z) +
+  u(x+\zeta, z+\xi, t) = u(x,z,t) +
   a^2 \omega k e^{2kz} \sin^2(kx - \omega t) + a^2 \omega k e^{2kz} \cos^2(kx - \omega t)
 \end{equation}
 
 \begin{equation}
-  u(x+\zeta, z+\xi) = u(x,z) + a^2 \omega k e^{2kz}
+  u(x+\zeta, z+\xi, t) = u(x,z,t) + a^2 \omega k e^{2kz}
 \end{equation}
 The Stokes drift can then be obtained by averaging this material velocity over
 one period:
 
 \begin{equation}
-  u_{St} = \frac{1}{T} \int_0^T u(x+\zeta, z+\xi)\ dt = a^2 \omega k e^{2kz}
+  u_{St} = \frac{1}{T} \int_0^T u(x+\zeta, z+\xi, t)\ dt = a^2 \omega k e^{2kz}
 \end{equation}
 It can be easily shown by following the same procedure for the vertical velocity
 that the vertical Stokes drift is zero.
+
+Relative to the instantaneous orbital velocity, the Stokes drift has an
+addition factor of $ak$ (wave steepness), and it decays with depth twice as fast
+as the orbital velocity.
+This means that the Stokes drift induced by short waves is also confined to the
+near surface, whereas only longer waves such as swell can induce significant
+Stokes drift at the depth of several meters or more.
+
+Although the Stokes drift has dimensions of velocity, it is not a true velocity
+at any given instant in time, but rather a mean Lagrangian drift of water
+particles.
+It thus cannot be directly measured with an Eulerian current meter, but instead
+can be inferred by tracking the trajectories of drifting buoys or surface
+floats.
+Fig. \ref{fig:stokes_drift_glad}, from \citet{curcic2016hurricane}, shows
+trajectories of a five member cluster of surface drifters deployed during the
+GLAD experiment in the Gulf of Mexico in August 2012, in the aftermath of
+Hurricane Isaac.
+The observed drifter trajectories (black) are compared with simulated
+trajectories using only the Eulerian ocean current (green) and using the
+ocean current plus the Stokes drift (red).
+The inclusion of the Stokes drift significantly improves the agreement between
+the observed and simulated drifter trajectories, especially in the strongly
+forced region on the right side of the hurricane track.
+Although not exactly a measurement of the Stokes drift itself, it illustrates
+in a qualitative sense that the wave-induced Lagrangian drift contributed
+significantly to the final observed displacement of the drifters.
+This was also the first documented inference of Stokes drift in hurricane
+conditions.
 
 \begin{figure}[h]
   \centering
@@ -6243,16 +6303,15 @@ that the vertical Stokes drift is zero.
     ocean current without Stokes drift) and Lagrangian (red; ocean current with
     Stokes drift) velocities started at the same initial positions as the GLAD
     drifters. The dots mark drifter locations valid on the time indicated on top
-    of each panel. The color background shows surface seawater density
-    $10^3$ $kg\ m^{-3}$ from the simulation.
-    Adapted from \citet{curcic2016hurricane}.
+    of each panel. The color background shows simulated surface seawater density
+    minus $10^3$ $kg\ m^{-3}$. Adapted from \citet{curcic2016hurricane}.
   }
   \label{fig:stokes_drift_glad}
 \end{figure}
 
 \subsection{Wave groups}
 
-Waves if a given wavenumber and frequency are rarely alone and in reality the
+Waves of a given wavenumber and frequency are rarely alone and in reality the
 ocean surface is densely populated by a spectrum of waves with different
 wavenumbers and frequencies.
 The simplest case of this is if we considered two waves and their resulting
@@ -6323,6 +6382,33 @@ wave energy as well:
 This equation is called the wave energy balance and it is the key governing
 equation in most ocean wave prediction models.
 
+\subsection*{Exercises}
+
+\begin{enumerate}
+  
+  \item A small drifter is floating on the surface of a deep-water wave with
+  the wavenumber $k = 1\ rad/m$ and amplitude $a = 0.1\ m$.
+  Assuming the mean gravitational acceleration is $g = 9.8\ m/s^2$,
+  calculate the acceleration that the drifter's on board accelerometer will
+  measure at the crest and in the trough of the wave.
+
+  \item Two wavetrains with wavenumbers $k_1 = 0.1\ rad/m$ and
+  $k_2 = 1\ rad/m$ and amplitudes $a_1 = 1\ m$ and $a_2 = 0.2\ m$ are
+  propagating in the same direction in deep water.
+  If the shorter wave is riding on the surface of the longer wave and is
+  subject to the acceleration induced by the longer wave, what is (a) the phase
+  speed of the short wave at the crest and in the trough of the long wave,
+  and (b) the maximum horizontal orbital velocity at the surface of the short
+  wave? Assume that the mean gravitational acceleration is $g = 9.8\ m/s^2$ and
+  that $k_2$ remains constant.
+
+  \item Starting from the expressions for the wave-induced orbital velocities
+  (Eqs. \ref{eq:wave_horizontal_velocity} and \ref{eq:wave_vertical_velocity}),
+  show that the vertical component of the mean Lagrangian velocity
+  (\textit{i.e.}, the vertical Stokes drift) is zero.
+
+\end{enumerate}
+
 \subsection*{Summary}
 
 In this chapter, we covered:
@@ -6332,12 +6418,6 @@ In this chapter, we covered:
   \item The dispersion relationship for surface gravity waves;
   \item The wave kinematics and mean Lagrangian (Stokes) drift;
   \item Wave groups and wave energy balance.
-\end{itemize}
-
-\subsection*{Further reading}
-
-\begin{itemize}
-  \item Chapters 3 and 4 of \textit{Water wave mechanics} by Dean and Dalrymple
 \end{itemize}
 
 \newpage
