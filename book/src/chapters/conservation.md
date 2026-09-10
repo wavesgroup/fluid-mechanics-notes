@@ -459,7 +459,8 @@ $$
 
 </div>
 
-This tensor can be decomposed into its normal and shear components:
+This tensor can be decomposed into an isotropic pressure contribution and a
+viscous contribution:
 
 <div class="display-math" id="eq:stress_tensor_decomposition">
 
@@ -470,8 +471,10 @@ $$
 </div>
 
 where $p$ is the pressure, $\mathbf{I}$ is the identity tensor,
-and $\boldsymbol{\tau}$ is the deviatoric stress tensor, or, the viscous shear
-stress tensor.
+and $\boldsymbol{\tau}$ is the viscous stress tensor, which can contain both
+normal and shear stresses.
+For the incompressible Newtonian flow considered below, $\boldsymbol{\tau}$ is
+also deviatoric, meaning that its trace is zero.
 Written out explicitly in Cartesian coordinates and using Eq.
 <a class="eqref" data-key="eq:stress_tensor_decomposition"></a>, the stress tensor is:
 
@@ -517,7 +520,8 @@ and the force acting on the fluid surface is oriented inward, thus the minus sig
 
 In an ideal, <em>inviscid</em> fluid, that is, a fluid that exhibits no viscous
 forces, the stress tensor $\boldsymbol{\sigma}$ is only composed of the diagonal
-terms (pressure), and the divergence of the stress tensor is zero.
+terms (pressure). The viscous stress is zero, but the total stress divergence
+is $-\nabla p$, which need not vanish.
 Dropping $\nabla \cdot \boldsymbol{\tau}$ and the body forces $\mathbf{F}_b$ for
 now, the Cauchy momentum equation simplifies to:
 
@@ -536,7 +540,7 @@ This form of the momentum equation is often called the <em>Euler equation</em>.
 
 ### Viscous forces
 
-Now, let's look at the shear stress tensor divergence $\nabla \cdot \boldsymbol{\tau}$.
+Now, let's look at the viscous stress tensor divergence $\nabla \cdot \boldsymbol{\tau}$.
 Written out explicitly as a matrix of all its components, $\boldsymbol{\tau}$ is:
 
 <div class="display-math">
@@ -551,20 +555,25 @@ $$
 
 </div>
 
-The diagonal components of the deviatoric stress tensor are the normal stresses,
+The diagonal components of the viscous stress tensor are the viscous normal stresses,
 while the off-diagonal components are the shear stresses.
-The normal stresses are non-zero only in compressible fluids ($\nabla \cdot \mathbf{u} \neq 0$),
-while the shear stresses are zero in non-viscous flows.
-The divergence of this tensor, written out explicitly as a matrix of all its
-components, is:
+Viscous normal stresses can be non-zero even in incompressible flow: a fluid
+parcel can stretch in one direction while contracting in another without
+changing its volume.
+In an inviscid fluid, all components of $\boldsymbol{\tau}$ vanish.
+For an ordinary fluid without couple stresses, angular momentum conservation
+requires the stress tensor to be symmetric, so $\tau_{xy} = \tau_{yx}$,
+$\tau_{xz} = \tau_{zx}$, and $\tau_{yz} = \tau_{zy}$.
+For example, $\tau_{xy}$ is the force in the $x$ direction per unit area on a
+face normal to the $y$ direction. The stress divergence is the vector:
 
 <div class="display-math">
 
 $$
 \nabla \cdot \boldsymbol{\tau} = \begin{bmatrix}
-\frac{\partial \tau_{xx}}{\partial x} + \frac{\partial \tau_{yx}}{\partial y} + \frac{\partial \tau_{zx}}{\partial z} \\
-\frac{\partial \tau_{xy}}{\partial x} + \frac{\partial \tau_{yy}}{\partial y} + \frac{\partial \tau_{zy}}{\partial z} \\
-\frac{\partial \tau_{xz}}{\partial x} + \frac{\partial \tau_{yz}}{\partial y} + \frac{\partial \tau_{zz}}{\partial z}
+\frac{\partial \tau_{xx}}{\partial x} + \frac{\partial \tau_{xy}}{\partial y} + \frac{\partial \tau_{xz}}{\partial z} \\
+\frac{\partial \tau_{yx}}{\partial x} + \frac{\partial \tau_{yy}}{\partial y} + \frac{\partial \tau_{yz}}{\partial z} \\
+\frac{\partial \tau_{zx}}{\partial x} + \frac{\partial \tau_{zy}}{\partial y} + \frac{\partial \tau_{zz}}{\partial z}
 \end{bmatrix}
 $$
 
@@ -582,7 +591,7 @@ u \frac{\partial u}{\partial x} +
 v \frac{\partial u}{\partial y} +
 w \frac{\partial u}{\partial z} =
 - \frac{1}{\rho} \frac{\partial p}{\partial x} +
-\frac{1}{\rho} \left( \frac{\partial \tau_{xx}}{\partial x} + \frac{\partial \tau_{yx}}{\partial y} + \frac{\partial \tau_{zx}}{\partial z} \right) +
+\frac{1}{\rho} \left( \frac{\partial \tau_{xx}}{\partial x} + \frac{\partial \tau_{xy}}{\partial y} + \frac{\partial \tau_{xz}}{\partial z} \right) +
 \frac{F_x}{\rho}
 $$
 
@@ -596,7 +605,7 @@ u \frac{\partial v}{\partial x} +
 v \frac{\partial v}{\partial y} +
 w \frac{\partial v}{\partial z} =
 - \frac{1}{\rho} \frac{\partial p}{\partial y} +
-\frac{1}{\rho} \left( \frac{\partial \tau_{xy}}{\partial x} + \frac{\partial \tau_{yy}}{\partial y} + \frac{\partial \tau_{zy}}{\partial z} \right) +
+\frac{1}{\rho} \left( \frac{\partial \tau_{yx}}{\partial x} + \frac{\partial \tau_{yy}}{\partial y} + \frac{\partial \tau_{yz}}{\partial z} \right) +
 \frac{F_y}{\rho}
 $$
 
@@ -610,37 +619,118 @@ u \frac{\partial w}{\partial x} +
 v \frac{\partial w}{\partial y} +
 w \frac{\partial w}{\partial z} =
 - \frac{1}{\rho} \frac{\partial p}{\partial z} +
-\frac{1}{\rho} \left( \frac{\partial \tau_{xz}}{\partial x} + \frac{\partial \tau_{yz}}{\partial y} + \frac{\partial \tau_{zz}}{\partial z} \right) +
+\frac{1}{\rho} \left( \frac{\partial \tau_{zx}}{\partial x} + \frac{\partial \tau_{zy}}{\partial y} + \frac{\partial \tau_{zz}}{\partial z} \right) +
 \frac{F_z}{\rho}
 $$
 
 </div>
 
 Each of the prognostic equations for the velocity components thus has exactly
-one pressure gradient and two shear stress gradient terms, all arising from the
-surface forces.
+one pressure gradient, one viscous normal stress gradient, and two shear stress
+gradient terms, all arising from the surface forces.
 
-Experimentally, it was found that the viscous shear stress tensor $\boldsymbol{\tau}$
-is proportional to the gradient of the velocity field, i.e. $\boldsymbol{\tau} = \mu \nabla \mathbf{u}$.
-This property of the fluid makes it a so-called <em>Newtonian fluid</em>.
-The proportionality constant $\mu$ is the dynamic viscosity and depends on the
-fluid properties and temperature.
-Inserting this into Eq. <a class="eqref" data-key="eq:momentum_cauchy_with_shear"></a>, we get:
+To express the viscous stress in terms of velocity, we need a
+<em>constitutive relation</em>: a model of how the material responds to deformation.
+Conservation laws alone do not determine this relation.
+Adding a uniform velocity to the whole fluid does not change its deformation
+or viscous stress, so the relevant quantity is the relative motion of nearby
+fluid particles.
+For particles separated by a small vector $\delta\mathbf{x}$, their velocity
+difference is, to first order,
+$\delta\mathbf{u} \approx (\nabla\mathbf{u})\delta\mathbf{x}$.
+With velocity components $u$, $v$, and $w$ in the $x$, $y$, and $z$ directions,
+the velocity gradient is the tensor:
+
+<div class="display-math">
+
+$$
+\nabla\mathbf{u} = \begin{bmatrix}
+\frac{\partial u}{\partial x} & \frac{\partial u}{\partial y} & \frac{\partial u}{\partial z} \\
+\frac{\partial v}{\partial x} & \frac{\partial v}{\partial y} & \frac{\partial v}{\partial z} \\
+\frac{\partial w}{\partial x} & \frac{\partial w}{\partial y} & \frac{\partial w}{\partial z}
+\end{bmatrix}
+$$
+
+</div>
+
+The velocity gradient contains both deformation and rigid rotation.
+Its symmetric part is the <em>rate-of-strain tensor</em>:
+
+<div class="display-math" id="eq:rate_of_strain_tensor">
+
+$$
+\mathbf{D} = \frac{1}{2}\left[\nabla\mathbf{u} + (\nabla\mathbf{u})^T\right]
+$$
+
+</div>
+
+Here the superscript $T$ denotes the transpose, which swaps rows and columns.
+For example, $D_{xx}=\partial u/\partial x$ and
+$D_{xy}=D_{yx}=\frac{1}{2}(\partial u/\partial y+\partial v/\partial x)$.
+The antisymmetric part, $\frac{1}{2}[\nabla\mathbf{u}-(\nabla\mathbf{u})^T]$,
+describes local rigid rotation, which does not deform the parcel.
+For example, rigid rotation $\mathbf{u}=(-\Omega y,\Omega x,0)$, with constant
+angular velocity $\Omega$, has a non-zero velocity gradient but $\mathbf{D}=0$.
+It therefore produces no Newtonian viscous stress.
+
+For a <em>Newtonian fluid</em>, the constitutive assumption is that viscous
+stress depends linearly on the instantaneous local rate of strain.
+For an isotropic fluid, whose material properties have no preferred direction,
+the general linear relation is
+$\boldsymbol{\tau}=2\mu\mathbf{D}+\lambda(\nabla\cdot\mathbf{u})\mathbf{I}$,
+where $\mu$ and $\lambda$ are viscosity coefficients and $p$ is the thermodynamic
+pressure. In compressible flow, this viscous stress need not be traceless.
+From here on, we assume incompressible flow, so $\nabla\cdot\mathbf{u}=0$ and
+the relation reduces to:
+
+<div class="display-math" id="eq:newtonian_viscous_stress">
+
+$$
+\boldsymbol{\tau} = 2\mu\mathbf{D}
+= \mu\left[\nabla\mathbf{u} + (\nabla\mathbf{u})^T\right]
+$$
+
+</div>
+
+The coefficient $\mu$ is the dynamic viscosity. It depends on the material and
+its thermodynamic state, including temperature, but for a Newtonian fluid it
+does not depend on the rate of strain.
+Experiments establish when this linear model is appropriate and measure $\mu$.
+For simple shear, $\mathbf{u}=(u(y),0,0)$, this tensor relation gives the familiar
+scalar law $\tau_{xy}=\tau_{yx}=\mu\,du/dy$.
+It also gives viscous normal stresses such as $\tau_{xx}=2\mu\,\partial u/\partial x$.
+For example, $\mathbf{u}=(ax,-ay,0)$, with constant $a$, is incompressible but has
+$\tau_{xx}=2\mu a$ and $\tau_{yy}=-2\mu a$.
+
+Inserting the incompressible constitutive relation into
+Eq. <a class="eqref" data-key="eq:momentum_cauchy_with_shear"></a>, we get:
 
 <div class="display-math" id="eq:cauchy_with_viscosity">
 
 $$
 \frac{\partial \mathbf{u}}{\partial t} + \mathbf{u} \cdot \nabla \mathbf{u} =
-- \frac{1}{\rho} \nabla p + \frac{1}{\rho} \nabla \cdot (\mu \nabla \mathbf{u}) +
+- \frac{1}{\rho} \nabla p + \frac{1}{\rho} \nabla \cdot \left\{\mu\left[\nabla\mathbf{u} + (\nabla\mathbf{u})^T\right]\right\} +
 \frac{\mathbf{F}_b}{\rho}
 $$
 
 </div>
 
-We can further simplify this equation by assuming that the viscosity is constant
-and that the flow is incompressible.
-This allows us to neglect the viscous stress gradient term, leading to the
-<em>Navier-Stokes equation</em>.
+If we also assume that the dynamic viscosity is spatially constant, the viscous
+stress divergence simplifies as follows:
+
+<div class="display-math">
+
+$$
+\nabla\cdot\boldsymbol{\tau}
+= \mu\nabla^2\mathbf{u} + \mu\nabla(\nabla\cdot\mathbf{u})
+= \mu\nabla^2\mathbf{u}
+$$
+
+</div>
+
+The last equality uses incompressibility. The viscous force is retained;
+only the term involving $\nabla\cdot\mathbf{u}$ vanishes.
+This gives the incompressible <em>Navier-Stokes equation</em>:
 
 <div class="display-math" id="eq:momentum_navier_stokes">
 
