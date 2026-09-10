@@ -114,19 +114,27 @@
     return { x: axis === "x" ? 1 : 0, y: axis === "y" ? 1 : 0, z: axis === "z" ? 1 : 0 };
   }
 
-  /** Object → view: yaw around z, then pitch around x. Identity is the original isometric. */
+  /** Pitch around screen-right, (1, -1, 0), so projected horizontal positions stay fixed. */
+  function rotatePitch(p: Vec3, angle: number): Vec3 {
+    const horizontal = (p.x - p.y) * Math.SQRT1_2;
+    const depth = (p.x + p.y) * Math.SQRT1_2;
+    const c = Math.cos(angle);
+    const s = Math.sin(angle);
+    const tiltedDepth = c * depth - s * p.z;
+    return {
+      x: (horizontal + tiltedDepth) * Math.SQRT1_2,
+      y: (tiltedDepth - horizontal) * Math.SQRT1_2,
+      z: s * depth + c * p.z,
+    };
+  }
+
+  /** Yaw around z, then pitch around the fixed screen-horizontal axis. */
   function rotate3(p: Vec3): Vec3 {
     const cy = Math.cos(yaw);
     const sy = Math.sin(yaw);
     const x1 = cy * p.x - sy * p.y;
     const y1 = sy * p.x + cy * p.y;
-    const cp = Math.cos(pitch);
-    const sp = Math.sin(pitch);
-    return {
-      x: x1,
-      y: cp * y1 - sp * p.z,
-      z: sp * y1 + cp * p.z,
-    };
+    return rotatePitch({ x: x1, y: y1, z: p.z }, pitch);
   }
 
   function toWorld(p: Vec3): Vec2 {
@@ -143,16 +151,14 @@
    * side of that axis is (−x, −y, +z) in view space.
    */
   function camObject(): Vec3 {
-    const cp = Math.cos(pitch);
-    const sp = Math.sin(pitch);
-    const y1 = -cp + sp;
-    const z1 = cp + sp;
+    // Undo the same pitch and yaw used to draw the box, in reverse order.
+    const unpitched = rotatePitch({ x: -1, y: -1, z: 1 }, -pitch);
     const cy = Math.cos(yaw);
     const sy = Math.sin(yaw);
     return {
-      x: -cy + sy * y1,
-      y: sy + cy * y1,
-      z: z1,
+      x: cy * unpitched.x + sy * unpitched.y,
+      y: -sy * unpitched.x + cy * unpitched.y,
+      z: unpitched.z,
     };
   }
 
@@ -253,7 +259,8 @@
     const from = { x: view.pad + 10, y: view.size - view.pad - 6 };
     const k = 26;
     const axis = (hat: Vec3, name: string, color: string) => {
-      const d = project3dToWorld(rotate3(hat));
+      // Reference axes stay fixed while the box and its attached arrows rotate.
+      const d = project3dToWorld(hat);
       const to = { x: from.x + d.x * k, y: from.y - d.y * k };
       const arr = svgArrow(from, to, 7);
       const dx = to.x - from.x;
@@ -376,7 +383,7 @@
     const dx = e.clientX - lastPtr.x;
     const dy = e.clientY - lastPtr.y;
     lastPtr = { x: e.clientX, y: e.clientY };
-    yaw -= dx * ORBIT_SENS;
+    yaw += dx * ORBIT_SENS;
     pitch = Math.min(PITCH_MAX, Math.max(-PITCH_MAX, pitch + dy * ORBIT_SENS));
   }
 
@@ -450,7 +457,7 @@
 <div class="interactive">
   <p class="interactive-title">Eulerian continuity</p>
   <p class="interactive-caption">
-    Drag any mass-flux arrow to resize it. Drag elsewhere to rotate the view.
+    Drag any mass-flux arrow to resize it. Drag elsewhere to rotate the box.
     The cube is a unit volume (Δ<em>x</em> = Δ<em>y</em> = Δ<em>z</em> = 1);
     positive arrows point in the + axis direction. The local density tendency is
     minus the sum of the three face-pair contributions.
@@ -461,7 +468,7 @@
       class="vector-canvas orbit-canvas"
       class:is-dragging={dragging !== null || orbiting}
       viewBox="0 0 {view.size} {view.size}"
-      aria-label="Rotatable control volume with draggable mass-flux arrows. Drag the background to rotate; drag an arrow tip to change flux."
+      aria-label="Rotatable control volume with draggable mass-flux arrows. Drag the background to rotate the box; drag an arrow tip to change flux."
     >
       <rect
         class="orbit-hit"
@@ -471,7 +478,7 @@
         height={view.size}
         role="button"
         tabindex="0"
-        aria-label="Drag to rotate the coordinate system"
+        aria-label="Drag to rotate the box"
         onpointerdown={startOrbit}
         onpointermove={moveOrbit}
         onpointerup={endOrbit}

@@ -21,7 +21,7 @@
     "@fontsource-variable/source-serif-4": "^5.2.8",
     "@fontsource/ibm-plex-mono": "^5.2.6",
     "@lezer/highlight": "^1.2.3",
-    "astro": "^7.2.6",
+    "astro": "^7.2.8",
     "katex": "^0.16.22",
     "rehype-katex": "^7.0.1",
     "rehype-raw": "^7.0.0",
